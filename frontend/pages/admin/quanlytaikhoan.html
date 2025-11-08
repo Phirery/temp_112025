@@ -650,7 +650,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const API_BASE = 'api/admin';
+        const API_BASE = 'http://localhost/DO_AN_1/code_doan1/src/backend/api/admin';
         
         let allAccounts = [];
         let filteredAccounts = [];
@@ -667,18 +667,21 @@
             document.getElementById('accountForm').addEventListener('submit', handleFormSubmit);
         });
 
+        // Load Statistics
         async function loadStatistics() {
-            try {
-                const response = await fetch(`${API_BASE}/account-stats.php`);
-                const data = await response.json();
-                
-                document.getElementById('totalAccounts').textContent = data.total || 0;
-                document.getElementById('totalPatients').textContent = data.patients || 0;
-                document.getElementById('totalDoctors').textContent = data.doctors || 0;
-                document.getElementById('totalAdmins').textContent = data.admins || 0;
-            } catch (error) {
-                console.error('Error loading statistics:', error);
-            }
+        fetch(`${API_BASE}/account-stats.php`)
+            .then(response => response.json())
+            .then(data => {
+                animateNumber('totalAccounts', data.total);
+                animateNumber('totalPatients', data.patients);
+                animateNumber('totalDoctors', data.doctors);
+                animateNumber('totalAdmins', data.admins);
+            })
+            .catch(error => {
+                console.error('Lỗi:', error);
+                document.querySelectorAll('#totalAccounts, #totalPatients, #totalDoctors, #totalAdmins')
+                    .forEach(el => el.textContent = 'Lỗi');
+            });
         }
 
         async function loadAccounts() {
@@ -698,7 +701,7 @@
                 }
             } catch (error) {
                 console.error('Error loading accounts:', error);
-                alert('Lỗi kết nối đến server');
+                showAlert('error','Lỗi kết nối đến server');    
             } finally {
                 document.getElementById('loadingIndicator').style.display = 'none';
                 document.getElementById('tableContainer').style.display = 'block';
@@ -757,3 +760,271 @@
             
             applyFilters();
         }
+        function applyFilters() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const status = document.getElementById('statusFilter').value;
+            
+            filteredAccounts = allAccounts.filter(acc => {
+                let match = true;
+                
+                // Filter by role
+                if (currentRoleFilter !== 'all' && acc.vaiTro !== currentRoleFilter) {
+                    match = false;
+                }
+                
+                // Filter by search
+                if (search) {
+                    const searchFields = `${acc.tenDangNhap} ${acc.hoTen || ''} ${acc.soDienThoai || ''}`.toLowerCase();
+                    if (!searchFields.includes(search)) match = false;
+                }
+                
+                // Filter by status
+                if (status === 'active' && acc.locked) match = false;
+                if (status === 'locked' && !acc.locked) match = false;
+                
+                return match;
+            });
+            
+            displayAccounts();
+        }
+
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('statusFilter').value = '';
+            currentRoleFilter = 'all';
+            
+            document.querySelectorAll('.role-tab').forEach(btn => btn.classList.remove('active'));
+            document.querySelector('.role-tab').classList.add('active');
+            
+            filteredAccounts = [...allAccounts];
+            displayAccounts();
+        }
+
+        async function loadDepartments() {
+            try {
+                const response = await fetch(`${API_BASE}/get-departments.php`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    allDepartments = data.data;
+                    
+                    const select = document.getElementById('departmentSelect');
+                    select.innerHTML = '<option value="">-- Chọn khoa --</option>' +
+                        data.data.map(d => `<option value="${d.maKhoa}">${d.tenKhoa}</option>`).join('');
+                }
+            } catch (error) {
+                console.error('Error loading departments:', error);
+            }
+        }
+
+        async function loadSpecialties() {
+            try {
+                const response = await fetch(`${API_BASE}/get-all-specialties.php`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    allSpecialties = data.data;
+                }
+            } catch (error) {
+                console.error('Error loading specialties:', error);
+            }
+        }
+
+        function loadSpecialtiesByDept() {
+            const maKhoa = document.getElementById('departmentSelect').value;
+            const specialtySelect = document.getElementById('specialtySelect');
+            
+            if (!maKhoa) {
+                specialtySelect.innerHTML = '<option value="">-- Chọn chuyên khoa --</option>';
+                return;
+            }
+            
+            const filtered = allSpecialties.filter(s => s.maKhoa === maKhoa);
+            specialtySelect.innerHTML = '<option value="">-- Chọn chuyên khoa --</option>' +
+                filtered.map(s => `<option value="${s.maChuyenKhoa}">${s.tenChuyenKhoa}</option>`).join('');
+        }
+
+        function toggleRoleFields() {
+            const role = document.getElementById('roleSelect').value;
+            const patientFields = document.getElementById('patientFields');
+            const doctorFields = document.getElementById('doctorFields');
+            
+            // Hide all first
+            patientFields.style.display = 'none';
+            doctorFields.style.display = 'none';
+            
+            // Show based on role
+            if (role === 'benhnhan') {
+                patientFields.style.display = 'block';
+            } else if (role === 'bacsi') {
+                doctorFields.style.display = 'block';
+            }
+        }
+
+        async function viewAccount(id) {
+            const account = allAccounts.find(a => a.id === id);
+            if (!account) return;
+            
+            let detailsHtml = `
+                <div class="row g-3">
+                    <div class="col-12 text-center mb-3">
+                        <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, #667eea, #764ba2); color: white; display: inline-flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700;">
+                            ${account.tenDangNhap.charAt(0).toUpperCase()}
+                        </div>
+                    </div>
+                    <div class="col-12"><strong>Tên đăng nhập:</strong> ${account.tenDangNhap}</div>
+                    <div class="col-12"><strong>Họ và tên:</strong> ${account.hoTen || 'N/A'}</div>
+                    <div class="col-12"><strong>Số điện thoại:</strong> ${account.soDienThoai || 'N/A'}</div>
+                    <div class="col-12">
+                        <strong>Vai trò:</strong> 
+                        <span class="role-badge ${account.vaiTro}">
+                            ${{
+                                'benhnhan': 'Bệnh nhân',
+                                'bacsi': 'Bác sĩ',
+                                'quantri': 'Quản trị viên'
+                            }[account.vaiTro]}
+                        </span>
+                    </div>
+                    <div class="col-12">
+                        <strong>Trạng thái:</strong> 
+                        <span class="status-badge ${account.locked ? 'locked' : 'active'}">
+                            ${account.locked ? 'Đã khóa' : 'Hoạt động'}
+                        </span>
+                    </div>
+            `;
+            
+            // Add role-specific info
+            if (account.vaiTro === 'benhnhan' && account.ngaySinh) {
+                detailsHtml += `
+                    <div class="col-12"><strong>Ngày sinh:</strong> ${account.ngaySinh}</div>
+                    <div class="col-12"><strong>Giới tính:</strong> ${account.gioiTinh || 'N/A'}</div>
+                    <div class="col-12"><strong>Số thẻ BHYT:</strong> ${account.soTheBHYT || 'Chưa có'}</div>
+                `;
+            } else if (account.vaiTro === 'bacsi') {
+                detailsHtml += `
+                    <div class="col-12"><strong>Mã bác sĩ:</strong> ${account.maBacSi || 'N/A'}</div>
+                    <div class="col-12"><strong>Chuyên khoa:</strong> ${account.tenChuyenKhoa || 'N/A'}</div>
+                `;
+            }
+            
+            detailsHtml += `</div>`;
+            
+            document.getElementById('viewModalBody').innerHTML = detailsHtml;
+            new bootstrap.Modal(document.getElementById('viewModal')).show();
+        }
+
+        async function toggleLockAccount(id, lock) {
+            const action = lock ? 'khóa' : 'mở khóa';
+            if (!confirm(`Bạn có chắc chắn muốn ${action} tài khoản này?`)) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/toggle-lock-account.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: id, lock: lock })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('success', `${lock ? 'Khóa' : 'Mở khóa'} tài khoản thành công!`);
+                    loadAccounts();
+                    loadStatistics();
+                } else {
+                    showAlert('error', data.message || `Không thể ${action} tài khoản`);
+                }
+            } catch (error) {
+                console.error('Error toggling account lock:', error);
+                showAlert('error', 'Lỗi kết nối đến server');
+            }
+        }
+
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            
+            const role = document.getElementById('roleSelect').value;
+            
+            const data = {
+                vaiTro: role,
+                tenDangNhap: document.getElementById('username').value,
+                matKhau: document.getElementById('password').value,
+                soDienThoai: document.getElementById('phone').value,
+                hoTen: document.getElementById('fullName').value
+            };
+            
+            // Add role-specific data
+            if (role === 'benhnhan') {
+                data.ngaySinh = document.getElementById('birthDate').value;
+                data.gioiTinh = document.getElementById('gender').value;
+                data.soTheBHYT = document.getElementById('insuranceNumber').value;
+            } else if (role === 'bacsi') {
+                data.maChuyenKhoa = document.getElementById('specialtySelect').value;
+                
+                if (!data.maChuyenKhoa) {
+                    showAlert('error', 'Vui lòng chọn chuyên khoa cho bác sĩ!');
+                    return;
+                }
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/create-account.php`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showAlert('success', 'Tạo tài khoản thành công!');
+                    bootstrap.Modal.getInstance(document.getElementById('accountModal')).hide();
+                    loadAccounts();
+                    loadStatistics();
+                } else {
+                    showAlert('error', result.message || 'Có lỗi xảy ra');
+                }
+            } catch (error) {
+                console.error('Error creating account:', error);
+                showAlert('error', 'Lỗi kết nối đến server');
+            }
+        }
+
+        //Utility Function
+        function showAlert(type, message) {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
+        }
+        //Animation Number
+        function animateNumber(elementId, targetNumber) {
+            const element = document.getElementById(elementId);
+            element.classList.remove('loading');
+            
+            let currentNumber = 0;
+            const increment = targetNumber / 50;
+            const duration = 1000;
+            const stepTime = duration / 50;
+            
+            const timer = setInterval(() => {
+                currentNumber += increment;
+                if (currentNumber >= targetNumber) {
+                    element.textContent = targetNumber.toLocaleString('vi-VN');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(currentNumber).toLocaleString('vi-VN');
+                }
+            }, stepTime);
+        }
+    </script>
+</body>
+</html>

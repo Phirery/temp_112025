@@ -623,7 +623,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // API Configuration
-        const API_BASE = 'api/admin';
+        const API_BASE = 'http://localhost/DO_AN_1/code_doan1/src/backend/api/admin';
         
         let allDepartments = [];
         let filteredDepartments = [];
@@ -642,18 +642,39 @@
 
         // Load Statistics
         async function loadStatistics() {
-            try {
-                const response = await fetch(`${API_BASE}/department-stats.php`);
-                const data = await response.json();
-                
-                document.getElementById('totalDepartments').textContent = data.departments || 0;
-                document.getElementById('totalSpecialties').textContent = data.specialties || 0;
-                document.getElementById('totalDoctorsInDept').textContent = data.doctors || 0;
-            } catch (error) {
-                console.error('Error loading statistics:', error);
-            }
+            fetch(`${API_BASE}/department-stats.php`)
+                .then(response => response.json())
+                .then(data => {
+                    animateNumber('totalDepartments', data.departments);
+                    animateNumber('totalSpecialties', data.specialties);
+                    animateNumber('totalDoctorsInDept', data.doctors);
+                })
+                .catch(error => {
+                    console.error('Lỗi:', error);
+                    document.querySelectorAll('#totalDepartments, #totalSpecialties, #totalDoctorsInDept')
+                        .forEach(el => el.textContent = 'Lỗi');
+                });
         }
-
+        // Animation Number
+        function animateNumber(elementId, targetNumber) {
+            const element = document.getElementById(elementId);
+            element.classList.remove('loading');
+            
+            let currentNumber = 0;
+            const increment = targetNumber / 50;
+            const duration = 1000;
+            const stepTime = duration / 50;
+            
+            const timer = setInterval(() => {
+                currentNumber += increment;
+                if (currentNumber >= targetNumber) {
+                    element.textContent = targetNumber.toLocaleString('vi-VN');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(currentNumber).toLocaleString('vi-VN');
+                }
+            }, stepTime);
+        }
         // Load Departments
         async function loadDepartments() {
             document.getElementById('loadingIndicator').style.display = 'block';
@@ -883,8 +904,19 @@
 
         // Utility Functions
         function showAlert(type, message) {
-            // Simple alert for now
-            alert(message);
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            document.body.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 5000);
         }
     </script>
 </body>

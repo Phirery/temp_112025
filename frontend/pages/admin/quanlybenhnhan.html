@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Lý Bác Sĩ</title>
+    <title>Quản Lý Bệnh Nhân</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -130,21 +130,10 @@
             opacity: 0.1;
         }
 
-        .stat-card.total::before {
-            background: var(--primary-purple);
-        }
-
-        .stat-card.specialty-1::before {
-            background: #28a745;
-        }
-
-        .stat-card.specialty-2::before {
-            background: #ffc107;
-        }
-
-        .stat-card.specialty-3::before {
-            background: #17a2b8;
-        }
+        .stat-card.total::before { background: var(--primary-purple); }
+        .stat-card.male::before { background: #00AEEF; }
+        .stat-card.female::before { background: #ff6b9d; }
+        .stat-card.bhyt::before { background: #28a745; }
 
         .stat-card:hover {
             transform: translateY(-5px);
@@ -166,18 +155,22 @@
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
             color: white;
         }
-        .stat-card.specialty-1 .stat-icon {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+
+        .stat-card.male .stat-icon {
+            background: linear-gradient(135deg, #00AEEF, #0088cc);
             color: white;
         }
-        .stat-card.specialty-2 .stat-icon {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+
+        .stat-card.female .stat-icon {
+            background: linear-gradient(135deg, #ff6b9d, #ee5a6f);
             color: white;
         }
-        .stat-card.specialty-3 .stat-icon {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+
+        .stat-card.bhyt .stat-icon {
+            background: linear-gradient(135deg, #28a745, #20c997);
             color: white;
         }
+
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
@@ -235,14 +228,14 @@
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
-        /* Doctor Cards Grid */
-        .doctors-grid {
+        /* Patient Cards Grid */
+        .patients-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
         }
 
-        .doctor-card {
+        .patient-card {
             background: white;
             border-radius: 15px;
             overflow: hidden;
@@ -251,20 +244,20 @@
             border: 2px solid transparent;
         }
 
-        .doctor-card:hover {
+        .patient-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
             border-color: var(--primary-purple);
         }
 
-        .doctor-card-header {
+        .patient-card-header {
             background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
             padding: 20px;
             text-align: center;
             position: relative;
         }
 
-        .doctor-avatar {
+        .patient-avatar {
             width: 80px;
             height: 80px;
             border-radius: 50%;
@@ -279,61 +272,83 @@
             border: 4px solid rgba(255, 255, 255, 0.3);
         }
 
-        .doctor-name {
+        .patient-name {
             color: white;
             font-size: 1.2rem;
             font-weight: 700;
             margin: 0;
         }
 
-        .doctor-id {
+        .patient-id {
             color: rgba(255, 255, 255, 0.9);
             font-size: 0.85rem;
             margin-top: 5px;
         }
 
-        .doctor-card-body {
+        .patient-card-body {
             padding: 20px;
         }
 
-        .doctor-info-item {
+        .patient-info-item {
             display: flex;
             align-items: center;
             padding: 10px 0;
             border-bottom: 1px solid #f0f0f0;
         }
 
-        .doctor-info-item:last-child {
+        .patient-info-item:last-child {
             border-bottom: none;
         }
 
-        .doctor-info-item i {
+        .patient-info-item i {
             width: 30px;
             color: var(--primary-purple);
         }
 
-        .doctor-info-item .label {
+        .patient-info-item .label {
             font-weight: 600;
             color: #666;
             min-width: 100px;
         }
 
-        .doctor-info-item .value {
+        .patient-info-item .value {
             color: #333;
         }
 
-        .specialty-badge {
+        .gender-badge {
             display: inline-block;
-            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(0, 174, 239, 0.1));
-            color: var(--primary-purple);
-            padding: 5px 15px;
-            border-radius: 20px;
+            padding: 4px 12px;
+            border-radius: 15px;
             font-size: 0.85rem;
             font-weight: 600;
-            border: 1px solid rgba(102, 126, 234, 0.3);
         }
 
-        .doctor-card-footer {
+        .gender-badge.male {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .gender-badge.female {
+            background: #fce4ec;
+            color: #c2185b;
+        }
+
+        .bhyt-badge {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .no-bhyt {
+            color: #999;
+            font-style: italic;
+        }
+
+        .patient-card-footer {
             padding: 15px 20px;
             background: #f8f9fa;
             display: flex;
@@ -533,8 +548,8 @@
             <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
             <li><a href="quanlylichkham.html"><i class="fas fa-calendar-check"></i> Quản lý lịch khám</a></li>
             <li><a href="quanlykhoa.html"><i class="fas fa-hospital"></i> Quản lý khoa</a></li>
-            <li><a href="quanlybenhnhan.html"><i class="fas fa-user-injured"></i> Quản lý bệnh nhân</a></li>
-            <li><a href="quanlybacsi.html" class="active"><i class="fas fa-user-md"></i> Quản lý bác sĩ</a></li>
+            <li><a href="quanlybenhnhan.html" class="active"><i class="fas fa-user-injured"></i> Quản lý bệnh nhân</a></li>
+            <li><a href="quanlybacsi.html"><i class="fas fa-user-md"></i> Quản lý bác sĩ</a></li>
             <li><a href="thongke.html"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
             <li><a href="quanlytaikhoan.html"><i class="fas fa-users-cog"></i> Quản lý tài khoản</a></li>
         </ul>
@@ -544,7 +559,7 @@
     <div class="main-content">
         <!-- Top Bar -->
         <div class="top-bar">
-            <h5><i class="fas fa-user-md me-2"></i>Quản Lý Bác Sĩ</h5>
+            <h5><i class="fas fa-user-injured me-2"></i>Quản Lý Bệnh Nhân</h5>
             <div>
                 <button class="btn btn-sm btn-outline-danger" onclick="window.location.href='dashboard.html'">
                     <i class="fas fa-arrow-left me-2"></i>Quay lại
@@ -558,31 +573,31 @@
             <div class="stats-row">
                 <div class="stat-card total">
                     <div class="stat-icon">
-                        <i class="fas fa-user-md"></i>
+                        <i class="fas fa-users"></i>
                     </div>
-                    <div class="stat-number" id="totalDoctors">0</div>
-                    <div class="stat-label">Tổng số bác sĩ</div>
+                    <div class="stat-number" id="totalPatients">0</div>
+                    <div class="stat-label">Tổng số bệnh nhân</div>
                 </div>
-                <div class="stat-card specialty-1">
+                <div class="stat-card male">
                     <div class="stat-icon">
-                        <i class="fas fa-user-md"></i><i class="fas fa-heartbeat" style="font-size:0.6em; position:relative; top:-5px;"></i>
-                    </div>                    
-                    <div class="stat-number" id="internalCount">0</div>
-                    <div class="stat-label">Khoa Nội</div>
-                </div>
-                <div class="stat-card specialty-2">
-                    <div class="stat-icon">
-                        <i class="fas fa-user-md"></i><i class="fas fa-cut" style="font-size:0.6em; position:relative; top:-5px;"></i>
+                        <i class="fas fa-male"></i>
                     </div>
-                    <div class="stat-number" id="surgeryCount">0</div>
-                    <div class="stat-label">Khoa Ngoại</div>
+                    <div class="stat-number" id="maleCount">0</div>
+                    <div class="stat-label">Bệnh nhân nam</div>
                 </div>
-                <div class="stat-card specialty-3">
+                <div class="stat-card female">
                     <div class="stat-icon">
-                        <i class="fas fa-user-md"></i>
+                        <i class="fas fa-female"></i>
                     </div>
-                    <div class="stat-number" id="otherCount">0</div>
-                    <div class="stat-label">Khoa khác</div>
+                    <div class="stat-number" id="femaleCount">0</div>
+                    <div class="stat-label">Bệnh nhân nữ</div>
+                </div>
+                <div class="stat-card bhyt">
+                    <div class="stat-icon">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="stat-number" id="bhytCount">0</div>
+                    <div class="stat-label">Có BHYT</div>
                 </div>
             </div>
 
@@ -590,21 +605,26 @@
             <div class="filter-section">
                 <h5><i class="fas fa-filter me-2"></i>Bộ lọc</h5>
                 <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Khoa</label>
-                        <select class="form-select" id="filterDepartment">
-                            <option value="">Tất cả khoa</option>
+                    <div class="col-md-3">
+                        <label class="form-label">Giới tính</label>
+                        <select class="form-select" id="filterGender">
+                            <option value="">Tất cả</option>
+                            <option value="nam">Nam</option>
+                            <option value="nu">Nữ</option>
+                            <option value="khac">Khác</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label">Chuyên khoa</label>
-                        <select class="form-select" id="filterSpecialty">
-                            <option value="">Tất cả chuyên khoa</option>
+                    <div class="col-md-3">
+                        <label class="form-label">BHYT</label>
+                        <select class="form-select" id="filterBHYT">
+                            <option value="">Tất cả</option>
+                            <option value="co">Có BHYT</option>
+                            <option value="khong">Không có</option>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <label class="form-label">Tìm kiếm</label>
-                        <input type="text" class="form-control" id="filterSearch" placeholder="Tên bác sĩ, mã bác sĩ...">
+                        <input type="text" class="form-control" id="filterSearch" placeholder="Tên bệnh nhân, mã BN, SĐT...">
                     </div>
                 </div>
                 <div class="mt-3">
@@ -620,7 +640,7 @@
             <!-- Table Section -->
             <div class="table-section">
                 <div class="table-header">
-                    <h5><i class="fas fa-list me-2"></i>Danh sách bác sĩ</h5>
+                    <h5><i class="fas fa-list me-2"></i>Danh sách bệnh nhân</h5>
                     <div class="d-flex gap-3 align-items-center">
                         <div class="view-toggle">
                             <button class="active" onclick="switchView('grid')">
@@ -631,7 +651,7 @@
                             </button>
                         </div>
                         <button class="btn-add" onclick="openAddModal()">
-                            <i class="fas fa-plus me-2"></i>Thêm bác sĩ
+                            <i class="fas fa-plus me-2"></i>Thêm bệnh nhân
                         </button>
                     </div>
                 </div>
@@ -644,13 +664,13 @@
                 </div>
 
                 <!-- Grid View -->
-                <div id="gridView" class="doctors-grid">
-                    <!-- Doctor cards will be inserted here -->
+                <div id="gridView" class="patients-grid">
+                    <!-- Patient cards will be inserted here -->
                 </div>
 
                 <!-- Pagination -->
                 <div class="pagination-container" id="paginationSection" style="display: none;">
-                    <div class="text-muted" id="recordInfo">Hiển thị 0 - 0 của 0 bác sĩ</div>
+                    <div class="text-muted" id="recordInfo">Hiển thị 0 - 0 của 0 bệnh nhân</div>
                     <nav>
                         <ul class="pagination" id="paginationContainer"></ul>
                     </nav>
@@ -660,40 +680,46 @@
     </div>
 
     <!-- Add/Edit Modal -->
-    <div class="modal fade" id="doctorModal" tabindex="-1">
+    <div class="modal fade" id="patientModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTitle">Thêm bác sĩ</h5>
+                    <h5 class="modal-title" id="modalTitle">Thêm bệnh nhân</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="doctorForm">
-                        <input type="hidden" id="doctorId">
+                    <form id="patientForm">
+                        <input type="hidden" id="patientId">
                         
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label">Tên bác sĩ <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" id="doctorName" required>
+                                <label class="form-label">Tên bệnh nhân <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="patientName" required>
                             </div>
 
                             <div class="col-md-6">
                                 <label class="form-label">Số điện thoại <span class="text-danger">*</span></label>
-                                <input type="tel" class="form-control" id="doctorPhone" required pattern="[0-9]{10}">
+                                <input type="tel" class="form-control" id="patientPhone" required pattern="[0-9]{10}">
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">Khoa <span class="text-danger">*</span></label>
-                                <select class="form-select" id="departmentSelect" required onchange="loadSpecialtiesByDepartment()">
-                                    <option value="">-- Chọn khoa --</option>
+                                <label class="form-label">Ngày sinh <span class="text-danger">*</span></label>
+                                <input type="date" class="form-control" id="patientBirthDate" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Giới tính <span class="text-danger">*</span></label>
+                                <select class="form-select" id="patientGender" required>
+                                    <option value="">-- Chọn giới tính --</option>
+                                    <option value="nam">Nam</option>
+                                    <option value="nu">Nữ</option>
+                                    <option value="khac">Khác</option>
                                 </select>
                             </div>
 
                             <div class="col-md-6">
-                                <label class="form-label">Chuyên khoa <span class="text-danger">*</span></label>
-                                <select class="form-select" id="specialtySelect" required>
-                                    <option value="">-- Chọn chuyên khoa --</option>
-                                </select>
+                                <label class="form-label">Số thẻ BHYT</label>
+                                <input type="text" class="form-control" id="patientBHYT" maxlength="15" placeholder="VD: DN1234567890123">
                             </div>
 
                             <div class="col-md-6">
@@ -722,7 +748,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Thông tin bác sĩ</h5>
+                    <h5 class="modal-title">Thông tin bệnh nhân</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="viewModalBody">
@@ -735,134 +761,49 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // API Configuration
-        const API_BASE = 'http://localhost/DO_AN_1/code_doan1/src/backend/api/admin';
+        const API_BASE = 'api/admin';
         
         let currentPage = 1;
         const itemsPerPage = 9;
-        let allDoctors = [];
-        let filteredDoctors = [];
-        let allDepartments = [];
-        let allSpecialties = [];
+        let allPatients = [];
+        let filteredPatients = [];
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             loadStatistics();
-            loadDepartments();
-            loadAllSpecialties();
-            loadDoctors();
+            loadPatients();
             
-            document.getElementById('doctorForm').addEventListener('submit', handleFormSubmit);
+            document.getElementById('patientForm').addEventListener('submit', handleFormSubmit);
         });
 
         // Load Statistics
         async function loadStatistics() {
-        fetch(`${API_BASE}/doctor-stats.php`)
-            .then(response => response.json())
-            .then(data => {
-                animateNumber('totalDoctors', data.total);
-                animateNumber('internalCount', data.internal);
-                animateNumber('surgeryCount', data.surgery);
-                animateNumber('otherCount', data.other);
-            })
-            .catch(error => {
-                console.error('Lỗi:', error);
-                document.querySelectorAll('#totalDoctors, #internalCount, #surgeryCount, #otherCount')
-                    .forEach(el => el.textContent = 'Lỗi');
-            });
-        }
-
-        //Animation Number
-        function animateNumber(elementId, targetNumber) {
-            const element = document.getElementById(elementId);
-            element.classList.remove('loading');
-            
-            let currentNumber = 0;
-            const increment = targetNumber / 50;
-            const duration = 1000;
-            const stepTime = duration / 50;
-            
-            const timer = setInterval(() => {
-                currentNumber += increment;
-                if (currentNumber >= targetNumber) {
-                    element.textContent = targetNumber.toLocaleString('vi-VN');
-                    clearInterval(timer);
-                } else {
-                    element.textContent = Math.floor(currentNumber).toLocaleString('vi-VN');
-                }
-            }, stepTime);
-        }
-
-        // Load Departments
-        async function loadDepartments() {
             try {
-                const response = await fetch(`${API_BASE}/get-departments.php`);
+                const response = await fetch(`${API_BASE}/patient-stats.php`);
                 const data = await response.json();
                 
-                if (data.success) {
-                    allDepartments = data.data;
-                    
-                    // Populate filter dropdown
-                    const filterSelect = document.getElementById('filterDepartment');
-                    filterSelect.innerHTML = '<option value="">Tất cả khoa</option>' +
-                        data.data.map(d => `<option value="${d.maKhoa}">${d.tenKhoa}</option>`).join('');
-                    
-                    // Populate modal dropdown
-                    const modalSelect = document.getElementById('departmentSelect');
-                    modalSelect.innerHTML = '<option value="">-- Chọn khoa --</option>' +
-                        data.data.map(d => `<option value="${d.maKhoa}">${d.tenKhoa}</option>`).join('');
-                }
+                document.getElementById('totalPatients').textContent = data.total || 0;
+                document.getElementById('maleCount').textContent = data.male || 0;
+                document.getElementById('femaleCount').textContent = data.female || 0;
+                document.getElementById('bhytCount').textContent = data.bhyt || 0;
             } catch (error) {
-                console.error('Error loading departments:', error);
+                console.error('Error loading statistics:', error);
             }
         }
 
-        // Load All Specialties
-        async function loadAllSpecialties() {
-            try {
-                const response = await fetch(`${API_BASE}/get-all-specialties.php`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    allSpecialties = data.data;
-                    
-                    // Populate filter dropdown
-                    const filterSelect = document.getElementById('filterSpecialty');
-                    filterSelect.innerHTML = '<option value="">Tất cả chuyên khoa</option>' +
-                        data.data.map(s => `<option value="${s.maChuyenKhoa}">${s.tenChuyenKhoa}</option>`).join('');
-                }
-            } catch (error) {
-                console.error('Error loading specialties:', error);
-            }
-        }
-
-        // Load Specialties by Department (for modal)
-        async function loadSpecialtiesByDepartment() {
-            const maKhoa = document.getElementById('departmentSelect').value;
-            const specialtySelect = document.getElementById('specialtySelect');
-            
-            if (!maKhoa) {
-                specialtySelect.innerHTML = '<option value="">-- Chọn chuyên khoa --</option>';
-                return;
-            }
-            
-            const filtered = allSpecialties.filter(s => s.maKhoa === maKhoa);
-            specialtySelect.innerHTML = '<option value="">-- Chọn chuyên khoa --</option>' +
-                filtered.map(s => `<option value="${s.maChuyenKhoa}">${s.tenChuyenKhoa}</option>`).join('');
-        }
-
-        // Load Doctors
-        async function loadDoctors() {
+        // Load Patients
+        async function loadPatients() {
             document.getElementById('loadingIndicator').style.display = 'block';
             document.getElementById('gridView').style.display = 'none';
             
             try {
-                const response = await fetch(`${API_BASE}/get-all-doctors.php`);
+                const response = await fetch(`${API_BASE}/get-all-patients.php`);
                 const data = await response.json();
                 
                 if (data.success) {
-                    allDoctors = data.data;
-                    filteredDoctors = [...allDoctors];
-                    displayDoctors();
+                    allPatients = data.data;
+                    filteredPatients = [...allPatients];
+                    displayPatients();
                 } else {
                     showAlert('error', data.message || 'Không thể tải dữ liệu');
                 }
@@ -875,61 +816,71 @@
             }
         }
 
-        // Display Doctors (Grid View)
-        function displayDoctors() {
+        // Display Patients (Grid View)
+        function displayPatients() {
             const container = document.getElementById('gridView');
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
-            const pageData = filteredDoctors.slice(start, end);
+            const pageData = filteredPatients.slice(start, end);
             
             if (pageData.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state" style="grid-column: 1/-1;">
-                        <i class="fas fa-user-md"></i>
-                        <h5>Không có bác sĩ nào</h5>
-                        <p class="text-muted">Thử thay đổi bộ lọc hoặc thêm bác sĩ mới</p>
+                        <i class="fas fa-user-injured"></i>
+                        <h5>Không có bệnh nhân nào</h5>
+                        <p class="text-muted">Thử thay đổi bộ lọc hoặc thêm bệnh nhân mới</p>
                     </div>
                 `;
                 document.getElementById('paginationSection').style.display = 'none';
                 return;
             }
             
-            container.innerHTML = pageData.map(doctor => {
-                const initials = doctor.tenBacSi.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+            container.innerHTML = pageData.map(patient => {
+                const initials = patient.tenBenhNhan.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+                const genderClass = patient.gioiTinh === 'nam' ? 'male' : patient.gioiTinh === 'nu' ? 'female' : '';
+                const genderLabel = patient.gioiTinh === 'nam' ? 'Nam' : patient.gioiTinh === 'nu' ? 'Nữ' : 'Khác';
+                const age = patient.ngaySinh ? calculateAge(patient.ngaySinh) : 'N/A';
+                
                 return `
-                    <div class="doctor-card">
-                        <div class="doctor-card-header">
-                            <div class="doctor-avatar">${initials}</div>
-                            <h5 class="doctor-name">${doctor.tenBacSi}</h5>
-                            <div class="doctor-id">Mã BS: ${doctor.maBacSi}</div>
+                    <div class="patient-card">
+                        <div class="patient-card-header">
+                            <div class="patient-avatar">${initials}</div>
+                            <h5 class="patient-name">${patient.tenBenhNhan}</h5>
+                            <div class="patient-id">Mã BN: ${patient.maBenhNhan}</div>
                         </div>
-                        <div class="doctor-card-body">
-                            <div class="doctor-info-item">
-                                <i class="fas fa-hospital"></i>
-                                <span class="label">Khoa:</span>
-                                <span class="value">${doctor.tenKhoa || 'N/A'}</span>
+                        <div class="patient-card-body">
+                            <div class="patient-info-item">
+                                <i class="fas fa-birthday-cake"></i>
+                                <span class="label">Ngày sinh:</span>
+                                <span class="value">${formatDate(patient.ngaySinh)} (${age} tuổi)</span>
                             </div>
-                            <div class="doctor-info-item">
-                                <i class="fas fa-stethoscope"></i>
-                                <span class="label">Chuyên khoa:</span>
+                            <div class="patient-info-item">
+                                <i class="fas fa-venus-mars"></i>
+                                <span class="label">Giới tính:</span>
+                                <span class="gender-badge ${genderClass}">${genderLabel}</span>
                             </div>
-                            <div class="text-center mt-2">
-                                <span class="specialty-badge">${doctor.tenChuyenKhoa || 'N/A'}</span>
-                            </div>
-                            <div class="doctor-info-item">
+                            <div class="patient-info-item">
                                 <i class="fas fa-phone"></i>
                                 <span class="label">Điện thoại:</span>
-                                <span class="value">${doctor.soDienThoai || 'N/A'}</span>
+                                <span class="value">${patient.soDienThoai || 'N/A'}</span>
+                            </div>
+                            <div class="patient-info-item">
+                                <i class="fas fa-id-card"></i>
+                                <span class="label">BHYT:</span>
+                                ${patient.soTheBHYT ? 
+                                    `<span class="bhyt-badge">${patient.soTheBHYT}</span>` : 
+                                    `<span class="no-bhyt">Chưa có</span>`
+                                }
                             </div>
                         </div>
-                        <div class="doctor-card-footer">
-                            <button class="btn-action btn-view" onclick="viewDoctor('${doctor.maBacSi}')" title="Xem chi tiết">
+                        <div class="patient-card-footer">
+                            <button class="btn-action btn-view" onclick="viewPatient('${patient.maBenhNhan}')" title="Xem chi tiết">
                                 <i class="fas fa-eye me-1"></i>Xem
                             </button>
-                            <button class="btn-action btn-edit" onclick="editDoctor('${doctor.maBacSi}')" title="Chỉnh sửa">
+                            <button class="btn-action btn-edit" onclick="editPatient('${patient.maBenhNhan}')" title="Chỉnh sửa">
                                 <i class="fas fa-edit me-1"></i>Sửa
                             </button>
-                            <button class="btn-action btn-delete" onclick="deleteDoctor('${doctor.maBacSi}')" title="Xóa">
+                            <button class="btn-action btn-delete" onclick="deletePatient('${patient.maBenhNhan}')" title="Xóa">
                                 <i class="fas fa-trash me-1"></i>Xóa
                             </button>
                         </div>
@@ -943,13 +894,13 @@
 
         // Update Pagination
         function updatePagination() {
-            const totalPages = Math.ceil(filteredDoctors.length / itemsPerPage);
+            const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
             const container = document.getElementById('paginationContainer');
             const start = (currentPage - 1) * itemsPerPage + 1;
-            const end = Math.min(currentPage * itemsPerPage, filteredDoctors.length);
+            const end = Math.min(currentPage * itemsPerPage, filteredPatients.length);
             
             document.getElementById('recordInfo').textContent = 
-                `Hiển thị ${start} - ${end} của ${filteredDoctors.length} bác sĩ`;
+                `Hiển thị ${start} - ${end} của ${filteredPatients.length} bệnh nhân`;
             
             let html = '';
             
@@ -982,27 +933,28 @@
         }
 
         function changePage(page) {
-            const totalPages = Math.ceil(filteredDoctors.length / itemsPerPage);
+            const totalPages = Math.ceil(filteredPatients.length / itemsPerPage);
             if (page >= 1 && page <= totalPages) {
                 currentPage = page;
-                displayDoctors();
+                displayPatients();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
 
         // Apply Filters
         function applyFilters() {
-            const department = document.getElementById('filterDepartment').value;
-            const specialty = document.getElementById('filterSpecialty').value;
+            const gender = document.getElementById('filterGender').value;
+            const bhyt = document.getElementById('filterBHYT').value;
             const search = document.getElementById('filterSearch').value.toLowerCase();
             
-            filteredDoctors = allDoctors.filter(doctor => {
+            filteredPatients = allPatients.filter(patient => {
                 let match = true;
                 
-                if (department && doctor.maKhoa !== department) match = false;
-                if (specialty && doctor.maChuyenKhoa !== specialty) match = false;
+                if (gender && patient.gioiTinh !== gender) match = false;
+                if (bhyt === 'co' && !patient.soTheBHYT) match = false;
+                if (bhyt === 'khong' && patient.soTheBHYT) match = false;
                 if (search) {
-                    const searchFields = `${doctor.tenBacSi} ${doctor.maBacSi}`.toLowerCase();
+                    const searchFields = `${patient.tenBenhNhan} ${patient.maBenhNhan} ${patient.soDienThoai || ''}`.toLowerCase();
                     if (!searchFields.includes(search)) match = false;
                 }
                 
@@ -1010,77 +962,83 @@
             });
             
             currentPage = 1;
-            displayDoctors();
+            displayPatients();
         }
 
         function resetFilters() {
-            document.getElementById('filterDepartment').value = '';
-            document.getElementById('filterSpecialty').value = '';
+            document.getElementById('filterGender').value = '';
+            document.getElementById('filterBHYT').value = '';
             document.getElementById('filterSearch').value = '';
-            filteredDoctors = [...allDoctors];
+            filteredPatients = [...allPatients];
             currentPage = 1;
-            displayDoctors();
+            displayPatients();
         }
 
         // Modal Functions
         function openAddModal() {
-            document.getElementById('modalTitle').textContent = 'Thêm bác sĩ mới';
-            document.getElementById('doctorForm').reset();
-            document.getElementById('doctorId').value = '';
+            document.getElementById('modalTitle').textContent = 'Thêm bệnh nhân mới';
+            document.getElementById('patientForm').reset();
+            document.getElementById('patientId').value = '';
             document.getElementById('password').required = true;
             document.getElementById('passwordRequired').textContent = '*';
-            new bootstrap.Modal(document.getElementById('doctorModal')).show();
+            new bootstrap.Modal(document.getElementById('patientModal')).show();
         }
 
-        async function editDoctor(maBacSi) {
-            const doctor = allDoctors.find(d => d.maBacSi === maBacSi);
-            if (!doctor) return;
+        async function editPatient(maBenhNhan) {
+            const patient = allPatients.find(p => p.maBenhNhan === maBenhNhan);
+            if (!patient) return;
             
-            document.getElementById('modalTitle').textContent = 'Chỉnh sửa thông tin bác sĩ';
-            document.getElementById('doctorId').value = maBacSi;
-            document.getElementById('doctorName').value = doctor.tenBacSi;
-            document.getElementById('doctorPhone').value = doctor.soDienThoai;
-            document.getElementById('departmentSelect').value = doctor.maKhoa;
-            
-            await loadSpecialtiesByDepartment();
-            document.getElementById('specialtySelect').value = doctor.maChuyenKhoa;
-            document.getElementById('username').value = doctor.tenDangNhap;
+            document.getElementById('modalTitle').textContent = 'Chỉnh sửa thông tin bệnh nhân';
+            document.getElementById('patientId').value = maBenhNhan;
+            document.getElementById('patientName').value = patient.tenBenhNhan;
+            document.getElementById('patientPhone').value = patient.soDienThoai;
+            document.getElementById('patientBirthDate').value = patient.ngaySinh;
+            document.getElementById('patientGender').value = patient.gioiTinh;
+            document.getElementById('patientBHYT').value = patient.soTheBHYT || '';
+            document.getElementById('username').value = patient.tenDangNhap;
             document.getElementById('password').value = '';
             document.getElementById('password').required = false;
             document.getElementById('passwordRequired').textContent = '';
             
-            new bootstrap.Modal(document.getElementById('doctorModal')).show();
+            new bootstrap.Modal(document.getElementById('patientModal')).show();
         }
 
-        async function viewDoctor(maBacSi) {
-            const doctor = allDoctors.find(d => d.maBacSi === maBacSi);
-            if (!doctor) return;
+        async function viewPatient(maBenhNhan) {
+            const patient = allPatients.find(p => p.maBenhNhan === maBenhNhan);
+            if (!patient) return;
+            
+            const age = calculateAge(patient.ngaySinh);
+            const genderLabel = patient.gioiTinh === 'nam' ? 'Nam' : patient.gioiTinh === 'nu' ? 'Nữ' : 'Khác';
+            const initials = patient.tenBenhNhan.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
             
             const body = document.getElementById('viewModalBody');
             body.innerHTML = `
                 <div class="row g-3">
                     <div class="col-12 text-center mb-3">
                         <div style="width: 100px; height: 100px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue)); color: white; display: inline-flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 700;">
-                            ${doctor.tenBacSi.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
+                            ${initials}
                         </div>
                     </div>
                     <div class="col-12">
-                        <strong>Mã bác sĩ:</strong> ${doctor.maBacSi}
+                        <strong>Mã bệnh nhân:</strong> ${patient.maBenhNhan}
                     </div>
                     <div class="col-12">
-                        <strong>Họ và tên:</strong> ${doctor.tenBacSi}
+                        <strong>Họ và tên:</strong> ${patient.tenBenhNhan}
                     </div>
                     <div class="col-12">
-                        <strong>Khoa:</strong> ${doctor.tenKhoa || 'N/A'}
+                        <strong>Ngày sinh:</strong> ${formatDate(patient.ngaySinh)} (${age} tuổi)
                     </div>
                     <div class="col-12">
-                        <strong>Chuyên khoa:</strong> <span class="specialty-badge">${doctor.tenChuyenKhoa || 'N/A'}</span>
+                        <strong>Giới tính:</strong> ${genderLabel}
                     </div>
                     <div class="col-12">
-                        <strong>Số điện thoại:</strong> ${doctor.soDienThoai || 'N/A'}
+                        <strong>Số điện thoại:</strong> ${patient.soDienThoai || 'N/A'}
                     </div>
                     <div class="col-12">
-                        <strong>Tên đăng nhập:</strong> ${doctor.tenDangNhap || 'N/A'}
+                        <strong>Số thẻ BHYT:</strong> ${patient.soTheBHYT ? `<span class="bhyt-badge">${patient.soTheBHYT}</span>` : '<span class="no-bhyt">Chưa có</span>'}
+                    </div>
+                    <div class="col-12">
+                        <strong>Tên đăng nhập:</strong> ${patient.tenDangNhap || 'N/A'}
                     </div>
                 </div>
             `;
@@ -1088,27 +1046,27 @@
             new bootstrap.Modal(document.getElementById('viewModal')).show();
         }
 
-        async function deleteDoctor(maBacSi) {
-            if (!confirm('Bạn có chắc chắn muốn xóa bác sĩ này? Hành động này không thể hoàn tác!')) return;
+        async function deletePatient(maBenhNhan) {
+            if (!confirm('Bạn có chắc chắn muốn xóa bệnh nhân này? Hành động này không thể hoàn tác!')) return;
             
             try {
-                const response = await fetch(`${API_BASE}/delete-doctor.php`, {
+                const response = await fetch(`${API_BASE}/delete-patient.php`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ maBacSi: maBacSi })
+                    body: JSON.stringify({ maBenhNhan: maBenhNhan })
                 });
                 
                 const data = await response.json();
                 
                 if (data.success) {
-                    showAlert('success', 'Xóa bác sĩ thành công!');
-                    loadDoctors();
+                    showAlert('success', 'Xóa bệnh nhân thành công!');
+                    loadPatients();
                     loadStatistics();
                 } else {
-                    showAlert('error', data.message || 'Không thể xóa bác sĩ');
+                    showAlert('error', data.message || 'Không thể xóa bệnh nhân');
                 }
             } catch (error) {
-                console.error('Error loading patients:', error);
+                console.error('Error deleting patient:', error);
                 showAlert('error', 'Lỗi kết nối đến server');
             }
         }
@@ -1117,19 +1075,21 @@
         async function handleFormSubmit(e) {
             e.preventDefault();
             
-            const maBacSi = document.getElementById('doctorId').value;
+            const maBenhNhan = document.getElementById('patientId').value;
             const data = {
-                tenBacSi: document.getElementById('doctorName').value,
-                soDienThoai: document.getElementById('doctorPhone').value,
-                maChuyenKhoa: document.getElementById('specialtySelect').value,
+                tenBenhNhan: document.getElementById('patientName').value,
+                soDienThoai: document.getElementById('patientPhone').value,
+                ngaySinh: document.getElementById('patientBirthDate').value,
+                gioiTinh: document.getElementById('patientGender').value,
+                soTheBHYT: document.getElementById('patientBHYT').value || null,
                 tenDangNhap: document.getElementById('username').value,
                 matKhau: document.getElementById('password').value
             };
             
-            if (maBacSi) data.maBacSi = maBacSi;
+            if (maBenhNhan) data.maBenhNhan = maBenhNhan;
             
             try {
-                const url = maBacSi ? `${API_BASE}/update-doctor.php` : `${API_BASE}/create-doctor.php`;
+                const url = maBenhNhan ? `${API_BASE}/update-patient.php` : `${API_BASE}/create-patient.php`;
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1139,15 +1099,15 @@
                 const result = await response.json();
                 
                 if (result.success) {
-                    showAlert('success', maBacSi ? 'Cập nhật thành công!' : 'Thêm bác sĩ thành công!');
-                    bootstrap.Modal.getInstance(document.getElementById('doctorModal')).hide();
-                    loadDoctors();
+                    showAlert('success', maBenhNhan ? 'Cập nhật thành công!' : 'Thêm bệnh nhân thành công!');
+                    bootstrap.Modal.getInstance(document.getElementById('patientModal')).hide();
+                    loadPatients();
                     loadStatistics();
                 } else {
                     showAlert('error', result.message || 'Có lỗi xảy ra');
                 }
             } catch (error) {
-                console.error('Error loading patients:', error);
+                console.error('Error saving patient:', error);
                 showAlert('error', 'Lỗi kết nối đến server');
             }
         }
@@ -1165,7 +1125,25 @@
             }
         }
 
-        // Utility Functions        
+        // Utility Functions
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const date = new Date(dateString);
+            return date.toLocaleDateString('vi-VN');
+        }
+
+        function calculateAge(birthDate) {
+            if (!birthDate) return 'N/A';
+            const today = new Date();
+            const birth = new Date(birthDate);
+            let age = today.getFullYear() - birth.getFullYear();
+            const monthDiff = today.getMonth() - birth.getMonth();
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
         function showAlert(type, message) {
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
