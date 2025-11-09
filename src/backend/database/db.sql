@@ -122,7 +122,7 @@ INSERT INTO `khoa` (`maKhoa`, `tenKhoa`, `moTa`) VALUES
 CREATE TABLE `lichkham` (
   `maLichKham` int(11) NOT NULL,
   `maBacSi` varchar(20) NOT NULL,
-  `maBenhNhan` varchar(20) DEFAULT NULL,
+  `maBenhNhan` varchar(20) NOT NULL,
   `ngayKham` date NOT NULL,
   `maCa` int(11) NOT NULL,
   `maSuat` int(11) NOT NULL,
@@ -290,3 +290,4 @@ ALTER TABLE `quantrivien`
 ALTER TABLE `suatkham`
   ADD CONSTRAINT `suatkham_ibfk_1` FOREIGN KEY (`maCa`) REFERENCES `calamviec` (`maCa`);
 COMMIT;
+
