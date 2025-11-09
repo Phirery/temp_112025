@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>tram demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/style.css">
+</head>
+
+<body>
+
+<style>
+    body {
+      background-color: #f8fbff;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    .sidebar {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      padding: 20px;
+    }
+
+    .sidebar .btn-main {
+      background-color: #00AEEF;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      width: 100%;
+    }
+
+    .sidebar .nav-link {
+      color: #333;
+      font-weight: 500;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background-color: #e8f8ff;
+      color: #00AEEF;
+    }
+
+    .profile-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      padding: 20px 25px;
+    }
+
+    .profile-card p {
+      margin-bottom: 6px;
+      font-size: 15px;
+    }
+
+    .profile-card i {
+      color: #00AEEF;
+      margin-right: 5px;
+    }
+
+    .profile-card strong {
+      color: #333;
+    }
+
+    .profile-actions {
+      border-top: 1px solid #eee;
+      padding-top: 10px;
+      margin-top: 10px;
+      text-align: right;
+    }
+
+    .profile-actions a {
+      margin-left: 10px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .profile-actions .text-danger:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+    <div class="sticky-top">
+        <div id="navbar"></div>
+    </div>
+    <script>
+        // Dùng fetch để load file header.html 
+        fetch("../../components/navbar.html")
+            .then(res => res.text())
+            .then(data => document.getElementById("navbar").innerHTML = data);
+    </script>
+
+  <div class="container py-5">
+    <div class="row">
+        <nav class="p-3 bg-light">
+            <span class="text-muted">Trang chủ</span>
+            <span class="mx-2">></span>
+            <span class="fw-bold">Hồ sơ bệnh nhân</span>
+        </nav>
+    </div>
+
+    <div class="row g-4">
+      <!-- Sidebar -->
+      <div class="col-md-3">
+        <div class="sidebar">
+          <button class="btn btn-main mb-3">
+            <i class="bi bi-plus-circle"></i> Thêm hồ sơ
+          </button>
+
+          <nav class="nav flex-column">
+            <a class="nav-link active" href="#"><i class="bi bi-person-lines-fill me-1"></i> Hồ sơ bệnh nhân</a>
+            <a class="nav-link" href="#"><i class="bi bi-file-medical me-1"></i> Phiếu khám bệnh</a>
+            <a class="nav-link d-flex justify-content-between align-items-center" href="#">
+              <span><i class="bi bi-bell me-1"></i> Thông báo</span>
+              <span class="badge bg-danger rounded-pill">99+</span>
+            </a>
+          </nav>
+        </div>
+      </div>
+
+      <!-- Main content -->
+      <div class="col-md-9">
+        <h5 class="fw-bold mb-3">Danh sách hồ sơ bệnh nhân</h5>
+        <div class="profile-card">
+          <p><i class="bi bi-person"></i><strong>Họ và tên:</strong> <span class="text-primary">Trịnh Thị Yến Nhi</span></p>
+          <p><i class="bi bi-calendar3"></i><strong>Ngày sinh:</strong> 25/03/2005</p>
+          <p><i class="bi bi-telephone"></i><strong>Số điện thoại:</strong> 036****663</p>
+          <p><i class="bi bi-gender-ambiguous"></i><strong>Giới tính:</strong> Nam</p>
+          <p><i class="bi bi-people"></i><strong>Dân tộc:</strong> Kinh</p>
+          <p><i class="bi bi-geo-alt"></i><strong>Địa chỉ mới:</strong> <span class="text-warning fw-semibold">Chưa cập nhật</span></p>
+          <p><i class="bi bi-geo-alt-fill"></i><strong>Địa chỉ cũ:</strong> <em>Thành phố Cần Thơ</em></p>
+
+          <div class="profile-actions">
+            <a href="#" class="text-danger"><i class="bi bi-trash"></i> Xóa hồ sơ</a>
+            <a href="#" class="text-primary"><i class="bi bi-pencil-square"></i> Sửa hồ sơ</a>
+            <a href="#" class="text-secondary"><i class="bi bi-info-circle"></i> Chi tiết</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Footer -->
+    <footer class="bg-light text-dark pt-4">
+        <!-- Phần trên: Social Icons -->
+        <div class="container text-center mb-4 ">
+            <a href="#" class="text-dark me-3 fs-4"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="text-dark me-3 fs-4"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="text-dark me-3 fs-4"><i class="bi bi-youtube"></i></a>
+            <a href="#" class="text-dark me-3 fs-4"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="text-dark me-3 fs-4"><i class="bi bi-linkedin"></i></a>
+            <a href="#" class="text-dark me-3 fs-4"><i class="bi bi-pinterest"></i></a>
+            <a href="#" class="text-dark fs-4"><i class="bi bi-snapchat"></i></a>
+        </div>
+
+        <!-- Phần dưới: Các cột -->
+        <div class="container">
+            <div class="row text-start">
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Actions</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Appointments & Access</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Accepted Insurance</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Events Calendar</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Financial Assistance</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Blog, News & Apps</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Consult QD</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Health Essentials</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Newsroom</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">MyChart</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">About Cleveland Clinic</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Locations</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Careers</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-md-3 mb-3">
+                    <h6 class="fw-bold">Site Information & Policies</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-dark text-decoration-none">Privacy Policy</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Terms of Use</a></li>
+                        <li><a href="#" class="text-dark text-decoration-none">Accessibility</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dòng cuối: Địa chỉ + bản quyền -->
+        <div class="text-center py-3 border-top mt-3">
+            <small>9500 Euclid Avenue, Cleveland, Ohio 44195 | <a href="tel:8002232273"
+                    class="text-decoration-none">800.223.2273</a> | © 2025 Cleveland Clinic. All Rights
+                Reserved.</small>
+        </div>
+    </footer>
+
+
+<!-- Bootstrap Icons -->
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
