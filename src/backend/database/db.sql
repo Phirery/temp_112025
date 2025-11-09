@@ -1,48 +1,20 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 09, 2025 at 08:18 AM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.0.30
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
---
--- Database: `datlichkham`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `bacsi`
---
 
 CREATE TABLE `bacsi` (
   `nguoiDungId` int(11) NOT NULL,
   `maBacSi` varchar(20) NOT NULL,
   `tenBacSi` varchar(100) DEFAULT NULL,
   `maChuyenKhoa` varchar(10) DEFAULT NULL,
-  `moTa` text DEFAULT NULL
+  `moTa` text DEFAULT NULL,
+  `chuyenGia` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bacsi`
---
-
-INSERT INTO `bacsi` (`nguoiDungId`, `maBacSi`, `tenBacSi`, `maChuyenKhoa`, `moTa`) VALUES
-(2, 'bs1', 'Trần Văn B', 'EYE102501', NULL),
-(5, 'BS202511090112882', 'Nguyễn Thành C', 'SUR102501', NULL),
-(7, 'BS202511090152610', 'Lê Văn D', 'INT102503', NULL);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `benhnhan`
---
+INSERT INTO `bacsi` (`nguoiDungId`, `maBacSi`, `tenBacSi`, `maChuyenKhoa`, `moTa`, `chuyenGia`) VALUES
+(2, 'bs1', 'Trần Văn B', 'EYE102501', NULL, 0),
+(5, 'BS202511090112882', 'Nguyễn Thành C', 'SUR102501', NULL, 0),
+(7, 'BS202511090152610', 'Lê Văn D', 'INT102503', NULL, 0);
 
 CREATE TABLE `benhnhan` (
   `nguoiDungId` int(11) NOT NULL,
@@ -53,20 +25,21 @@ CREATE TABLE `benhnhan` (
   `soTheBHYT` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `benhnhan`
---
-
 INSERT INTO `benhnhan` (`nguoiDungId`, `maBenhNhan`, `tenBenhNhan`, `ngaySinh`, `gioiTinh`, `soTheBHYT`) VALUES
 (1, 'bn1', 'Nguyễn Văn A', '2000-01-01', 'nam', NULL),
 (8, 'BN202511082304701', 'ABCs', '2005-10-09', 'nam', ''),
 (9, 'BN202511090811622', 'A', '2025-11-15', 'nam', '');
 
--- --------------------------------------------------------
+CREATE TABLE `calamviec` (
+  `maCa` int(11) NOT NULL,
+  `tenCa` varchar(30) NOT NULL,
+  `gioBatDau` time NOT NULL,
+  `gioKetThuc` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `chuyenkhoa`
---
+INSERT INTO `calamviec` (`maCa`, `tenCa`, `gioBatDau`, `gioKetThuc`) VALUES
+(1, 'Ca sáng', '07:00:00', '11:00:00'),
+(2, 'Ca chiều', '13:00:00', '17:00:00');
 
 CREATE TABLE `chuyenkhoa` (
   `maChuyenKhoa` varchar(10) NOT NULL,
@@ -74,10 +47,6 @@ CREATE TABLE `chuyenkhoa` (
   `maKhoa` varchar(10) DEFAULT NULL,
   `moTa` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `chuyenkhoa`
---
 
 INSERT INTO `chuyenkhoa` (`maChuyenKhoa`, `tenChuyenKhoa`, `maKhoa`, `moTa`) VALUES
 ('CAR102501', 'Tim Mạch Nội Khoa', 'CAR1025', 'Chẩn đoán và điều trị các bệnh tim bằng thuốc, như tăng huyết áp, rối loạn nhịp tim, suy tim. Khoa chú trọng điều trị lâu dài và phòng ngừa tái phát.'),
@@ -110,11 +79,17 @@ INSERT INTO `chuyenkhoa` (`maChuyenKhoa`, `tenChuyenKhoa`, `maKhoa`, `moTa`) VAL
 ('SUR102504', 'Ngoại Tiết Niệu', 'SUR1025', 'Điều trị bằng phẫu thuật cho các bệnh lý thận, bàng quang và tuyến tiền liệt. Khoa ứng dụng công nghệ nội soi và laser trong điều trị.'),
 ('SUR102505', 'Ngoại Lồng Ngực – Tim Mạch', 'SUR1025', 'Chuyên về phẫu thuật tim, phổi và mạch máu lớn. Các ca mổ đòi hỏi kỹ thuật cao được thực hiện tại đây.');
 
--- --------------------------------------------------------
+CREATE TABLE `goikham` (
+  `maGoi` int(11) NOT NULL,
+  `tenGoi` varchar(100) NOT NULL,
+  `moTa` text DEFAULT NULL,
+  `thoiLuong` int(11) DEFAULT 40,
+  `gia` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Table structure for table `hosobenhan`
---
+INSERT INTO `goikham` (`maGoi`, `tenGoi`, `moTa`, `thoiLuong`, `gia`) VALUES
+(1, 'Gói khám thường', 'Khám với bác sĩ tổng quát', 40, 150000.00),
+(2, 'Gói khám chuyên gia', 'Khám với bác sĩ chuyên gia', 40, 250000.00);
 
 CREATE TABLE `hosobenhan` (
   `maHoSo` varchar(20) NOT NULL,
@@ -124,28 +99,14 @@ CREATE TABLE `hosobenhan` (
   `dieuTri` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `hosobenhan`
---
-
 INSERT INTO `hosobenhan` (`maHoSo`, `maBenhNhan`, `maBacSi`, `chanDoan`, `dieuTri`) VALUES
 ('HS1', 'bn1', 'bs1', 'Tình trạng bình thường.', 'Ăn uống ngủ nghỉ hợp lý.');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `khoa`
---
 
 CREATE TABLE `khoa` (
   `maKhoa` varchar(10) NOT NULL,
   `tenKhoa` varchar(100) NOT NULL,
   `moTa` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `khoa`
---
 
 INSERT INTO `khoa` (`maKhoa`, `tenKhoa`, `moTa`) VALUES
 ('CAR1025', 'Khoa Tim mạch', 'Khoa Tim mạch tập trung khám và điều trị các bệnh về tim và mạch máu. Đây là khoa chuyên sâu trong chẩn đoán, theo dõi và phục hồi chức năng tim mạch.'),
@@ -158,41 +119,25 @@ INSERT INTO `khoa` (`maKhoa`, `tenKhoa`, `moTa`) VALUES
 ('PED1025', 'Khoa Nhi', 'Khoa Nhi chịu trách nhiệm chăm sóc sức khỏe cho trẻ sơ sinh và trẻ em. Khoa chuyên điều trị các bệnh thường gặp ở trẻ nhỏ, từ hô hấp đến tim mạch bẩm sinh.'),
 ('SUR1025', 'Khoa Ngoại', 'Khoa Ngoại đảm nhiệm các ca phẫu thuật và điều trị bằng can thiệp ngoại khoa. Tại đây tiếp nhận các trường hợp cần mổ từ đơn giản đến phức tạp.');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `lichkham`
---
-
 CREATE TABLE `lichkham` (
-  `maLichKham` varchar(20) NOT NULL,
+  `maLichKham` int(11) NOT NULL,
+  `maBacSi` varchar(20) NOT NULL,
   `maBenhNhan` varchar(20) DEFAULT NULL,
-  `maBacSi` varchar(20) DEFAULT NULL,
   `ngayKham` date NOT NULL,
-  `trangThai` enum('pending','confirmed','cancelled') DEFAULT 'pending'
+  `maCa` int(11) NOT NULL,
+  `maSuat` int(11) NOT NULL,
+  `maGoi` int(11) DEFAULT NULL,
+  `trangThai` enum('Trống','Đã đặt','Hoàn thành','Hủy') DEFAULT NULL,
+  `ghiChu` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `lichkham`
---
-
-INSERT INTO `lichkham` (`maLichKham`, `maBenhNhan`, `maBacSi`, `ngayKham`, `trangThai`) VALUES
-('LK1', 'bn1', 'bs1', '2025-11-22', 'pending'),
-('LK1762621802637', 'bn1', 'bs1', '2025-11-20', 'cancelled'),
-('LK1762621996721', 'bn1', 'bs1', '2025-11-23', 'pending'),
-('LK1762622025884', 'bn1', 'bs1', '2025-11-20', 'confirmed'),
-('LK1762622033727', 'bn1', 'bs1', '2025-11-21', 'cancelled'),
-('LK2', 'bn1', 'bs1', '2025-11-21', 'confirmed'),
-('LK20251108181944355', 'bn1', 'bs1', '2025-11-19', 'pending'),
-('LK202511081820156', 'bn1', 'bs1', '2025-11-21', 'confirmed'),
-('LK202511090024932', 'bn1', 'bs1', '2025-11-20', 'cancelled'),
-('LK202511090152952', 'bn1', 'BS202511090152610', '2025-11-08', 'confirmed');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `nguoidung`
---
+CREATE TABLE `ngaynghi` (
+  `maNghi` int(11) NOT NULL,
+  `maBacSi` varchar(20) NOT NULL,
+  `ngayNghi` date NOT NULL,
+  `maCa` int(11) DEFAULT NULL,
+  `lyDo` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `nguoidung` (
   `id` int(11) NOT NULL,
@@ -203,149 +148,145 @@ CREATE TABLE `nguoidung` (
   `trangThai` enum('Hoạt Động','Khóa') NOT NULL DEFAULT 'Hoạt Động'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `nguoidung`
---
-
 INSERT INTO `nguoidung` (`id`, `tenDangNhap`, `matKhau`, `soDienThoai`, `vaiTro`, `trangThai`) VALUES
-(1, 'nguoidung1', 'passwork', '0987654321', 'benhnhan', 'Khóa'),
+(1, 'nguoidung1', 'passwork', '0987654321', 'benhnhan', 'Hoạt Động'),
 (2, 'nguoidung2', 'passwork', '0987654321', 'bacsi', 'Hoạt Động'),
 (3, 'nguoidung3', 'passwork', '0987654321', 'quantri', 'Hoạt Động'),
 (5, 'nguyenthanhccur1025', '$2y$10$j/IqnU9fT0QPeHyZNU1uuum/5IktMdkELYMVs.Uvu9KOgu1PzjXoq', '0917382642', 'bacsi', 'Hoạt Động'),
 (7, 'levand', '$2y$10$0w2wLh5q8dn.05WVbEYjc.Epw.C4BLmppiM5Hwj4QO7fbSDvqfOkK', '0361846731', 'bacsi', 'Hoạt Động'),
-(8, 'ABCD', '$2y$10$Gucpt7iX418XWZkSgIf8EeSwEj3qDkaepUfrFLc6hiDm.CbmFDqsS', '0936846244', 'benhnhan', 'Khóa'),
+(8, 'ABCD', '$2y$10$Gucpt7iX418XWZkSgIf8EeSwEj3qDkaepUfrFLc6hiDm.CbmFDqsS', '0936846244', 'benhnhan', 'Hoạt Động'),
 (9, 'A1', '$2y$10$LGycidZBlMFFqFVIB5ZTQ.5UZ.ap/TGe1q0BkVr.qKiT726R8st4G', '0111111111', 'benhnhan', 'Hoạt Động');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `quantrivien`
---
 
 CREATE TABLE `quantrivien` (
   `nguoiDungId` int(11) NOT NULL,
   `maQuanTriVien` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `quantrivien`
---
-
 INSERT INTO `quantrivien` (`nguoiDungId`, `maQuanTriVien`) VALUES
 (3, 'admin1');
 
---
--- Indexes for dumped tables
---
+CREATE TABLE `suatkham` (
+  `maSuat` int(11) NOT NULL,
+  `maCa` int(11) NOT NULL,
+  `gioBatDau` time NOT NULL,
+  `gioKetThuc` time NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Indexes for table `bacsi`
---
+INSERT INTO `suatkham` (`maSuat`, `maCa`, `gioBatDau`, `gioKetThuc`) VALUES
+(1, 1, '07:00:00', '07:40:00'),
+(2, 1, '07:40:00', '08:20:00'),
+(3, 1, '08:20:00', '09:00:00'),
+(4, 1, '09:00:00', '09:40:00'),
+(5, 1, '09:40:00', '10:20:00'),
+(6, 1, '10:20:00', '11:00:00'),
+(7, 2, '13:00:00', '13:40:00'),
+(8, 2, '13:40:00', '14:20:00'),
+(9, 2, '14:20:00', '15:00:00'),
+(10, 2, '15:00:00', '15:40:00'),
+(11, 2, '15:40:00', '16:20:00'),
+(12, 2, '16:20:00', '17:00:00');
+
+
 ALTER TABLE `bacsi`
   ADD PRIMARY KEY (`maBacSi`),
   ADD UNIQUE KEY `nguoiDungId` (`nguoiDungId`),
   ADD KEY `maChuyenKhoa` (`maChuyenKhoa`);
 
---
--- Indexes for table `benhnhan`
---
 ALTER TABLE `benhnhan`
   ADD PRIMARY KEY (`maBenhNhan`),
   ADD UNIQUE KEY `nguoiDungId` (`nguoiDungId`);
 
---
--- Indexes for table `chuyenkhoa`
---
+ALTER TABLE `calamviec`
+  ADD PRIMARY KEY (`maCa`);
+
 ALTER TABLE `chuyenkhoa`
   ADD PRIMARY KEY (`maChuyenKhoa`),
   ADD KEY `maKhoa` (`maKhoa`);
 
---
--- Indexes for table `hosobenhan`
---
+ALTER TABLE `goikham`
+  ADD PRIMARY KEY (`maGoi`);
+
 ALTER TABLE `hosobenhan`
   ADD PRIMARY KEY (`maHoSo`),
   ADD KEY `maBenhNhan` (`maBenhNhan`),
   ADD KEY `maBacSi` (`maBacSi`);
 
---
--- Indexes for table `khoa`
---
 ALTER TABLE `khoa`
   ADD PRIMARY KEY (`maKhoa`);
 
---
--- Indexes for table `lichkham`
---
 ALTER TABLE `lichkham`
   ADD PRIMARY KEY (`maLichKham`),
+  ADD KEY `maBacSi` (`maBacSi`),
   ADD KEY `maBenhNhan` (`maBenhNhan`),
-  ADD KEY `maBacSi` (`maBacSi`);
+  ADD KEY `maCa` (`maCa`),
+  ADD KEY `maSuat` (`maSuat`),
+  ADD KEY `maGoi` (`maGoi`);
 
---
--- Indexes for table `nguoidung`
---
+ALTER TABLE `ngaynghi`
+  ADD PRIMARY KEY (`maNghi`),
+  ADD KEY `maBacSi` (`maBacSi`),
+  ADD KEY `maCa` (`maCa`);
+
 ALTER TABLE `nguoidung`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `tenDangNhap` (`tenDangNhap`);
 
---
--- Indexes for table `quantrivien`
---
 ALTER TABLE `quantrivien`
   ADD PRIMARY KEY (`maQuanTriVien`),
   ADD UNIQUE KEY `nguoiDungId` (`nguoiDungId`);
 
---
--- AUTO_INCREMENT for dumped tables
---
+ALTER TABLE `suatkham`
+  ADD PRIMARY KEY (`maSuat`),
+  ADD KEY `maCa` (`maCa`);
 
---
--- AUTO_INCREMENT for table `nguoidung`
---
+
+ALTER TABLE `calamviec`
+  MODIFY `maCa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+ALTER TABLE `goikham`
+  MODIFY `maGoi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+ALTER TABLE `lichkham`
+  MODIFY `maLichKham` int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE `ngaynghi`
+  MODIFY `maNghi` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `nguoidung`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
---
--- Constraints for dumped tables
---
+ALTER TABLE `suatkham`
+  MODIFY `maSuat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
---
--- Constraints for table `bacsi`
---
+
 ALTER TABLE `bacsi`
   ADD CONSTRAINT `bacsi_ibfk_1` FOREIGN KEY (`nguoiDungId`) REFERENCES `nguoidung` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `bacsi_ibfk_2` FOREIGN KEY (`maChuyenKhoa`) REFERENCES `chuyenkhoa` (`maChuyenKhoa`) ON DELETE SET NULL;
 
---
--- Constraints for table `benhnhan`
---
 ALTER TABLE `benhnhan`
   ADD CONSTRAINT `benhnhan_ibfk_1` FOREIGN KEY (`nguoiDungId`) REFERENCES `nguoidung` (`id`) ON DELETE CASCADE;
 
---
--- Constraints for table `chuyenkhoa`
---
 ALTER TABLE `chuyenkhoa`
   ADD CONSTRAINT `chuyenkhoa_ibfk_1` FOREIGN KEY (`maKhoa`) REFERENCES `khoa` (`maKhoa`) ON DELETE CASCADE;
 
---
--- Constraints for table `hosobenhan`
---
 ALTER TABLE `hosobenhan`
   ADD CONSTRAINT `hosobenhan_ibfk_1` FOREIGN KEY (`maBenhNhan`) REFERENCES `benhnhan` (`maBenhNhan`) ON DELETE CASCADE,
   ADD CONSTRAINT `hosobenhan_ibfk_2` FOREIGN KEY (`maBacSi`) REFERENCES `bacsi` (`maBacSi`) ON DELETE SET NULL;
 
---
--- Constraints for table `lichkham`
---
 ALTER TABLE `lichkham`
-  ADD CONSTRAINT `lichkham_ibfk_1` FOREIGN KEY (`maBenhNhan`) REFERENCES `benhnhan` (`maBenhNhan`) ON DELETE SET NULL,
-  ADD CONSTRAINT `lichkham_ibfk_2` FOREIGN KEY (`maBacSi`) REFERENCES `bacsi` (`maBacSi`) ON DELETE SET NULL;
+  ADD CONSTRAINT `lichkham_ibfk_1` FOREIGN KEY (`maBacSi`) REFERENCES `bacsi` (`maBacSi`),
+  ADD CONSTRAINT `lichkham_ibfk_2` FOREIGN KEY (`maBenhNhan`) REFERENCES `benhnhan` (`maBenhNhan`),
+  ADD CONSTRAINT `lichkham_ibfk_3` FOREIGN KEY (`maCa`) REFERENCES `calamviec` (`maCa`),
+  ADD CONSTRAINT `lichkham_ibfk_4` FOREIGN KEY (`maSuat`) REFERENCES `suatkham` (`maSuat`),
+  ADD CONSTRAINT `lichkham_ibfk_5` FOREIGN KEY (`maGoi`) REFERENCES `goikham` (`maGoi`);
 
---
--- Constraints for table `quantrivien`
---
+ALTER TABLE `ngaynghi`
+  ADD CONSTRAINT `ngaynghi_ibfk_1` FOREIGN KEY (`maBacSi`) REFERENCES `bacsi` (`maBacSi`),
+  ADD CONSTRAINT `ngaynghi_ibfk_2` FOREIGN KEY (`maCa`) REFERENCES `calamviec` (`maCa`);
+
 ALTER TABLE `quantrivien`
   ADD CONSTRAINT `quantrivien_ibfk_1` FOREIGN KEY (`nguoiDungId`) REFERENCES `nguoidung` (`id`) ON DELETE CASCADE;
+
+ALTER TABLE `suatkham`
+  ADD CONSTRAINT `suatkham_ibfk_1` FOREIGN KEY (`maCa`) REFERENCES `calamviec` (`maCa`);
 COMMIT;
