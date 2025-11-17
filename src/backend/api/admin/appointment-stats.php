@@ -7,7 +7,6 @@ require_role('quantri');
 
 $stats = [
     'total' => 0,
-    'pending' => 0,
     'confirmed' => 0,
     'completed' => 0,
     'cancelled' => 0
@@ -15,9 +14,6 @@ $stats = [
 
 $result = $conn->query("SELECT COUNT(*) as count FROM lichkham");
 $stats['total'] = $result->fetch_assoc()['count'];
-
-$result = $conn->query("SELECT COUNT(*) as count FROM lichkham WHERE trangThai = 'Chờ'");
-$stats['pending'] = $result->fetch_assoc()['count'];
 
 $result = $conn->query("SELECT COUNT(*) as count FROM lichkham WHERE trangThai = 'Đã đặt'");
 $stats['confirmed'] = $result->fetch_assoc()['count'];

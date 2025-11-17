@@ -13,7 +13,7 @@ try {
     $stmt->close();
 
     if (!$maBacSi) {
-        echo json_encode(['success' => false, 'message' => 'Không tìm thấy bác sĩ', 'count' => 0]);
+        echo json_encode(['success' => true, 'count' => 0]);
         exit;
     }
 

@@ -1,23 +1,13 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+require_once '../../config/cors.php';
+require_once '../../core/dp.php';
+require_once '../../core/session.php';
 
-$conn = new mysqli("localhost", "root", "", "datlichkham");
-$conn->set_charset("utf8mb4");
-
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Kết nối thất bại']);
-    exit;
-}
-
-$idNguoiDung = 5;
+require_role('bacsi');
 
 try {
     $stmt = $conn->prepare("SELECT maBacSi FROM bacsi WHERE nguoiDungId = ?");
-    $stmt->bind_param("i", $idNguoiDung);
+    $stmt->bind_param("i", $_SESSION['id']);
     $stmt->execute();
     $maBacSi = $stmt->get_result()->fetch_assoc()['maBacSi'] ?? null;
     $stmt->close();
@@ -29,7 +19,7 @@ try {
 
     $sql = "SELECT t.maThongBao, t.loai, t.tieuDe, t.noiDung, t.thoiGian, t.daXem,
             bn.tenBenhNhan, l.ngayKham, c.tenCa
-            FROM thongbao t
+            FROM thongbaolichkham t
             LEFT JOIN lichkham l ON t.maLichKham = l.maLichKham
             LEFT JOIN benhnhan bn ON l.maBenhNhan = bn.maBenhNhan
             LEFT JOIN calamviec c ON l.maCa = c.maCa

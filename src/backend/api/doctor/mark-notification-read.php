@@ -1,21 +1,9 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+require_once '../../config/cors.php';
+require_once '../../core/dp.php';
+require_once '../../core/session.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    exit;
-}
-
-$conn = new mysqli("localhost", "root", "", "datlichkham");
-$conn->set_charset("utf8mb4");
-
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Kết nối thất bại']);
-    exit;
-}
+require_role('bacsi');
 
 $input = json_decode(file_get_contents('php://input'), true);
 $maThongBao = $input['maThongBao'] ?? '';
@@ -26,8 +14,20 @@ if (!$maThongBao) {
 }
 
 try {
-    $stmt = $conn->prepare("UPDATE thongbao SET daXem = 1 WHERE maThongBao = ?");
-    $stmt->bind_param("i", $maThongBao);
+    // Verify notification belongs to this doctor
+    $stmt = $conn->prepare("SELECT maBacSi FROM bacsi WHERE nguoiDungId = ?");
+    $stmt->bind_param("i", $_SESSION['id']);
+    $stmt->execute();
+    $maBacSi = $stmt->get_result()->fetch_assoc()['maBacSi'] ?? null;
+    $stmt->close();
+
+    if (!$maBacSi) {
+        echo json_encode(['success' => false, 'message' => 'Không tìm thấy bác sĩ']);
+        exit;
+    }
+
+    $stmt = $conn->prepare("UPDATE thongbaolichkham SET daXem = 1 WHERE maThongBao = ? AND maBacSi = ?");
+    $stmt->bind_param("is", $maThongBao, $maBacSi);
     
     if ($stmt->execute()) {
         echo json_encode(['success' => true]);
