@@ -1,17 +1,9 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+require_once '../../config/cors.php';
+require_once '../../core/dp.php';
+require_once '../../core/session.php';
 
-$conn = new mysqli("localhost", "root", "", "datlichkham");
-$conn->set_charset("utf8mb4");
-
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Kết nối thất bại']);
-    exit;
-}
+require_role('bacsi');
 
 $maHoSo = $_GET['maHoSo'] ?? '';
 
@@ -21,6 +13,18 @@ if (!$maHoSo) {
 }
 
 try {
+    // Verify doctor owns this record
+    $stmt = $conn->prepare("SELECT maBacSi FROM bacsi WHERE nguoiDungId = ?");
+    $stmt->bind_param("i", $_SESSION['id']);
+    $stmt->execute();
+    $maBacSi = $stmt->get_result()->fetch_assoc()['maBacSi'] ?? null;
+    $stmt->close();
+
+    if (!$maBacSi) {
+        echo json_encode(['success' => false, 'message' => 'Không tìm thấy bác sĩ']);
+        exit;
+    }
+
     $sql = "SELECT h.maHoSo, h.ngayTao, h.ngayHoanThanh, h.chanDoan, h.dieuTri, h.trangThai,
             bn.tenBenhNhan, bn.ngaySinh, bn.gioiTinh,
             l.ngayKham, c.tenCa
@@ -28,10 +32,10 @@ try {
             JOIN benhnhan bn ON h.maBenhNhan = bn.maBenhNhan
             LEFT JOIN lichkham l ON h.maLichKham = l.maLichKham
             LEFT JOIN calamviec c ON l.maCa = c.maCa
-            WHERE h.maHoSo = ?";
+            WHERE h.maHoSo = ? AND h.maBacSi = ?";
     
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $maHoSo);
+    $stmt->bind_param("ss", $maHoSo, $maBacSi);
     $stmt->execute();
     $result = $stmt->get_result();
     
