@@ -21,11 +21,12 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 10%, #f8f9fa 100%);
             min-height: 100vh;
         }
 
+        /* Mobile Overlay */
         .mobile-overlay {
             display: none;
             position: fixed;
@@ -44,6 +45,7 @@
             opacity: 1;
         }
 
+        /* Sidebar */
         .sidebar {
             position: fixed;
             top: 0;
@@ -153,12 +155,14 @@
             background: #0a95d0;
         }
 
+        /* Main Content */
         .main-content {
             margin-left: var(--sidebar-width);
             min-height: 100vh;
             transition: margin-left 0.3s;
         }
 
+        /* Top Bar */
         .top-bar {
             background: white;
             padding: 15px 30px;
@@ -181,6 +185,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-left: auto;
         }
 
         .top-bar h5 {
@@ -196,7 +201,6 @@
             font-size: 1.5rem;
             color: var(--primary-purple);
             cursor: pointer;
-            padding: 5px;
         }
 
         .notification-icon {
@@ -256,22 +260,24 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
-            transition: 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
         }
 
         .logout-btn-desktop:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px #b7a3cb;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
+        /* Content Area */
         .content-area {
             padding: 30px;
         }
 
+        /* Statistics Cards */
         .stats-row {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -285,9 +291,9 @@
             padding: 25px;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
-            text-align: center;
             position: relative;
             overflow: hidden;
+            cursor: pointer;
         }
 
         .stat-card::before {
@@ -301,7 +307,7 @@
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
         }
 
         .stat-card.total::before {
@@ -323,7 +329,7 @@
         .stat-icon {
             width: 60px;
             height: 60px;
-            margin: 0 auto 15px;
+            margin: 0 0 15px;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -337,22 +343,21 @@
             font-size: 2rem;
             font-weight: 700;
             color: #333;
+            margin-bottom: 5px;
         }
 
         .stat-label {
             color: #666;
-            font-weight: 500;
-            margin-top: 5px;
             font-size: 0.95rem;
         }
 
+        /* Section Card */
         .section-card {
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
-            overflow: hidden;
         }
 
         .card-header h5 {
@@ -366,8 +371,9 @@
             gap: 10px;
         }
 
+        /* Filter Bar */
         .filter-bar {
-            background: #f6f9fc;
+            background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
@@ -408,6 +414,7 @@
             box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
         }
 
+        /* Table */
         .table-responsive {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -542,6 +549,31 @@
             transform: translateY(-2px);
         }
 
+        /* Loading & Empty State */
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Pagination */
         .pagination-container {
             display: flex;
             justify-content: space-between;
@@ -572,6 +604,7 @@
             border-color: var(--primary-purple);
         }
 
+        /* Scroll to Top Button */
         #scrollTopBtn {
             position: fixed;
             bottom: 25px;
@@ -601,6 +634,7 @@
             transform: translateY(-2px);
         }
 
+        /* Modal */
         .modal-content {
             border-radius: 15px;
             border: none;
@@ -623,6 +657,7 @@
             font-weight: 600;
             color: #667eea;
             margin-bottom: 5px;
+            display: block;
         }
 
         .info-group p {
@@ -630,6 +665,7 @@
             color: #333;
         }
 
+        /* Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 right: 0;
@@ -668,18 +704,6 @@
                 font-size: 0.9rem;
             }
 
-            .content-area {
-                padding: 20px 15px;
-            }
-
-            .section-card {
-                padding: 15px;
-            }
-
-            .stats-row {
-                grid-template-columns: 1fr;
-            }
-
             .logout-header {
                 display: none;
             }
@@ -692,6 +716,27 @@
                 margin: 5px 0;
             }
 
+            .content-area {
+                padding: 20px 15px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .section-card {
+                padding: 15px;
+            }
+
+            .filter-bar {
+                padding: 15px;
+            }
+
             .table-responsive {
                 margin: 15px -15px;
                 padding: 0 15px;
@@ -699,7 +744,7 @@
 
             .custom-table {
                 font-size: 0.85rem;
-                min-width: 600px;
+                min-width: 700px;
             }
 
             .custom-table thead th,
@@ -711,10 +756,6 @@
                 padding: 5px 8px;
                 font-size: 0.8rem;
                 margin: 2px;
-            }
-
-            .filter-bar {
-                padding: 15px;
             }
 
             .pagination-container {
@@ -764,7 +805,9 @@
     <div class="main-content">
         <div class="top-bar">
             <div class="top-bar-left">
-                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <h5><i class="fas fa-file-medical me-2"></i>Hồ Sơ Bệnh Án</h5>
             </div>
             <div class="top-bar-right">
@@ -772,16 +815,16 @@
                     <i class="fas fa-bell"></i>
                     <span class="badge" id="topNotifBadge" style="display:none;">0</span>
                 </a>
-            </div>
-            <div class="logout-header">
-                <div class="user-avatar">BS</div>
-                <div class="user-details">
-                    <div class="user-name" id="doctorName">Đang tải...</div>
-                    <div class="user-role">Bác sĩ</div>
+                <div class="logout-header">
+                    <div class="user-avatar">BS</div>
+                    <div class="user-details">
+                        <div class="user-name" id="doctorName">Đang tải...</div>
+                        <div class="user-role">Bác sĩ</div>
+                    </div>
+                    <button class="logout-btn-desktop" onclick="logout()">
+                        <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                    </button>
                 </div>
-                <button class="logout-btn-desktop" onclick="logout()">
-                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
-                </button>
             </div>
         </div>
 
@@ -819,19 +862,19 @@
                         <div class="col-md-5">
                             <div class="search-box">
                                 <i class="fas fa-search"></i>
-                                <input type="text" class="form-control" id="searchPending" placeholder="Tìm bệnh nhân...">
+                                <input type="text" class="form-control" id="searchPending" placeholder="Tìm bệnh nhân..." oninput="applyPendingFilters()">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="sortPending">
+                            <select class="form-select" id="sortPending" onchange="applyPendingFilters()">
                                 <option value="newest">Mới nhất</option>
                                 <option value="oldest">Cũ nhất</option>
                                 <option value="name">Tên A-Z</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-primary w-100" onclick="applyPendingFilters()">
-                                <i class="fas fa-filter me-1"></i>Lọc
+                            <button class="btn btn-secondary w-100" onclick="resetPendingFilters()">
+                                <i class="fas fa-redo me-1"></i>Đặt lại
                             </button>
                         </div>
                         <div class="col-md-2">
@@ -842,7 +885,7 @@
                     </div>
                 </div>
 
-                <div id="loadingPending" class="text-center py-5" style="display: none;">
+                <div id="loadingPending" class="loading" style="display: none;">
                     <div class="spinner-border text-primary"></div>
                     <p class="mt-3">Đang tải...</p>
                 </div>
@@ -879,25 +922,25 @@
                         <div class="col-md-6">
                             <div class="search-box">
                                 <i class="fas fa-search"></i>
-                                <input type="text" class="form-control" id="searchCompleted" placeholder="Tìm bệnh nhân...">
+                                <input type="text" class="form-control" id="searchCompleted" placeholder="Tìm bệnh nhân..." oninput="applyCompletedFilters()">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="sortCompleted">
+                            <select class="form-select" id="sortCompleted" onchange="applyCompletedFilters()">
                                 <option value="newest">Mới nhất</option>
                                 <option value="oldest">Cũ nhất</option>
                                 <option value="name">Tên A-Z</option>
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-primary w-100" onclick="applyCompletedFilters()">
-                                <i class="fas fa-filter me-1"></i>Lọc
+                            <button class="btn btn-secondary w-100" onclick="resetCompletedFilters()">
+                                <i class="fas fa-redo me-1"></i>Đặt lại
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div id="loadingCompleted" class="text-center py-5" style="display: none;">
+                <div id="loadingCompleted" class="loading" style="display: none;">
                     <div class="spinner-border text-primary"></div>
                     <p class="mt-3">Đang tải...</p>
                 </div>
@@ -925,6 +968,7 @@
         </div>
     </div>
 
+    <!-- Modal xem chi tiết -->
     <div class="modal fade" id="recordModal" tabindex="-1">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
@@ -937,6 +981,7 @@
         </div>
     </div>
 
+    <!-- Modal tạo mới -->
     <div class="modal fade" id="createModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -971,6 +1016,36 @@
         </div>
     </div>
 
+    <!-- Modal chỉnh sửa -->
+    <div class="modal fade" id="editModal" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hoàn thành hồ sơ bệnh án</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="editPatientInfo" class="alert alert-info mb-3"></div>
+                    <form id="editForm">
+                        <input type="hidden" id="editMaHoSo">
+                        <div class="mb-3">
+                            <label class="form-label">Chẩn đoán <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="editDiagnosis" rows="3" required></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Điều trị <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="editTreatment" rows="3" required></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" onclick="updateRecord()">Hoàn thành</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <button id="scrollTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
         <span>▲</span>
     </button>
@@ -991,6 +1066,7 @@
             loadCompletedRecords();
             loadUnreadNotificationsCount();
             
+            // Mobile menu
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
             const mobileOverlay = document.getElementById('mobileOverlay');
@@ -1014,18 +1090,23 @@
                 });
             });
 
+            // Scroll to top
             window.onscroll = () => {
                 const btn = document.getElementById('scrollTopBtn');
                 btn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? 'flex' : 'none';
             };
-
+            
+            // Auto refresh notification count
             setInterval(loadUnreadNotificationsCount, 30000);
         });
 
         async function loadDoctorInfo() {
             try {
-                const response = await fetch(`${API_BASE}/get-doctor-info.php`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-doctor-info.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
+                
                 if (data.success) {
                     const doctorName = data.data.tenBacSi || 'Bác sĩ';
                     document.getElementById('doctorName').textContent = doctorName;
@@ -1039,7 +1120,7 @@
                     handleSessionExpired(data.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading doctor info:', error);
                 handleSessionExpired("fetch_failed");
             }
         }
@@ -1067,8 +1148,11 @@
 
         async function loadStatistics() {
             try {
-                const response = await fetch(`${API_BASE}/get-record-statistics.php`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-record-statistics.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
+                
                 if (data.success) {
                     animateNumber('totalRecords', data.data.totalRecords);
                     animateNumber('pendingRecords', data.data.pendingRecords);
@@ -1078,26 +1162,30 @@
                     handleSessionExpired(data.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading statistics:', error);
                 handleSessionExpired("fetch_failed");
             }
         }
 
         async function loadPendingRecords() {
             showLoading('loadingPending', true);
+            
             try {
-                const response = await fetch(`${API_BASE}/get-pending-records.php`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-pending-records.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
+                
                 if (data.success) {
                     allPending = data.data;
                     filteredPending = [...allPending];
                     displayPendingRecords();
                 } else {
-                    showError('pendingList', data.message, 6);
+                    showEmptyState('pendingList', 'Không có hồ sơ cần hoàn thành', 6);
                     handleSessionExpired(data.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading pending records:', error);
                 showError('pendingList', 'Lỗi kết nối server', 6);
                 handleSessionExpired("fetch_failed");
             } finally {
@@ -1107,19 +1195,23 @@
 
         async function loadCompletedRecords() {
             showLoading('loadingCompleted', true);
+            
             try {
-                const response = await fetch(`${API_BASE}/get-completed-records.php`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-completed-records.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
+                
                 if (data.success) {
                     allCompleted = data.data;
                     filteredCompleted = [...allCompleted];
                     displayCompletedRecords();
                 } else {
-                    showError('completedList', data.message, 5);
+                    showEmptyState('completedList', 'Chưa có hồ sơ đã hoàn thành', 5);
                     handleSessionExpired(data.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading completed records:', error);
                 showError('completedList', 'Lỗi kết nối server', 5);
                 handleSessionExpired("fetch_failed");
             } finally {
@@ -1136,7 +1228,7 @@
             document.getElementById('pendingBadge').textContent = filteredPending.length;
             
             if (pageData.length === 0) {
-                container.innerHTML = '<tr><td colspan="6" class="text-center py-5">Không có hồ sơ chưa hoàn thành</td></tr>';
+                showEmptyState('pendingList', filteredPending.length === 0 ? 'Không có hồ sơ cần hoàn thành' : 'Không tìm thấy kết quả phù hợp', 6);
                 updatePagination('pending');
                 return;
             }
@@ -1155,7 +1247,7 @@
                     </td>
                     <td><span class="status-badge status-pending"><i class="fas fa-clock me-1"></i>Chưa hoàn thành</span></td>
                     <td>
-                        <button class="btn-action btn-edit" onclick="editRecord('${record.maHoSo}')" title="Hoàn thành">
+                        <button class="btn-action btn-edit" onclick="showEditModal('${record.maHoSo}')" title="Hoàn thành">
                             <i class="fas fa-edit"></i>
                         </button>
                         <button class="btn-action btn-view" onclick="viewRecord('${record.maHoSo}')" title="Xem chi tiết">
@@ -1175,7 +1267,7 @@
             const pageData = filteredCompleted.slice(start, end);
             
             if (pageData.length === 0) {
-                container.innerHTML = '<tr><td colspan="5" class="text-center py-5">Không có hồ sơ đã hoàn thành</td></tr>';
+                showEmptyState('completedList', filteredCompleted.length === 0 ? 'Chưa có hồ sơ đã hoàn thành' : 'Không tìm thấy kết quả phù hợp', 5);
                 updatePagination('completed');
                 return;
             }
@@ -1187,7 +1279,7 @@
                         <div class="patient-name">${record.tenBenhNhan}</div>
                         <div class="patient-info">${record.gioiTinh} - ${calculateAge(record.ngaySinh)} tuổi</div>
                     </td>
-                    <td>${formatDate(record.ngayHoanThanh)}</td>
+                    <td>${formatDateTime(record.ngayHoanThanh)}</td>
                     <td>${truncate(record.chanDoan, 50)}</td>
                     <td>
                         <button class="btn-action btn-view" onclick="viewRecord('${record.maHoSo}')" title="Xem chi tiết">
@@ -1213,6 +1305,13 @@
             
             const start = (currentPage - 1) * itemsPerPage + 1;
             const end = Math.min(currentPage * itemsPerPage, data.length);
+            
+            if (data.length === 0) {
+                info.textContent = 'Hiển thị 0 - 0 của 0 hồ sơ';
+                container.innerHTML = '';
+                return;
+            }
+            
             info.textContent = `Hiển thị ${start} - ${end} của ${data.length} hồ sơ`;
             
             let html = `
@@ -1264,7 +1363,9 @@
             const search = document.getElementById('searchPending').value.toLowerCase();
             const sort = document.getElementById('sortPending').value;
             
-            filteredPending = allPending.filter(r => r.tenBenhNhan.toLowerCase().includes(search));
+            filteredPending = allPending.filter(r => 
+                r.tenBenhNhan.toLowerCase().includes(search)
+            );
             
             filteredPending.sort((a, b) => {
                 if (sort === 'newest') return new Date(b.ngayTao) - new Date(a.ngayTao);
@@ -1277,11 +1378,21 @@
             displayPendingRecords();
         }
 
+        function resetPendingFilters() {
+            document.getElementById('searchPending').value = '';
+            document.getElementById('sortPending').value = 'newest';
+            filteredPending = [...allPending];
+            pendingPage = 1;
+            displayPendingRecords();
+        }
+
         function applyCompletedFilters() {
             const search = document.getElementById('searchCompleted').value.toLowerCase();
             const sort = document.getElementById('sortCompleted').value;
             
-            filteredCompleted = allCompleted.filter(r => r.tenBenhNhan.toLowerCase().includes(search));
+            filteredCompleted = allCompleted.filter(r => 
+                r.tenBenhNhan.toLowerCase().includes(search)
+            );
             
             filteredCompleted.sort((a, b) => {
                 if (sort === 'newest') return new Date(b.ngayHoanThanh) - new Date(a.ngayHoanThanh);
@@ -1294,9 +1405,19 @@
             displayCompletedRecords();
         }
 
+        function resetCompletedFilters() {
+            document.getElementById('searchCompleted').value = '';
+            document.getElementById('sortCompleted').value = 'newest';
+            filteredCompleted = [...allCompleted];
+            completedPage = 1;
+            displayCompletedRecords();
+        }
+
         async function viewRecord(maHoSo) {
             try {
-                const response = await fetch(`${API_BASE}/get-record-detail.php?maHoSo=${maHoSo}`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-record-detail.php?maHoSo=${maHoSo}`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
                 
                 if (data.success) {
@@ -1325,7 +1446,7 @@
                             <div class="col-md-6">
                                 <div class="info-group">
                                     <label><i class="fas fa-calendar-check me-2"></i>Lịch khám</label>
-                                    <p>${formatDate(r.ngayKham)} - ${r.tenCa}</p>
+                                    <p>${r.ngayKham ? formatDate(r.ngayKham) + ' - ' + r.tenCa : 'Không có thông tin'}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -1341,40 +1462,69 @@
                                     <p>${formatDateTime(r.ngayHoanThanh)}</p>
                                 </div>
                             </div>` : ''}
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <label><i class="fas fa-info-circle me-2"></i>Trạng thái</label>
+                                    <p><span class="status-badge ${r.trangThai === 'Đã hoàn thành' ? 'status-completed' : 'status-pending'}">
+                                        ${r.trangThai}
+                                    </span></p>
+                                </div>
+                            </div>
                             <div class="col-12">
                                 <div class="info-group">
                                     <label><i class="fas fa-stethoscope me-2"></i>Chẩn đoán</label>
-                                    <p>${r.chanDoan || 'Chưa có'}</p>
+                                    <p>${r.chanDoan || 'Chưa có thông tin'}</p>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="info-group">
                                     <label><i class="fas fa-pills me-2"></i>Điều trị</label>
-                                    <p>${r.dieuTri || 'Chưa có'}</p>
+                                    <p>${r.dieuTri || 'Chưa có thông tin'}</p>
                                 </div>
                             </div>
+                            ${r.ghiChu ? `
+                            <div class="col-12">
+                                <div class="info-group">
+                                    <label><i class="fas fa-comment-medical me-2"></i>Ghi chú</label>
+                                    <p>${r.ghiChu}</p>
+                                </div>
+                            </div>` : ''}
                         </div>
                     `;
                     new bootstrap.Modal(document.getElementById('recordModal')).show();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể tải thông tin hồ sơ');
                 }
             } catch (error) {
+                console.error('Error viewing record:', error);
                 showAlert('error', 'Lỗi khi tải thông tin hồ sơ');
             }
         }
 
-        async function editRecord(maHoSo) {
+        async function showEditModal(maHoSo) {
             const record = allPending.find(r => r.maHoSo === maHoSo);
             if (!record) return;
             
-            const diagnosis = prompt('Chẩn đoán:', record.chanDoan || '');
-            if (diagnosis === null) return;
+            document.getElementById('editMaHoSo').value = maHoSo;
+            document.getElementById('editDiagnosis').value = record.chanDoan || '';
+            document.getElementById('editTreatment').value = record.dieuTri || '';
             
-            const treatment = prompt('Điều trị:', record.dieuTri || '');
-            if (treatment === null) return;
+            document.getElementById('editPatientInfo').innerHTML = `
+                <strong><i class="fas fa-info-circle me-2"></i>Thông tin bệnh nhân:</strong><br>
+                <strong>Tên:</strong> ${record.tenBenhNhan}<br>
+                <strong>Giới tính:</strong> ${record.gioiTinh} - <strong>Tuổi:</strong> ${calculateAge(record.ngaySinh)}<br>
+                <strong>Lịch khám:</strong> ${formatDate(record.ngayKham)} - ${record.tenCa}
+            `;
             
-            if (!diagnosis.trim() || !treatment.trim()) {
+            new bootstrap.Modal(document.getElementById('editModal')).show();
+        }
+
+        async function updateRecord() {
+            const maHoSo = document.getElementById('editMaHoSo').value;
+            const chanDoan = document.getElementById('editDiagnosis').value.trim();
+            const dieuTri = document.getElementById('editTreatment').value.trim();
+            
+            if (!chanDoan || !dieuTri) {
                 showAlert('error', 'Vui lòng nhập đầy đủ thông tin!');
                 return;
             }
@@ -1384,25 +1534,28 @@
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     credentials: 'include',
-                    body: JSON.stringify({maHoSo, chanDoan: diagnosis, dieuTri: treatment})
+                    body: JSON.stringify({maHoSo, chanDoan, dieuTri})
                 });
                 
                 const data = await response.json();
                 if (data.success) {
-                    showAlert('success', 'Cập nhật hồ sơ thành công!');
+                    showAlert('success', 'Hoàn thành hồ sơ thành công!');
+                    bootstrap.Modal.getInstance(document.getElementById('editModal')).hide();
+                    document.getElementById('editForm').reset();
                     loadStatistics();
                     loadPendingRecords();
                     loadCompletedRecords();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể cập nhật hồ sơ');
                 }
             } catch (error) {
+                console.error('Error updating record:', error);
                 showAlert('error', 'Lỗi kết nối server');
             }
         }
 
         async function deleteRecord(maHoSo) {
-            if (!confirm('Bạn có chắc muốn xóa hồ sơ này?')) return;
+            if (!confirm('Bạn có chắc muốn xóa hồ sơ này? Hành động này không thể hoàn tác.')) return;
             
             try {
                 const response = await fetch(`${API_BASE}/delete-record.php`, {
@@ -1414,57 +1567,69 @@
                 
                 const data = await response.json();
                 if (data.success) {
-                    showAlert('success', 'Đã xóa hồ sơ!');
+                    showAlert('success', 'Đã xóa hồ sơ thành công!');
                     loadStatistics();
                     loadCompletedRecords();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể xóa hồ sơ');
                 }
             } catch (error) {
+                console.error('Error deleting record:', error);
                 showAlert('error', 'Lỗi kết nối server');
             }
         }
 
         async function showCreateModal() {
             try {
-                const response = await fetch(`${API_BASE}/get-available-appointments.php`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-available-appointments.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
                 
                 if (data.success && data.data.length > 0) {
                     const select = document.getElementById('appointmentSelect');
                     select.innerHTML = '<option value="">-- Chọn lịch khám --</option>' + 
-                        data.data.map(apt => `<option value="${apt.maLichKham}">${apt.tenBenhNhan} - ${formatDate(apt.ngayKham)} - ${apt.tenCa}</option>`).join('');
+                        data.data.map(apt => `
+                            <option value="${apt.maLichKham}" 
+                                data-name="${apt.tenBenhNhan}"
+                                data-gender="${apt.gioiTinh}"
+                                data-birth="${apt.ngaySinh}"
+                                data-date="${apt.ngayKham}"
+                                data-shift="${apt.tenCa}">
+                                ${apt.tenBenhNhan} - ${formatDate(apt.ngayKham)} - ${apt.tenCa}
+                            </option>
+                        `).join('');
                     
                     select.onchange = function() {
+                        const patientInfo = document.getElementById('patientInfo');
                         if (this.value) {
-                            const apt = data.data.find(a => a.maLichKham == this.value);
-                            if (apt) {
-                                document.getElementById('patientInfo').style.display = 'block';
-                                document.getElementById('patientInfo').innerHTML = `
-                                    <strong><i class="fas fa-info-circle me-2"></i>Thông tin bệnh nhân:</strong><br>
-                                    <strong>Tên:</strong> ${apt.tenBenhNhan}<br>
-                                    <strong>Giới tính:</strong> ${apt.gioiTinh} - <strong>Tuổi:</strong> ${calculateAge(apt.ngaySinh)}<br>
-                                    <strong>Lịch khám:</strong> ${formatDate(apt.ngayKham)} - ${apt.tenCa}
-                                `;
-                            }
+                            const option = this.options[this.selectedIndex];
+                            patientInfo.style.display = 'block';
+                            patientInfo.innerHTML = `
+                                <strong><i class="fas fa-info-circle me-2"></i>Thông tin bệnh nhân:</strong><br>
+                                <strong>Tên:</strong> ${option.dataset.name}<br>
+                                <strong>Giới tính:</strong> ${option.dataset.gender} - <strong>Tuổi:</strong> ${calculateAge(option.dataset.birth)}<br>
+                                <strong>Lịch khám:</strong> ${formatDate(option.dataset.date)} - ${option.dataset.shift}
+                            `;
                         } else {
-                            document.getElementById('patientInfo').style.display = 'none';
+                            patientInfo.style.display = 'none';
                         }
                     };
                     
                     new bootstrap.Modal(document.getElementById('createModal')).show();
                 } else {
-                    showAlert('error', 'Không có lịch khám nào để tạo hồ sơ');
+                    showAlert('info', 'Không có lịch khám nào có thể tạo hồ sơ. Chỉ có thể tạo hồ sơ cho các lịch khám đã hoàn thành và chưa có hồ sơ.');
                 }
             } catch (error) {
+                console.error('Error loading appointments:', error);
                 showAlert('error', 'Lỗi khi tải danh sách lịch khám');
             }
         }
 
         async function createRecord() {
             const maLichKham = document.getElementById('appointmentSelect').value;
-            const chanDoan = document.getElementById('diagnosis').value;
-            const dieuTri = document.getElementById('treatment').value;
+            const chanDoan = document.getElementById('diagnosis').value.trim();
+            const dieuTri = document.getElementById('treatment').value.trim();
             
             if (!maLichKham || !chanDoan || !dieuTri) {
                 showAlert('error', 'Vui lòng điền đầy đủ thông tin!');
@@ -1481,21 +1646,24 @@
                 
                 const data = await response.json();
                 if (data.success) {
-                    showAlert('success', 'Tạo hồ sơ thành công!');
+                    showAlert('success', 'Tạo hồ sơ bệnh án thành công!');
                     bootstrap.Modal.getInstance(document.getElementById('createModal')).hide();
                     document.getElementById('createForm').reset();
                     document.getElementById('patientInfo').style.display = 'none';
                     loadStatistics();
                     loadPendingRecords();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể tạo hồ sơ');
                 }
             } catch (error) {
+                console.error('Error creating record:', error);
                 showAlert('error', 'Lỗi kết nối server');
             }
         }
 
+        // Utility Functions
         function calculateAge(birthDate) {
+            if (!birthDate) return 'N/A';
             const birth = new Date(birthDate);
             const today = new Date();
             let age = today.getFullYear() - birth.getFullYear();
@@ -1507,13 +1675,21 @@
         function formatDate(dateStr) {
             if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
-            return date.toLocaleDateString('vi-VN');
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
         }
 
         function formatDateTime(dateStr) {
             if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
-            return date.toLocaleString('vi-VN');
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${day}/${month}/${year} ${hours}:${minutes}`;
         }
 
         function truncate(str, length) {
@@ -1523,6 +1699,8 @@
 
         function animateNumber(elementId, targetNumber) {
             const element = document.getElementById(elementId);
+            if (!element) return;
+            
             let currentNumber = 0;
             const increment = targetNumber / 50;
             const duration = 1000;
@@ -1540,20 +1718,53 @@
         }
 
         function showLoading(id, show) {
-            document.getElementById(id).style.display = show ? 'block' : 'none';
+            const loadingEl = document.getElementById(id);
+            if (loadingEl) {
+                loadingEl.style.display = show ? 'block' : 'none';
+            }
         }
 
         function showError(containerId, message, colspan) {
-            document.getElementById(containerId).innerHTML = 
-                `<tr><td colspan="${colspan}" class="text-center py-5 text-danger">${message}</td></tr>`;
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="${colspan}" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-exclamation-circle"></i>
+                                <p class="text-danger">${message}</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        function showEmptyState(containerId, message, colspan) {
+            const container = document.getElementById(containerId);
+            if (container) {
+                container.innerHTML = `
+                    <tr>
+                        <td colspan="${colspan}" class="text-center py-5">
+                            <div class="empty-state">
+                                <i class="fas fa-folder-open"></i>
+                                <p>${message}</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            }
         }
 
         function showAlert(type, message) {
             const alertDiv = document.createElement('div');
             const alertType = type === 'success' ? 'success' : type === 'info' ? 'info' : 'danger';
             alertDiv.className = `alert alert-${alertType} alert-dismissible fade show position-fixed`;
-            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
-            alertDiv.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px; max-width: 500px;';
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
             document.body.appendChild(alertDiv);
             setTimeout(() => alertDiv.remove(), 5000);
         }
@@ -1589,7 +1800,7 @@
                 msg.includes('Chưa đăng nhập')
             ) {
                 showAlert('error', 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
-                setTimeout(() => window.location.href = '../auth/login.html', 500);
+                setTimeout(() => window.location.href = '../auth/login.html', 1500);
             }
         }
     </script>

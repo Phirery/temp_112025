@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông Báo</title>
+    <title>Thông báo - Hệ thống Bác Sĩ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -97,6 +97,7 @@
             color: white;
             text-decoration: none;
             transition: all 0.3s;
+            position: relative;
         }
 
         .sidebar-menu a:hover,
@@ -110,6 +111,46 @@
             width: 25px;
             margin-right: 12px;
             font-size: 1.1rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            right: 20px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .user-logout-item {
+            display: none;
+        }
+
+        .user-info-sidebar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout-btn-sidebar {
+            padding: 8px 15px;
+            background: #00b3ff;
+            color: white;
+            border: 1px solid #1f79ae;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn-sidebar:hover {
+            background: #0a95d0;
         }
 
         .main-content {
@@ -136,6 +177,12 @@
             gap: 15px;
         }
 
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .top-bar h5 {
             margin: 0;
             color: #333;
@@ -149,36 +196,33 @@
             font-size: 1.5rem;
             color: var(--primary-purple);
             cursor: pointer;
-            padding: 5px;
         }
 
-        .user-info-sidebar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logout-btn-sidebar {
-            padding: 8px 15px;
-            background: #00b3ff;
-            color: white;
-            border: 1px solid #1f79ae;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s;
+        .notification-icon {
+            position: relative;
             cursor: pointer;
-            display: flex;
-            align-items: center;
+            font-size: 1.3rem;
+            color: var(--primary-purple);
+            padding: 5px 10px;
         }
 
-        .logout-btn-sidebar:hover {
-            background: #0a95d0;
+        .notification-icon .badge {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            min-width: 16px;
         }
 
         .logout-header {
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-left: auto;
         }
 
         .user-details {
@@ -188,6 +232,11 @@
         .user-name {
             font-weight: 600;
             font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #666;
         }
 
         .user-avatar {
@@ -206,20 +255,16 @@
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
-            transition: 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
         }
 
         .logout-btn-desktop:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px #b7a3cb;
-        }
-
-        .user-logout-item {
-            display: none;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
         .content-area {
@@ -235,43 +280,54 @@
 
         .stat-card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
         }
 
-        .stat-card.total {
-            border-left: 4px solid #3498db;
+        .stat-card.total::before {
+            background: #3498db;
         }
 
-        .stat-card.pending {
-            border-left: 4px solid #f39c12;
+        .stat-card.pending::before {
+            background: #f39c12;
         }
 
-        .stat-card.completed {
-            border-left: 4px solid #2ecc71;
+        .stat-card.completed::before {
+            background: #2ecc71;
         }
 
-        .stat-card.cancelled {
-            border-left: 4px solid #e74c3c;
+        .stat-card.cancelled::before {
+            background: #e74c3c;
         }
 
         .stat-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 10px;
-            border-radius: 10px;
+            width: 60px;
+            height: 60px;
+            margin: 0 0 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(0, 174, 239, 0.1));
             color: var(--primary-purple);
         }
@@ -279,22 +335,21 @@
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
-            color: #667eea;
+            color: #333;
+            margin-bottom: 5px;
         }
 
         .stat-label {
             color: #666;
-            font-weight: 500;
-            margin-top: 5px;
+            font-size: 0.95rem;
         }
 
         .section-card {
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
-            overflow: hidden;
         }
 
         .card-header {
@@ -302,10 +357,12 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .card-header h5 {
-            color: #667eea;
+            color: #333;
             font-weight: 700;
             margin: 0;
             display: flex;
@@ -319,7 +376,7 @@
         }
 
         .filter-bar {
-            background: #f6f9fc;
+            background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
@@ -366,7 +423,7 @@
 
         .notification-item {
             background: white;
-            border: 1px solid #e9ecef;
+            border: 2px solid #e9ecef;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 15px;
@@ -381,7 +438,7 @@
         }
 
         .notification-item.unread {
-            background: #f0f4ff;
+            background: linear-gradient(to right, #f0f4ff 0%, #ffffff 100%);
             border-left: 4px solid #667eea;
         }
 
@@ -394,6 +451,18 @@
             height: 10px;
             background: #667eea;
             border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.5;
+                transform: scale(1.1);
+            }
         }
 
         .notification-header {
@@ -401,6 +470,8 @@
             justify-content: space-between;
             align-items: flex-start;
             margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .notification-type {
@@ -436,6 +507,7 @@
             font-weight: 600;
             color: #333;
             margin-bottom: 5px;
+            font-size: 1.05rem;
         }
 
         .notification-text {
@@ -487,6 +559,13 @@
 
         .btn-delete:hover {
             background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #999;
         }
 
         .pagination-container {
@@ -544,6 +623,10 @@
             transform: scale(1.1);
         }
 
+        #scrollTopBtn span {
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 right: 0;
@@ -576,16 +659,10 @@
                 display: none;
             }
 
-            .content-area {
-                padding: 20px 15px;
-            }
-
-            .section-card {
-                padding: 15px;
-            }
-
-            .stats-row {
-                grid-template-columns: 1fr;
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
             }
 
             .logout-header {
@@ -598,6 +675,38 @@
                 justify-content: space-between;
                 padding: 12px 20px;
                 margin: 5px 0;
+            }
+
+            .content-area {
+                padding: 20px 15px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .section-card {
+                padding: 15px;
+            }
+
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .header-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+
+            .filter-bar {
+                padding: 15px;
             }
 
             .notification-item {
@@ -614,25 +723,18 @@
                 gap: 8px;
             }
 
-            .filter-bar {
-                padding: 15px;
-            }
-
-            .card-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .header-actions {
-                width: 100%;
-                justify-content: flex-end;
-            }
-
             .pagination-container {
                 flex-direction: column;
                 gap: 15px;
                 align-items: center;
+            }
+
+            #scrollTopBtn {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -641,22 +743,22 @@
     <div class="mobile-overlay" id="mobileOverlay"></div>
 
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header" onclick="window.location.href='dashboard.html'">
+        <div class="sidebar-header" onclick="window.location.href='../patient/homepage.html'">
             <h4><i class="fas fa-user-md"></i> Eden Doctor</h4>
             <p>Hệ thống bác sĩ</p>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-            <li><a href="lichkham.html"><i class="fas fa-calendar-check"></i> Lịch khám</a></li>
-            <li><a href="benhnhan.html"><i class="fas fa-user-injured"></i> Bệnh nhân</a></li>
-            <li><a href="hosobenhan.html"><i class="fas fa-file-medical"></i> Hồ sơ bệnh án</a></li>
-            <li><a href="thongbao.html" class="active">
-                <i class="fas fa-bell"></i> Thông báo 
-                <span class="badge bg-danger ms-2" id="sidebarBadge" style="display:none;">0</span>
-            </a></li>
+            <li><a href="dashboard.html"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
+            <li><a href="lichkham.html"><i class="fas fa-calendar-check"></i><span>Lịch khám</span></a></li>
+            <li><a href="benhnhan.html"><i class="fas fa-user-injured"></i><span>Bệnh nhân</span></a></li>
+            <li><a href="hosobenhan.html"><i class="fas fa-file-medical"></i><span>Hồ sơ bệnh án</span></a></li>
+            <li><a href="thongbao.html" class="active"><i class="fas fa-bell"></i><span>Thông báo</span><span class="notification-badge" id="sidebarNotifBadge" style="display:none;">0</span></a></li>
             <li class="user-logout-item">
                 <div class="user-info-sidebar">
                     <div class="user-avatar">BS</div>
+                    <div class="user-details">
+                        <div class="user-name" id="sidebarDoctorName">Bác sĩ</div>
+                    </div>
                 </div>
                 <button class="logout-btn-sidebar" onclick="logout()">
                     <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
@@ -668,13 +770,22 @@
     <div class="main-content">
         <div class="top-bar">
             <div class="top-bar-left">
-                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
-                <h5><i class="fas fa-bell me-2"></i>Thông Báo</h5>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h5><i class="fas fa-bell me-2"></i>Thông báo</h5>
+            </div>
+            <div class="top-bar-right">
+                <a href="thongbao.html" class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="topNotifBadge" style="display:none;">0</span>
+                </a>
             </div>
             <div class="logout-header">
                 <div class="user-avatar">BS</div>
                 <div class="user-details">
                     <div class="user-name" id="doctorName">Đang tải...</div>
+                    <div class="user-role">Bác sĩ</div>
                 </div>
                 <button class="logout-btn-desktop" onclick="logout()">
                     <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
@@ -708,7 +819,7 @@
 
             <div class="section-card">
                 <div class="card-header">
-                    <h5><i class="fas fa-list me-2"></i>Danh sách thông báo</h5>
+                    <h5><i class="fas fa-list me-2"></i>Danh sách thông báo <span class="badge bg-primary" id="totalDisplay">0</span></h5>
                     <div class="header-actions">
                         <button class="btn btn-sm btn-outline-primary" onclick="markAllAsRead()" title="Đánh dấu tất cả đã đọc">
                             <i class="fas fa-check-double"></i>
@@ -724,32 +835,32 @@
                         <div class="col-md-5">
                             <div class="search-box">
                                 <i class="fas fa-search"></i>
-                                <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm thông báo...">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm thông báo..." oninput="applyFilters()">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="typeFilter">
+                            <select class="form-select" id="typeFilter" onchange="applyFilters()">
                                 <option value="">Tất cả loại</option>
                                 <option value="Đặt lịch">Đặt lịch</option>
                                 <option value="Hủy lịch">Hủy lịch</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="form-select" id="statusFilter">
+                            <select class="form-select" id="statusFilter" onchange="applyFilters()">
                                 <option value="">Tất cả</option>
                                 <option value="unread">Chưa đọc</option>
                                 <option value="read">Đã đọc</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-primary w-100" onclick="applyFilters()">
-                                <i class="fas fa-filter me-1"></i>Lọc
+                            <button class="btn btn-secondary w-100" onclick="resetFilters()">
+                                <i class="fas fa-redo me-1"></i>Đặt lại
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div id="loadingIndicator" class="text-center py-5" style="display: none;">
+                <div id="loadingIndicator" class="loading" style="display: none;">
                     <div class="spinner-border text-primary"></div>
                     <p class="mt-3">Đang tải...</p>
                 </div>
@@ -769,12 +880,13 @@
     </button>
 
     <audio id="notificationSound" preload="auto">
-        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZUQ0PWqPm77BfGQg+ltv0yXMmBS17y/DajjkIGGC28OivVhELTKXi8bllHAU2jdXzzn0pBSh+zPDZizcIGWe56+mhTg4PWKLl8LViFgo7kt37xW8hBTCF0PPTgjQGH2++8OKaUg0RXbDp7qxXFApHoN/yv2wiBTSK0/PQgC0GJnrJ8N6MOwgZZbjt56xZEwxRp+Lxt2MbBjqQ1/LLeS0FKoHN8dqIOQcYa7rt5qBNDg9Vo+Twt2IZCDyU2vPFcSQFMYjR89OCMwYfa771+KdXFA1Uqufwsmgdavsmnpzwwmggvkrly/DEZ_8IkLbl8rlhGAc1iVh0W2NWaxw1DYzDLOr_6MwO_RdmwPLajz4IFmTB7euoVBELTKPh8bhlGwU2jNXyzn4mBSp+y/DaiDcIG2aP8uShUg0QWaDl8bVjGgo7ktv0yG8hBS9/0PPSgjQGH2++8OKSUA0SXq_p7axWEgtGnt_yvmshBTOI0fPPfywGKHvI8N6MOwgaZbjt56tYEwtRp+Hxt2McBzmP1/LLeSwGKoHN8dmJOQcXa7rs5qFNDg9Wo+Tws2IaCD2T2vPEcSUFMojR89OCMwYfa771+KhUFA5Tqebus2kdBj+Y2/LEaiYFLYHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2RQAkUXrXp66hVFApFn+DyvmwhBTGH0fPTgjMGHm7A7+OZUg0PWqPm77BfGQg+ltv0yXMmBS17y/DajjkIGGC28OivVhELTKXi8bllHAU2jdXzzn0pBSh+zPDZizcIGWe56+mhTg4PWKLl8LViFgo7kt37xW8hBTCF0PPTgjQGH2++8OKaUg0RXbDp7qxXFApHoN_yv2wiBTSK0_PQgC0GJnrJ8N6MOwgZZbjt56xZEwxRp+Hxt2MbBjqQ1/LLeS0FKoHN8dqIOQcYa7rt5qBNDg9Vo+Twt2IZCDyU2vPFcSQFMYjR89OCMwYfa771+KdXFA1Uqufwsmgd" type="audio/wav">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBTGH0fPTgjMGHm7A7+OZUQ0PWqPm77BfGQg+ltv0yXMmBS17y/DajjkIGGC28OivVhELTKXi8bllHAU2jdXzzn0pBSh+zPDZizcIGWe56+mhTg4PWKLl8LViFgo7kt37xW8hBTCF0PPTgjQGH2++8OKaUg0RXbDp7qxXFApHoN/yv2wiBTSK0/PQgC0GJnrJ8N6MOwgZZbjt56xZEwxRp+Lxt2MbBjqQ1/LLeS0FKoHN8dqIOQcYa7rt5qBNDg9Vo+Twt2IZCDyU2vPFcSQFMYjR89OCMwYfa771+KdXFA1Uqufwsmgd" type="audio/wav">
     </audio>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const API_BASE = 'http://localhost/DO_AN_1/code_doan1/src/backend/api/doctor';
+
         let currentPage = 1;
         const itemsPerPage = 10;
         let allNotifications = [];
@@ -786,8 +898,10 @@
             markPageAsViewed();
             loadDoctorInfo();
             loadNotifications();
+            loadUnreadNotificationsCount();
             startAutoRefresh();
             
+            // Mobile menu
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
             const mobileOverlay = document.getElementById('mobileOverlay');
@@ -802,27 +916,43 @@
                 mobileOverlay.classList.remove('active');
             });
 
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        mobileOverlay.classList.remove('active');
+                    }
+                });
+            });
+
+            // Scroll to top
             window.onscroll = () => {
                 const btn = document.getElementById('scrollTopBtn');
                 btn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? 'flex' : 'none';
             };
 
+            // Cleanup on page unload
             window.addEventListener('beforeunload', () => {
                 stopAutoRefresh();
             });
         });
 
-        function markPageAsViewed() {
-            fetch(`${API_BASE}/mark-notifications-viewed.php`, {
-                method: 'POST',
-                credentials: 'include'
-            });
+        async function markPageAsViewed() {
+            try {
+                await fetch(`${API_BASE}/mark-notifications-viewed.php`, {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+            } catch (error) {
+                console.error('Error marking notifications as viewed:', error);
+            }
         }
 
         function startAutoRefresh() {
             autoRefreshInterval = setInterval(() => {
                 loadNotifications(true);
-            }, 3000);
+                loadUnreadNotificationsCount();
+            }, 5000);
         }
 
         function stopAutoRefresh() {
@@ -833,13 +963,47 @@
 
         async function loadDoctorInfo() {
             try {
-                const response = await fetch(`${API_BASE}/get-doctor-info.php`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-doctor-info.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
+                
                 if (data.success) {
-                    document.getElementById('doctorName').textContent = data.data.tenBacSi;
+                    const doctorName = data.data.tenBacSi || 'Bác sĩ';
+                    document.getElementById('doctorName').textContent = doctorName;
+                    document.getElementById('sidebarDoctorName').textContent = doctorName;
+                    
+                    const firstLetters = doctorName.split(' ').slice(-2).map(w => w[0]).join('').toUpperCase();
+                    document.querySelectorAll('.user-avatar').forEach(el => {
+                        el.textContent = firstLetters;
+                    });
+                } else {
+                    handleSessionExpired(data.message);
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error loading doctor info:', error);
+                handleSessionExpired("fetch_failed");
+            }
+        }
+
+        async function loadUnreadNotificationsCount() {
+            try {
+                const response = await fetch(`${API_BASE}/get-unread-notifications-count.php`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.success && data.count > 0) {
+                    document.getElementById('topNotifBadge').textContent = data.count;
+                    document.getElementById('topNotifBadge').style.display = 'inline-block';
+                    document.getElementById('sidebarNotifBadge').textContent = data.count;
+                    document.getElementById('sidebarNotifBadge').style.display = 'inline-block';
+                } else {
+                    document.getElementById('topNotifBadge').style.display = 'none';
+                    document.getElementById('sidebarNotifBadge').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading notification count:', error);
             }
         }
 
@@ -847,12 +1011,15 @@
             if (!silent) showLoading(true);
             
             try {
-                const response = await fetch(`${API_BASE}/get-notifications.php`, {credentials: 'include'});
+                const response = await fetch(`${API_BASE}/get-notifications.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
                 
                 if (data.success) {
                     const newCount = data.data.filter(n => !n.daXem).length;
                     
+                    // Play sound only if new notifications arrived
                     if (!silent && newCount > lastNotificationCount && lastNotificationCount > 0) {
                         playNotificationSound();
                     }
@@ -863,13 +1030,18 @@
                     
                     updateStatistics();
                     displayNotifications();
-                    updateUnreadBadge();
                 } else {
-                    if (!silent) showError(data.message);
+                    if (!silent) {
+                        showError(data.message);
+                        handleSessionExpired(data.message);
+                    }
                 }
             } catch (error) {
-                console.error('Error:', error);
-                if (!silent) showError('Lỗi kết nối server');
+                console.error('Error loading notifications:', error);
+                if (!silent) {
+                    showError('Lỗi kết nối server');
+                    handleSessionExpired("fetch_failed");
+                }
             } finally {
                 if (!silent) showLoading(false);
             }
@@ -893,8 +1065,11 @@
             const end = start + itemsPerPage;
             const pageData = filteredNotifications.slice(start, end);
             
+            document.getElementById('totalDisplay').textContent = filteredNotifications.length;
+            
             if (pageData.length === 0) {
-                container.innerHTML = '<div class="text-center py-5 text-muted">Không có thông báo</div>';
+                container.innerHTML = '<div class="text-center py-5 text-muted"><i class="fas fa-inbox fa-3x mb-3"></i><p>Không có thông báo</p></div>';
+                updatePagination();
                 return;
             }
             
@@ -916,20 +1091,23 @@
                             <div class="notification-title">${notif.tieuDe}</div>
                             <div class="notification-text">${notif.noiDung}</div>
                         </div>
+                        ${notif.tenBenhNhan ? `
                         <div class="notification-details">
                             <div class="notification-detail">
                                 <i class="fas fa-user"></i>
                                 <span>${notif.tenBenhNhan}</span>
                             </div>
+                            ${notif.ngayKham ? `
                             <div class="notification-detail">
                                 <i class="fas fa-calendar"></i>
-                                <span>${notif.ngayKham}</span>
-                            </div>
+                                <span>${formatDate(notif.ngayKham)}</span>
+                            </div>` : ''}
+                            ${notif.tenCa ? `
                             <div class="notification-detail">
                                 <i class="fas fa-clock"></i>
                                 <span>${notif.tenCa}</span>
-                            </div>
-                        </div>
+                            </div>` : ''}
+                        </div>` : ''}
                         <div class="notification-actions" onclick="event.stopPropagation()">
                             <button class="btn-notif-action btn-delete" onclick="deleteNotification(${notif.maThongBao})">
                                 <i class="fas fa-trash"></i> Xóa
@@ -997,9 +1175,11 @@
             filteredNotifications = allNotifications.filter(notif => {
                 let match = true;
                 
-                if (search && !(notif.tieuDe.toLowerCase().includes(search) || 
+                if (search && !(
+                    notif.tieuDe.toLowerCase().includes(search) || 
                     notif.noiDung.toLowerCase().includes(search) ||
-                    notif.tenBenhNhan.toLowerCase().includes(search))) {
+                    (notif.tenBenhNhan && notif.tenBenhNhan.toLowerCase().includes(search))
+                )) {
                     match = false;
                 }
                 
@@ -1015,28 +1195,39 @@
             displayNotifications();
         }
 
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            filteredNotifications = [...allNotifications];
+            currentPage = 1;
+            displayNotifications();
+        }
+
         async function markAsRead(maThongBao) {
             try {
                 await fetch(`${API_BASE}/mark-notification-read.php`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify({maThongBao})
+                    body: JSON.stringify({ maThongBao })
                 });
                 
                 const notification = allNotifications.find(n => n.maThongBao === maThongBao);
-                if (notification) {
+                if (notification && !notification.daXem) {
                     notification.daXem = true;
                     updateStatistics();
                     displayNotifications();
-                    updateUnreadBadge();
+                    loadUnreadNotificationsCount();
                 }
             } catch (error) {
-                console.error('Error:', error);
+                console.error('Error marking as read:', error);
             }
         }
 
         async function markAllAsRead() {
+            if (!confirm('Đánh dấu tất cả thông báo là đã đọc?')) return;
+            
             try {
                 const response = await fetch(`${API_BASE}/mark-all-notifications-read.php`, {
                     method: 'POST',
@@ -1047,8 +1238,12 @@
                 if (data.success) {
                     showAlert('success', 'Đã đánh dấu tất cả đã đọc!');
                     loadNotifications();
+                    loadUnreadNotificationsCount();
+                } else {
+                    showAlert('error', data.message || 'Không thể thực hiện');
                 }
             } catch (error) {
+                console.error('Error:', error);
                 showAlert('error', 'Lỗi kết nối server');
             }
         }
@@ -1059,19 +1254,21 @@
             try {
                 const response = await fetch(`${API_BASE}/delete-notification.php`, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: { 'Content-Type': 'application/json' },
                     credentials: 'include',
-                    body: JSON.stringify({maThongBao})
+                    body: JSON.stringify({ maThongBao })
                 });
                 
                 const data = await response.json();
                 if (data.success) {
                     showAlert('success', 'Đã xóa thông báo!');
                     loadNotifications();
+                    loadUnreadNotificationsCount();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể xóa');
                 }
             } catch (error) {
+                console.error('Error:', error);
                 showAlert('error', 'Lỗi kết nối server');
             }
         }
@@ -1089,23 +1286,13 @@
                 if (data.success) {
                     showAlert('success', `Đã xóa ${data.deleted} thông báo!`);
                     loadNotifications();
+                    loadUnreadNotificationsCount();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể xóa');
                 }
             } catch (error) {
+                console.error('Error:', error);
                 showAlert('error', 'Lỗi kết nối server');
-            }
-        }
-
-        function updateUnreadBadge() {
-            const unreadCount = allNotifications.filter(n => !n.daXem).length;
-            const badge = document.getElementById('sidebarBadge');
-            
-            if (unreadCount > 0) {
-                badge.textContent = unreadCount;
-                badge.style.display = 'inline-block';
-            } else {
-                badge.style.display = 'none';
             }
         }
 
@@ -1122,7 +1309,21 @@
             if (diffHours < 24) return `${diffHours} giờ trước`;
             if (diffDays < 7) return `${diffDays} ngày trước`;
             
-            return date.toLocaleDateString('vi-VN');
+            return date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            });
         }
 
         function playNotificationSound() {
@@ -1133,12 +1334,13 @@
         function animateNumber(elementId, targetNumber) {
             const element = document.getElementById(elementId);
             let currentNumber = parseInt(element.textContent) || 0;
+            
+            if (currentNumber === targetNumber) return;
+            
             const increment = targetNumber > currentNumber ? 1 : -1;
             const duration = 500;
             const steps = Math.abs(targetNumber - currentNumber);
             const stepTime = steps > 0 ? duration / steps : 0;
-            
-            if (steps === 0) return;
             
             const timer = setInterval(() => {
                 currentNumber += increment;
@@ -1157,22 +1359,54 @@
 
         function showError(message) {
             document.getElementById('notificationsList').innerHTML = 
-                `<div class="text-center py-5 text-danger">${message}</div>`;
+                `<div class="text-center py-5 text-danger"><i class="fas fa-exclamation-triangle fa-3x mb-3"></i><p>${message}</p></div>`;
         }
 
         function showAlert(type, message) {
             const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
-            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            const alertType = type === 'success' ? 'success' : type === 'info' ? 'info' : 'danger';
+            alertDiv.className = `alert alert-${alertType} alert-dismissible fade show position-fixed`;
+            alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px; white-space: pre-line;';
             alertDiv.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
             document.body.appendChild(alertDiv);
             setTimeout(() => alertDiv.remove(), 5000);
         }
 
-        function logout() {
-            if (confirm('Bạn có chắc muốn đăng xuất?')) {
+        async function logout() {
+            if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+
+            stopAutoRefresh();
+
+            try {
+                const response = await fetch('http://localhost/DO_AN_1/code_doan1/src/backend/api/auth/logout.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = '../auth/login.html';
+                } else {
+                    showAlert('error', 'Không thể đăng xuất. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                showAlert('error', 'Lỗi khi đăng xuất');
+            }
+        }
+
+        function handleSessionExpired(msg) {
+            if (
+                !msg ||
+                msg === "fetch_failed" ||
+                msg.includes('Phiên đăng nhập') ||
+                msg.includes('Không có quyền') ||
+                msg.includes('Chưa đăng nhập')
+            ) {
                 stopAutoRefresh();
-                window.location.href = '../auth/login.html';
+                showAlert('error', 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
+                setTimeout(() => window.location.href = '../auth/login.html', 500);
             }
         }
     </script>

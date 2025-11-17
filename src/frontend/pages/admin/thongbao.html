@@ -21,7 +21,7 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 10%, #f8f9fa 100%);
             min-height: 100vh;
         }
@@ -97,6 +97,7 @@
             color: white;
             text-decoration: none;
             transition: all 0.3s;
+            position: relative;
         }
 
         .sidebar-menu a:hover,
@@ -110,6 +111,46 @@
             width: 25px;
             margin-right: 12px;
             font-size: 1.1rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            right: 20px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .user-logout-item {
+            display: none;
+        }
+
+        .user-info-sidebar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout-btn-sidebar {
+            padding: 8px 15px;
+            background: #00b3ff;
+            color: white;
+            border: 1px solid #1f79ae;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn-sidebar:hover {
+            background: #0a95d0;
         }
 
         .main-content {
@@ -136,6 +177,12 @@
             gap: 15px;
         }
 
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .top-bar h5 {
             margin: 0;
             color: #333;
@@ -149,36 +196,33 @@
             font-size: 1.5rem;
             color: var(--primary-purple);
             cursor: pointer;
-            padding: 5px;
         }
 
-        .user-info-sidebar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logout-btn-sidebar {
-            padding: 8px 15px;
-            background: #00b3ff;
-            color: white;
-            border: 1px solid #1f79ae;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s;
+        .notification-icon {
+            position: relative;
             cursor: pointer;
-            display: flex;
-            align-items: center;
+            font-size: 1.3rem;
+            color: var(--primary-purple);
+            padding: 5px 10px;
         }
 
-        .logout-btn-sidebar:hover {
-            background: #0a95d0;
+        .notification-icon .badge {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            min-width: 16px;
         }
 
-        .logout-header {
+        .logout-header {    
             display: flex;
             align-items: center;
             gap: 15px;
+            margin-left: auto;
         }
 
         .user-avatar {
@@ -193,24 +237,34 @@
             font-weight: 600;
         }
 
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
         .logout-btn-desktop {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 8px 18px;
+            padding: 8px 20px;
             border-radius: 25px;
             font-weight: 600;
-            transition: 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
         }
 
         .logout-btn-desktop:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px #b7a3cb;
-        }
-
-        .user-logout-item {
-            display: none;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
         .content-area {
@@ -226,43 +280,59 @@
 
         .stat-card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-purple), var(--primary-blue));
+        }
+
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 0 100%;
+            opacity: 0.1;
         }
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
         }
 
-        .stat-card.total {
-            border-left: 4px solid #3498db;
-        }
-
-        .stat-card.pending {
-            border-left: 4px solid #f39c12;
-        }
-
-        .stat-card.completed {
-            border-left: 4px solid #2ecc71;
-        }
-
-        .stat-card.cancelled {
-            border-left: 4px solid #e74c3c;
-        }
+        .stat-card.total::before {background: #3498db;}
+        .stat-card.pending::before {background: #f39c12;}
+        .stat-card.completed::before {background: #2ecc71;}
+        .stat-card.cancelled::before {background: #e74c3c;}
+        .stat-card.total::after {background: #3498db;}
+        .stat-card.pending::after {background: #f39c12;}
+        .stat-card.completed::after {background: #2ecc71;}
+        .stat-card.cancelled::after {background: #e74c3c;}
 
         .stat-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 10px;
-            border-radius: 10px;
+            width: 60px;
+            height: 60px;
+            margin: 0 0 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(0, 174, 239, 0.1));
             color: var(--primary-purple);
         }
@@ -270,22 +340,21 @@
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
-            color: #667eea;
+            color: #333;
+            margin-bottom: 5px;
         }
 
         .stat-label {
             color: #666;
-            font-weight: 500;
-            margin-top: 5px;
+            font-size: 0.95rem;
         }
 
         .section-card {
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             margin-bottom: 30px;
-            overflow: hidden;
         }
 
         .card-header {
@@ -293,10 +362,12 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
         }
 
         .card-header h5 {
-            color: #667eea;
+            color: #333;
             font-weight: 700;
             margin: 0;
             display: flex;
@@ -310,7 +381,7 @@
         }
 
         .filter-bar {
-            background: #f6f9fc;
+            background: #f8f9fa;
             padding: 20px;
             border-radius: 10px;
             margin: 20px 0;
@@ -480,6 +551,12 @@
             background: #c0392b;
         }
 
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+        }
+
         .pagination-container {
             display: flex;
             justify-content: space-between;
@@ -535,6 +612,10 @@
             transform: scale(1.1);
         }
 
+        #scrollTopBtn span {
+            transform: translateY(-2px);
+        }
+
         @media (max-width: 768px) {
             .sidebar {
                 right: 0;
@@ -562,20 +643,15 @@
                 font-size: 1rem;
             }
 
+            .user-details,
             .logout-btn-desktop {
                 display: none;
             }
 
-            .content-area {
-                padding: 20px 15px;
-            }
-
-            .section-card {
-                padding: 15px;
-            }
-
-            .stats-row {
-                grid-template-columns: 1fr;
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
             }
 
             .logout-header {
@@ -590,18 +666,21 @@
                 margin: 5px 0;
             }
 
-            .notification-item {
+            .content-area {
+                padding: 20px 15px;
+            }
+
+            .stats-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .section-card {
                 padding: 15px;
-            }
-
-            .notification-header {
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .notification-details {
-                flex-direction: column;
-                gap: 8px;
             }
 
             .filter-bar {
@@ -619,10 +698,32 @@
                 justify-content: flex-end;
             }
 
+            .notification-item {
+                padding: 15px;
+            }
+
+            .notification-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .notification-details {
+                flex-direction: column;
+                gap: 8px;
+            }
+
             .pagination-container {
                 flex-direction: column;
                 gap: 15px;
                 align-items: center;
+            }
+
+            #scrollTopBtn {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -631,25 +732,25 @@
     <div class="mobile-overlay" id="mobileOverlay"></div>
 
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header" onclick="window.location.href='dashboard.html'">
+        <div class="sidebar-header" onclick="window.location.href='../patient/index.html'">
             <h4><i class="fas fa-hospital-alt"></i> Eden Admin</h4>
             <p>Hệ thống quản trị</p>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-            <li><a href="quanlylichkham.html"><i class="fas fa-calendar-check"></i> Quản lý lịch khám</a></li>
-            <li><a href="quanlykhoa.html"><i class="fas fa-hospital"></i> Quản lý khoa</a></li>
-            <li><a href="quanlybenhnhan.html"><i class="fas fa-user-injured"></i> Quản lý bệnh nhân</a></li>
-            <li><a href="quanlybacsi.html"><i class="fas fa-user-md"></i> Quản lý bác sĩ</a></li>
-            <li><a href="thongke.html"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
-            <li><a href="quanlytaikhoan.html"><i class="fas fa-users-cog"></i> Quản lý tài khoản</a></li>
-            <li><a href="thongbao.html" class="active">
-                <i class="fas fa-bell"></i> Thông báo 
-                <span class="badge bg-danger ms-2" id="sidebarBadge" style="display:none;">0</span>
-            </a></li>
+            <li><a href="dashboard.html"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
+            <li><a href="quanlylichkham.html"><i class="fas fa-calendar-check"></i><span>Quản lý lịch khám</span></a></li>
+            <li><a href="quanlykhoa.html"><i class="fas fa-hospital"></i><span>Quản lý khoa</span></a></li>
+            <li><a href="quanlybenhnhan.html"><i class="fas fa-user-injured"></i><span>Quản lý bệnh nhân</span></a></li>
+            <li><a href="quanlybacsi.html"><i class="fas fa-user-md"></i><span>Quản lý bác sĩ</span></a></li>
+            <li><a href="thongke.html"><i class="fas fa-chart-bar"></i><span>Thống kê</span></a></li>
+            <li><a href="quanlytaikhoan.html"><i class="fas fa-users-cog"></i><span>Quản lý tài khoản</span></a></li>
+            <li><a href="thongbao.html" class="active"><i class="fas fa-bell"></i><span>Thông báo</span><span class="notification-badge" id="sidebarNotifBadge" style="display:none;">0</span></a></li>
             <li class="user-logout-item">
                 <div class="user-info-sidebar">
-                    <div class="user-avatar">A</div>
+                    <div class="user-avatar">A</div>                
+                    <div class="user-details">
+                        <div class="user-name" id="sidebarUserName">Admin</div>
+                    </div>
                 </div>
                 <button class="logout-btn-sidebar" onclick="logout()">
                     <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
@@ -661,11 +762,23 @@
     <div class="main-content">
         <div class="top-bar">
             <div class="top-bar-left">
-                <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
                 <h5><i class="fas fa-bell me-2"></i>Thông Báo</h5>
+            </div>
+            <div class="top-bar-right">
+                <a href="thongbao.html" class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="topNotifBadge" style="display:none;">0</span>
+                </a>
             </div>
             <div class="logout-header">
                 <div class="user-avatar">A</div>
+                <div class="user-details">
+                    <div class="user-name" id="adminName">Đang tải...</div>
+                    <div class="user-role">Quản trị viên</div>
+                </div>
                 <button class="logout-btn-desktop" onclick="logout()">
                     <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
                 </button>
@@ -714,32 +827,32 @@
                         <div class="col-md-5">
                             <div class="search-box">
                                 <i class="fas fa-search"></i>
-                                <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm thông báo...">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Tìm kiếm thông báo..." oninput="applyFilters()">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-select" id="typeFilter">
+                            <select class="form-select" id="typeFilter" onchange="applyFilters()">
                                 <option value="">Tất cả loại</option>
                                 <option value="Nghỉ phép">Nghỉ phép</option>
                                 <option value="Hủy nghỉ">Hủy nghỉ</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <select class="form-select" id="statusFilter">
+                            <select class="form-select" id="statusFilter" onchange="applyFilters()">
                                 <option value="">Tất cả</option>
                                 <option value="unread">Chưa đọc</option>
                                 <option value="read">Đã đọc</option>
                             </select>
                         </div>
                         <div class="col-md-2">
-                            <button class="btn btn-primary w-100" onclick="applyFilters()">
-                                <i class="fas fa-filter me-1"></i>Lọc
+                            <button class="btn btn-secondary w-100" onclick="resetFilters()">
+                                <i class="fas fa-redo me-1"></i>Đặt lại
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div id="loadingIndicator" class="text-center py-5" style="display: none;">
+                <div id="loadingIndicator" class="loading" style="display: none;">
                     <div class="spinner-border text-primary"></div>
                     <p class="mt-3">Đang tải...</p>
                 </div>
@@ -765,6 +878,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const API_BASE = 'http://localhost/DO_AN_1/code_doan1/src/backend/api/admin';
+
         let currentPage = 1;
         const itemsPerPage = 10;
         let allNotifications = [];
@@ -773,10 +887,12 @@
         let lastNotificationCount = 0;
 
         document.addEventListener('DOMContentLoaded', function() {
+            loadAdminInfo();
             markPageAsViewed();
             loadNotifications();
             startAutoRefresh();
             
+            // Mobile menu
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
             const mobileOverlay = document.getElementById('mobileOverlay');
@@ -791,6 +907,16 @@
                 mobileOverlay.classList.remove('active');
             });
 
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        mobileOverlay.classList.remove('active');
+                    }
+                });
+            });
+
+            // Scroll to top
             window.onscroll = () => {
                 const btn = document.getElementById('scrollTopBtn');
                 btn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? 'flex' : 'none';
@@ -801,16 +927,42 @@
             });
         });
 
+        async function loadAdminInfo() {
+            try {
+                const response = await fetch(`${API_BASE}/get-admin-info.php`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    const userName = data.data.tenDangNhap || 'Admin';
+                    document.getElementById('adminName').textContent = userName;
+                    document.getElementById('sidebarUserName').textContent = userName;
+
+                    const firstLetter = userName.charAt(0).toUpperCase();
+                    document.querySelectorAll('.user-avatar').forEach(el => {
+                        el.textContent = firstLetter;
+                    });
+                } else {
+                    handleSessionExpired(data.message);
+                }
+            } catch (error) {
+                console.error('Error loading admin info:', error);
+                handleSessionExpired("fetch_failed");
+            }
+        }
+
         function markPageAsViewed() {
             fetch(`${API_BASE}/mark-admin-notifications-viewed.php`, {
-                method: 'POST'
+                method: 'POST',
+                credentials: 'include'
             });
         }
 
         function startAutoRefresh() {
             autoRefreshInterval = setInterval(() => {
                 loadNotifications(true);
-            }, 3000);
+            }, 5000);
         }
 
         function stopAutoRefresh() {
@@ -823,7 +975,9 @@
             if (!silent) showLoading(true);
             
             try {
-                const response = await fetch(`${API_BASE}/get-admin-notifications.php`);
+                const response = await fetch(`${API_BASE}/get-admin-notifications.php`, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
                 
                 if (data.success) {
@@ -839,13 +993,15 @@
                     
                     updateStatistics();
                     displayNotifications();
-                    updateUnreadBadge();
+                    updateUnreadBadges();
                 } else {
-                    if (!silent) showError(data.message);
+                    if (!silent) showAlert('error', data.message || 'Không thể tải thông báo');
+                    handleSessionExpired(data.message);
                 }
             } catch (error) {
                 console.error('Error:', error);
-                if (!silent) showError('Lỗi kết nối server');
+                if (!silent) showAlert('error', 'Lỗi kết nối server');
+                handleSessionExpired("fetch_failed");
             } finally {
                 if (!silent) showLoading(false);
             }
@@ -871,6 +1027,7 @@
             
             if (pageData.length === 0) {
                 container.innerHTML = '<div class="text-center py-5 text-muted">Không có thông báo</div>';
+                updatePagination();
                 return;
             }
             
@@ -899,7 +1056,7 @@
                             </div>
                             <div class="notification-detail">
                                 <i class="fas fa-calendar"></i>
-                                <span>${notif.ngayNghi}</span>
+                                <span>${notif.ngayNghi || 'N/A'}</span>
                             </div>
                             ${notif.tenCa ? `
                             <div class="notification-detail">
@@ -992,11 +1149,21 @@
             displayNotifications();
         }
 
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('typeFilter').value = '';
+            document.getElementById('statusFilter').value = '';
+            filteredNotifications = [...allNotifications];
+            currentPage = 1;
+            displayNotifications();
+        }
+
         async function markAsRead(maThongBao) {
             try {
                 await fetch(`${API_BASE}/mark-admin-notification-read.php`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
+                    credentials: 'include',
                     body: JSON.stringify({maThongBao})
                 });
                 
@@ -1005,7 +1172,7 @@
                     notification.daXem = true;
                     updateStatistics();
                     displayNotifications();
-                    updateUnreadBadge();
+                    updateUnreadBadges();
                 }
             } catch (error) {
                 console.error('Error:', error);
@@ -1015,13 +1182,16 @@
         async function markAllAsRead() {
             try {
                 const response = await fetch(`${API_BASE}/mark-all-admin-notifications-read.php`, {
-                    method: 'POST'
+                    method: 'POST',
+                    credentials: 'include'
                 });
                 
                 const data = await response.json();
                 if (data.success) {
                     showAlert('success', 'Đã đánh dấu tất cả đã đọc!');
                     loadNotifications();
+                } else {
+                    showAlert('error', data.message || 'Không thể đánh dấu');
                 }
             } catch (error) {
                 showAlert('error', 'Lỗi kết nối server');
@@ -1035,6 +1205,7 @@
                 const response = await fetch(`${API_BASE}/delete-admin-notification.php`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
+                    credentials: 'include',
                     body: JSON.stringify({maThongBao})
                 });
                 
@@ -1043,7 +1214,7 @@
                     showAlert('success', 'Đã xóa thông báo!');
                     loadNotifications();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể xóa');
                 }
             } catch (error) {
                 showAlert('error', 'Lỗi kết nối server');
@@ -1055,7 +1226,8 @@
             
             try {
                 const response = await fetch(`${API_BASE}/delete-read-admin-notifications.php`, {
-                    method: 'POST'
+                    method: 'POST',
+                    credentials: 'include'
                 });
                 
                 const data = await response.json();
@@ -1063,22 +1235,27 @@
                     showAlert('success', `Đã xóa ${data.deleted} thông báo!`);
                     loadNotifications();
                 } else {
-                    showAlert('error', data.message);
+                    showAlert('error', data.message || 'Không thể xóa');
                 }
             } catch (error) {
                 showAlert('error', 'Lỗi kết nối server');
             }
         }
 
-        function updateUnreadBadge() {
+        function updateUnreadBadges() {
             const unreadCount = allNotifications.filter(n => !n.daXem).length;
-            const badge = document.getElementById('sidebarBadge');
+            
+            const topBadge = document.getElementById('topNotifBadge');
+            const sidebarBadge = document.getElementById('sidebarNotifBadge');
             
             if (unreadCount > 0) {
-                badge.textContent = unreadCount;
-                badge.style.display = 'inline-block';
+                topBadge.textContent = unreadCount;
+                topBadge.style.display = 'inline-block';
+                sidebarBadge.textContent = unreadCount;
+                sidebarBadge.style.display = 'inline-block';
             } else {
-                badge.style.display = 'none';
+                topBadge.style.display = 'none';
+                sidebarBadge.style.display = 'none';
             }
         }
 
@@ -1106,12 +1283,13 @@
         function animateNumber(elementId, targetNumber) {
             const element = document.getElementById(elementId);
             let currentNumber = parseInt(element.textContent) || 0;
+            
+            if (currentNumber === targetNumber) return;
+            
             const increment = targetNumber > currentNumber ? 1 : -1;
             const duration = 500;
             const steps = Math.abs(targetNumber - currentNumber);
             const stepTime = steps > 0 ? duration / steps : 0;
-            
-            if (steps === 0) return;
             
             const timer = setInterval(() => {
                 currentNumber += increment;
@@ -1128,11 +1306,6 @@
             document.getElementById('notificationsList').style.display = show ? 'none' : 'block';
         }
 
-        function showError(message) {
-            document.getElementById('notificationsList').innerHTML = 
-                `<div class="text-center py-5 text-danger">${message}</div>`;
-        }
-
         function showAlert(type, message) {
             const alertDiv = document.createElement('div');
             alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
@@ -1142,10 +1315,41 @@
             setTimeout(() => alertDiv.remove(), 5000);
         }
 
-        function logout() {
-            if (confirm('Bạn có chắc muốn đăng xuất?')) {
+        async function logout() {
+            //if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+
+            stopAutoRefresh();
+
+            try {
+                const response = await fetch('http://localhost/DO_AN_1/code_doan1/src/backend/api/auth/logout.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = '../auth/login.html';
+                } else {
+                    showAlert('error', 'Không thể đăng xuất. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                showAlert('error', 'Lỗi khi đăng xuất');
+            }
+        }
+
+        function handleSessionExpired(msg) {
+            if (
+                !msg ||
+                msg === "fetch_failed" ||
+                msg.includes('Phiên đăng nhập') ||
+                msg.includes('Không có quyền') ||
+                msg.includes('Chưa đăng nhập')
+            ) {
+                showAlert('error', 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
                 stopAutoRefresh();
-                window.location.href = '../auth/login.html';
+                setTimeout(() => window.location.href = '../auth/login.html', 500);
             }
         }
     </script>

@@ -15,15 +15,38 @@
             --sidebar-width: 260px;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: 'Segoe UI', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 10%, #f8f9fa 100%);
             min-height: 100vh;
-            margin: 0;
         }
 
         html {
             scroll-behavior: smooth;
+        }
+
+        .mobile-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .mobile-overlay.active {
+            display: block;
+            opacity: 1;
         }
 
         .sidebar {
@@ -38,12 +61,23 @@
             box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
             z-index: 1000;
             overflow-y: auto;
+            transition: transform 0.3s;
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
         }
 
         .sidebar-header {
             padding: 0 20px 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             margin-bottom: 20px;
+            cursor: pointer;
         }
 
         .sidebar-header h4 {
@@ -68,6 +102,7 @@
             color: white;
             text-decoration: none;
             transition: all 0.3s;
+            position: relative;
         }
 
         .sidebar-menu a:hover,
@@ -83,9 +118,56 @@
             font-size: 1.1rem;
         }
 
+        .notification-badge {
+            position: absolute;
+            right: 20px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .user-info-sidebar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: none;
+            padding: 0;
+            border-radius: 0;
+            margin-bottom: 0;
+        }
+
+        .logout-btn-sidebar {
+            width: auto;
+            padding: 8px 15px;
+            background: #00b3ff;
+            color: rgb(255, 255, 255);
+            border: 1px solid #1f79ae;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn-sidebar:hover {
+            background: #0a95d0;
+            border-color: #0096ec;
+        }
+
+        .user-logout-item {
+            display: none;
+        }
+
         .main-content {
             margin-left: var(--sidebar-width);
             min-height: 100vh;
+            transition: margin-left 0.3s;
         }
 
         .top-bar {
@@ -97,7 +179,105 @@
             align-items: center;
             position: sticky;
             top: 0;
-            z-index: 999;
+            z-index: 998;
+        }
+
+        .top-bar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .top-bar h5 {
+            margin: 0;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--primary-purple);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .notification-icon {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: var(--primary-purple);
+            padding: 5px 10px;
+            text-decoration: none;
+        }
+
+        .notification-icon .badge {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            min-width: 16px;
+        }
+
+        .logout-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: auto;
+        }
+
+        .user-details {
+            text-align: right;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #666;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .logout-btn-desktop {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .logout-btn-desktop:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
         }
 
         .content-area {
@@ -113,9 +293,9 @@
 
         .stat-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
             position: relative;
             overflow: hidden;
@@ -125,29 +305,33 @@
         .stat-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            opacity: 0.05;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
         }
 
-        .stat-card.total::before {
-            background: var(--primary-purple);
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 0 100%;
+            opacity: 0.1;
         }
 
-        .stat-card.specialties::before {
-            background: #28a745;
-        }
-
-        .stat-card.doctors::before {
-            background: #ffc107;
-        }
+        .stat-card.total::before {background: linear-gradient(90deg, #667eea, #764ba2);}
+        .stat-card.specialties::before {background: linear-gradient(90deg, #28a745, #20c997);}
+        .stat-card.doctors::before {background: linear-gradient(90deg, #ffc107, #ff9800);}
+        .stat-card.total::after {background: linear-gradient(90deg, #667eea, #764ba2);}
+        .stat-card.specialties::after {background: linear-gradient(90deg, #28a745, #20c997);}
+        .stat-card.doctors::after {background: linear-gradient(90deg, #ffc107, #ff9800);}
 
         .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
         }
 
         .stat-icon {
@@ -162,7 +346,7 @@
         }
 
         .stat-card.total .stat-icon {
-            background: linear-gradient(135deg, var(--primary-purple), var(--primary-blue));
+            background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
         }
 
@@ -180,12 +364,13 @@
             font-size: 2.2rem;
             font-weight: 700;
             color: #333;
-            margin-bottom: 5px;
+            margin: 10px 0;
         }
 
         .stat-label {
             color: #666;
             font-size: 0.95rem;
+            font-weight: 500;
         }
 
         .search-section {
@@ -253,6 +438,7 @@
 
         .custom-table {
             width: 100%;
+            border-collapse: collapse;
         }
 
         .custom-table thead th {
@@ -264,23 +450,30 @@
             font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            position: sticky;
-            top: 0;
         }
 
         .custom-table tbody tr {
-            border-bottom: 1px solid #f0f0f0;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: all 0.3s;
         }
 
         .custom-table tbody tr:hover {
-            background: #f8fbff;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .custom-table tbody td {
             padding: 20px 15px;
             vertical-align: middle;
+        }
+
+        .custom-table tbody tr td:first-child {
+            border-radius: 8px 0 0 8px;
+        }
+
+        .custom-table tbody tr td:last-child {
+            border-radius: 0 8px 8px 0;
         }
 
         .department-name {
@@ -513,7 +706,7 @@
             cursor: pointer;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             transition: transform 0.3s ease, background-color 0.3s ease;
-            z-index: 9999;
+            z-index: 997;
         }
 
         #scrollTopBtn:hover {
@@ -526,23 +719,118 @@
         }
 
         @media (max-width: 768px) {
+            .sidebar {
+                right: 0;
+                left: auto;
+                transform: translateX(100%);
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
             .main-content {
                 margin-left: 0;
             }
-            
-            .sidebar {
-                transform: translateX(-100%);
+
+            .menu-toggle {
+                display: block;
+                order: 3;
             }
-            
+
+            .top-bar {
+                padding: 12px 15px;
+            }
+
+            .top-bar-left {
+                flex: 1;
+            }
+
+            .top-bar-right {
+                order: 2;
+            }
+
+            .top-bar h5 {
+                font-size: 1rem;
+                order: 1;
+            }
+
+            .user-details,
+            .logout-btn-desktop {
+                display: none;
+            }
+
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .content-area {
+                padding: 20px 15px;
+            }
+
             .stats-row {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .table-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .btn-add {
+                width: 100%;
+            }
+
+            .custom-table {
+                font-size: 0.85rem;
+            }
+
+            .custom-table thead th,
+            .custom-table tbody td {
+                padding: 10px 8px;
+            }
+
+            .description-text {
+                max-width: 100%;
+            }
+
+            #scrollTopBtn {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .logout-header {
+                display: none;
+            }
+
+            .user-logout-item {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 12px 20px;
+                margin: 5px 0;
+                transition: all 0.3s;
             }
         }
     </style>
 </head>
 <body>
-    <div class="sidebar">
-        <div class="sidebar-header">
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header" onclick="window.location.href='../patient/index.html'">
             <h4><i class="fas fa-hospital-alt"></i> Eden Admin</h4>
             <p>Hệ thống quản trị</p>
         </div>
@@ -554,18 +842,56 @@
             <li><a href="quanlybacsi.html"><i class="fas fa-user-md"></i> Quản lý bác sĩ</a></li>
             <li><a href="thongke.html"><i class="fas fa-chart-bar"></i> Thống kê</a></li>
             <li><a href="quanlytaikhoan.html"><i class="fas fa-users-cog"></i> Quản lý tài khoản</a></li>
+            <li>
+                <a href="thongbao.html">
+                    <i class="fas fa-bell"></i>
+                    <span>Thông báo</span>
+                    <span class="notification-badge" id="sidebarNotifBadge" style="display:none;">0</span>
+                </a>
+            </li>
+            <li class="user-logout-item">
+                <div class="user-info-sidebar">
+                    <div class="user-avatar">A</div>                
+                    <div class="user-details">
+                        <div class="user-name" id="sidebarUserName">Admin</div>
+                    </div>
+                </div>
+                <button class="logout-btn-sidebar" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                </button>
+            </li>
         </ul>
     </div>
 
+    <!-- Main Content -->
     <div class="main-content">
         <div class="top-bar">
-            <h5><i class="fas fa-hospital me-2"></i>Quản Lý Khoa</h5>
-            <button class="btn btn-sm btn-outline-danger" onclick="window.location.href='dashboard.html'">
-                <i class="fas fa-arrow-left me-2"></i>Quay lại
-            </button>
+            <div class="top-bar-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h5><i class="fas fa-hospital me-2"></i>Quản Lý Khoa</h5>
+            </div>
+            <div class="top-bar-right">
+                <a href="thongbao.html" class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="topNotifBadge" style="display:none;">0</span>
+                </a>
+            </div>
+            <div class="logout-header">
+                <div class="user-avatar">A</div>
+                <div class="user-details">
+                    <div class="user-name" id="adminName">Đang tải...</div>
+                    <div class="user-role">Quản trị viên</div>
+                </div>
+                <button class="logout-btn-desktop" onclick="logout()">
+                    <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
+                </button>
+            </div>
         </div>
 
         <div class="content-area">
+            <!-- Statistics -->
             <div class="stats-row">
                 <div class="stat-card total" onclick="scrollToSection('khoaSection')">
                     <div class="stat-icon"><i class="fas fa-hospital"></i></div>
@@ -586,6 +912,7 @@
 
             <section id="khoaSection"></section>
 
+            <!-- Search Section for Departments -->
             <div class="search-section">
                 <i class="fas fa-search text-muted"></i>
                 <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên khoa...">
@@ -594,6 +921,7 @@
                 </button>
             </div>
 
+            <!-- Departments Table -->
             <div class="table-section">
                 <div class="table-header">
                     <h5><i class="fas fa-list me-2"></i>Danh sách các khoa</h5>
@@ -631,6 +959,7 @@
 
             <section id="chuyenKhoaSection"></section>
 
+            <!-- Search Section for Specialties -->
             <div class="mt-4">
                 <div class="search-section">
                     <i class="fas fa-search text-muted"></i>
@@ -640,6 +969,7 @@
                     </button>
                 </div>
 
+                <!-- Specialties Table -->
                 <div class="table-section">
                     <div class="table-header">
                         <h5><i class="fas fa-stethoscope me-2"></i>Danh sách chuyên khoa</h5>
@@ -678,6 +1008,7 @@
         </div>
     </div>
 
+    <!-- Department Modal -->
     <div class="modal fade" id="departmentModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -709,6 +1040,7 @@
         </div>
     </div>
 
+    <!-- View Department Modal -->
     <div class="modal fade" id="viewModal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
@@ -721,6 +1053,7 @@
         </div>
     </div>
 
+    <!-- Specialty Modal -->
     <div class="modal fade" id="specialtyModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -759,6 +1092,7 @@
         </div>
     </div>
 
+    <!-- View Specialty Modal -->
     <div class="modal fade" id="specialtyViewModal" tabindex="-1">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
@@ -801,8 +1135,13 @@
         const itemsPerPage = 10;
 
         document.addEventListener('DOMContentLoaded', async function() {
+            loadAdminInfo();
             loadStatistics();
             await loadDepartments();
+            loadUnreadNotificationsCount();
+            
+            setInterval(loadUnreadNotificationsCount, 3000);
+            
             document.getElementById('searchInput').addEventListener('input', applySearch);
             
             const form = document.getElementById('departmentForm');
@@ -817,6 +1156,29 @@
             specForm.removeEventListener('submit', handleSpecialtyFormSubmit);
             specForm.addEventListener('submit', handleSpecialtyFormSubmit);
             
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const mobileOverlay = document.getElementById('mobileOverlay');
+
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+                mobileOverlay.classList.toggle('active');
+            });
+
+            mobileOverlay.addEventListener('click', function() {
+                sidebar.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+            });
+
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        mobileOverlay.classList.remove('active');
+                    }
+                });
+            });
+            
             window.onscroll = function() {
                 const btn = document.getElementById('scrollTopBtn');
                 if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
@@ -827,9 +1189,62 @@
             };
         });
 
+        async function loadAdminInfo() {
+            try {
+                const response = await fetch(`${API_BASE}/get-admin-info.php`, {
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    const userName = data.data.tenDangNhap || 'Admin';
+                    document.getElementById('adminName').textContent = userName;
+                    document.getElementById('sidebarUserName').textContent = userName;
+
+                    const firstLetter = userName.charAt(0).toUpperCase();
+                    document.querySelectorAll('.user-avatar').forEach(el => {
+                        el.textContent = firstLetter;
+                    });
+                } else {
+                    handleSessionExpired(data.message || null);
+                }
+
+            } catch (error) {
+                console.error("loadAdminInfo fetch error:", error);
+                handleSessionExpired("fetch_failed");
+            }
+        }
+
+        async function loadUnreadNotificationsCount() {
+            try {
+                const response = await fetch(`${API_BASE}/get-unread-notifications-count.php`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.success && data.count > 0) {
+                    const topBadge = document.getElementById('topNotifBadge');
+                    topBadge.textContent = data.count;
+                    topBadge.style.display = 'inline-block';
+                    
+                    const sidebarBadge = document.getElementById('sidebarNotifBadge');
+                    sidebarBadge.textContent = data.count;
+                    sidebarBadge.style.display = 'inline-block';
+                } else {
+                    document.getElementById('topNotifBadge').style.display = 'none';
+                    document.getElementById('sidebarNotifBadge').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading notification count:', error);
+            }
+        }
+
         async function loadStatistics() {
             try {
-                const response = await fetch(STATS_API);
+                const response = await fetch(STATS_API, {
+                    credentials: 'include'
+                });
                 const stats = await response.json();
                 
                 animateNumber('statDepartments', stats.departments);
@@ -846,7 +1261,9 @@
             showLoading('loadingIndicator', 'tableContainer');
             
             try {
-                const response = await fetch(DEPARTMENTS_API);
+                const response = await fetch(DEPARTMENTS_API, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
                 
                 if (data.success) {
@@ -856,10 +1273,12 @@
                     populateDepartmentDropdown(allDepartments);
                 } else {
                     showAlert('error', data.message || 'Không thể tải dữ liệu khoa');
+                    handleSessionExpired(data.message || null);
                 }
             } catch (error) {
                 console.error('Error:', error);
                 showAlert('error', 'Lỗi kết nối khi tải danh sách khoa');
+                handleSessionExpired("fetch_failed");
             } finally {
                 hideLoading('loadingIndicator', 'tableContainer');
             }
@@ -1056,6 +1475,7 @@
                 const response = await fetch(DELETE_DEPARTMENT_API, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
                     body: JSON.stringify({ maKhoa: maKhoa })
                 });
                 
@@ -1078,7 +1498,7 @@
         async function handleFormSubmit(event) {
             event.preventDefault();
             const submitBtn = event.target.querySelector('.btn-submit');
-            submitBtn.disabled = true;  // Disable button
+            submitBtn.disabled = true;
 
             const maKhoa = document.getElementById('maKhoa').value;
             const url = maKhoa ? UPDATE_DEPARTMENT_API : CREATE_DEPARTMENT_API;
@@ -1088,11 +1508,13 @@
             
             if (!data.tenKhoa || !data.tenKhoa.trim()) {
                 showAlert('error', 'Vui lòng nhập tên khoa!');
+                submitBtn.disabled = false;
                 return;
             }
             
             if (!data.moTa || !data.moTa.trim()) {
                 showAlert('error', 'Vui lòng nhập mô tả!');
+                submitBtn.disabled = false;
                 return;
             }
             
@@ -1100,6 +1522,7 @@
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
+                    credentials: 'include',
                     body: JSON.stringify(data)
                 });
                 
@@ -1120,7 +1543,7 @@
                 console.error('Error:', error);
                 showAlert('error', 'Lỗi kết nối đến server');
             }
-            submitBtn.disabled = false;  // Enable lại
+            submitBtn.disabled = false;
         }
 
         function populateDepartmentDropdown(departments) {
@@ -1147,7 +1570,9 @@
             showLoading('specialtyLoadingIndicator', 'specialtyTableContainer');
             
             try {
-                const response = await fetch(GET_SPECIALTIES_API);
+                const response = await fetch(GET_SPECIALTIES_API, {
+                    credentials: 'include'
+                });
                 const data = await response.json();
                 
                 if (data.success) {
@@ -1156,10 +1581,12 @@
                     displaySpecialties();
                 } else {
                     showAlert('error', data.message || 'Không thể tải dữ liệu chuyên khoa');
+                    handleSessionExpired(data.message || null);
                 }
             } catch (error) {
                 console.error('Error:', error);
                 showAlert('error', 'Lỗi kết nối khi tải chuyên khoa');
+                handleSessionExpired("fetch_failed");
             } finally {
                 hideLoading('specialtyLoadingIndicator', 'specialtyTableContainer');
             }
@@ -1483,6 +1910,41 @@
                     element.textContent = Math.floor(currentNumber).toLocaleString('vi-VN');
                 }
             }, stepTime);
+        }
+
+        async function logout() {
+            //if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+
+            try {
+                const response = await fetch('http://localhost/DO_AN_1/code_doan1/src/backend/api/auth/logout.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = '../auth/login.html';
+                } else {
+                    alert('Không thể đăng xuất. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                alert('Lỗi khi đăng xuất');
+            }
+        }
+
+        function handleSessionExpired(msg) {
+            if (
+                !msg ||
+                msg === "fetch_failed" ||
+                msg.includes('Phiên đăng nhập') ||
+                msg.includes('Không có quyền') ||
+                msg.includes('Chưa đăng nhập')
+            ) {
+                showAlert('error', 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
+                setTimeout(() => window.location.href = '../auth/login.html', 500);
+            }
         }
     </script>
 </body>

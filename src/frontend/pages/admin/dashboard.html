@@ -289,6 +289,17 @@
             background: linear-gradient(90deg, var(--primary-purple), var(--primary-blue));
         }
 
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100px;
+            border-radius: 0 0 0 100%;
+            opacity: 0.1;
+        }
+
         .stat-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 30px rgba(102, 126, 234, 0.2);
@@ -304,6 +315,15 @@
             font-size: 1.8rem;
             margin-bottom: 15px;
         }
+
+        .stat-card.purple::before {background: linear-gradient(135deg, #667eea, #764ba2);}
+        .stat-card.blue::before {background: linear-gradient(135deg, #00AEEF, #0088cc);}
+        .stat-card.green::before {background: linear-gradient(135deg, #4CAF50, #45a049);}
+        .stat-card.orange::before {background: linear-gradient(135deg, #ff9800, #f57c00);}
+        .stat-card.purple::after {background: linear-gradient(135deg, #667eea, #764ba2);}
+        .stat-card.blue::after {background: linear-gradient(135deg, #00AEEF, #0088cc);}
+        .stat-card.green::after {background: linear-gradient(135deg, #4CAF50, #45a049);}
+        .stat-card.orange::after {background: linear-gradient(135deg, #ff9800, #f57c00);}
 
         .stat-card.purple .stat-icon {
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -614,7 +634,7 @@
     <div class="mobile-overlay" id="mobileOverlay"></div>
 
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header" onclick="window.location.href='../patient/homepage.html'">
+        <div class="sidebar-header" onclick="window.location.href='../patient/index.html'">
             <h4><i class="fas fa-hospital-alt"></i> Eden Admin</h4>
             <p>Hệ thống quản trị</p>
         </div>
@@ -857,7 +877,7 @@
             loadUnreadNotificationsCount();
             
             // Auto refresh notification count
-            setInterval(loadUnreadNotificationsCount, 30000);
+            setInterval(loadUnreadNotificationsCount, 3000);
 
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
@@ -1004,7 +1024,7 @@
         }
 
         async function logout() {
-            if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+            //if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
 
             try {
                 const response = await fetch('http://localhost/DO_AN_1/code_doan1/src/backend/api/auth/logout.php', {
