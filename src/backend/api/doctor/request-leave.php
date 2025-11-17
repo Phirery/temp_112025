@@ -1,19 +1,9 @@
 <?php
-header('Content-Type: application/json; charset=utf-8');
-header('Access-Control-Allow-Origin: http://127.0.0.1:5500');
-header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
-header('Access-Control-Allow-Headers: Content-Type');
+require_once '../../config/cors.php';
+require_once '../../core/dp.php';
+require_once '../../core/session.php';
 
-$conn = new mysqli("localhost", "root", "", "datlichkham");
-$conn->set_charset("utf8mb4");
-
-if ($conn->connect_error) {
-    echo json_encode(['error' => 'Kết nối thất bại:((']);
-    exit;
-}
-
-$maBacSi = 'BS202511090112882';
+require_role('bacsi');
 
 $input = json_decode(file_get_contents('php://input'), true);
 
@@ -22,10 +12,23 @@ if (!isset($input['ngayNghi']) || !isset($input['lyDo'])) {
     exit;
 }
 
+// Get doctor ID from session
+$stmt = $conn->prepare("SELECT maBacSi FROM bacsi WHERE nguoiDungId = ?");
+$stmt->bind_param("i", $_SESSION['id']);
+$stmt->execute();
+$maBacSi = $stmt->get_result()->fetch_assoc()['maBacSi'] ?? null;
+$stmt->close();
+
+if (!$maBacSi) {
+    echo json_encode(['success' => false, 'message' => 'Không tìm thấy bác sĩ']);
+    exit;
+}
+
 $ngayNghi = $input['ngayNghi'];
 $maCa = $input['maCa'];
-$lyDo = $input['lyDo'];
+$lyDo = trim($input['lyDo']);
 
+// Validate date
 $tomorrow = date('Y-m-d', strtotime('+1 day'));
 if ($ngayNghi < $tomorrow) {
     echo json_encode(['success' => false, 'message' => 'Chỉ được xin nghỉ từ ngày mai trở đi']);
@@ -35,13 +38,16 @@ if ($ngayNghi < $tomorrow) {
 try {
     $conn->begin_transaction();
     
+    // Insert leave request(s)
     if ($maCa === null) {
+        // Full day off - insert both shifts with same reason
         $stmt = $conn->prepare("
             INSERT INTO ngaynghi (maBacSi, ngayNghi, maCa, lyDo) 
             VALUES (?, ?, 1, ?), (?, ?, 2, ?)
         ");
         $stmt->bind_param("ssisss", $maBacSi, $ngayNghi, $lyDo, $maBacSi, $ngayNghi, $lyDo);
     } else {
+        // Single shift off
         $stmt = $conn->prepare("
             INSERT INTO ngaynghi (maBacSi, ngayNghi, maCa, lyDo) 
             VALUES (?, ?, ?, ?)
@@ -52,7 +58,9 @@ try {
     if (!$stmt->execute()) {
         throw new Exception('Không thể tạo đơn nghỉ phép');
     }
+    $stmt->close();
     
+    // Check affected appointments
     $checkStmt = $conn->prepare("
         SELECT COUNT(*) as count FROM lichkham 
         WHERE maBacSi = ? AND ngayKham = ? AND trangThai = 'Đã đặt'
@@ -78,7 +86,6 @@ try {
     
     echo json_encode(['success' => true, 'message' => $message, 'affectedAppointments' => $count]);
     
-    $stmt->close();
 } catch (Exception $e) {
     $conn->rollback();
     echo json_encode(['success' => false, 'message' => 'Lỗi: ' . $e->getMessage()]);
