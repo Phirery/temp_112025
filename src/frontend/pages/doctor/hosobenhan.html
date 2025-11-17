@@ -97,6 +97,7 @@
             color: white;
             text-decoration: none;
             transition: all 0.3s;
+            position: relative;
         }
 
         .sidebar-menu a:hover,
@@ -110,6 +111,46 @@
             width: 25px;
             margin-right: 12px;
             font-size: 1.1rem;
+        }
+
+        .notification-badge {
+            position: absolute;
+            right: 20px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .user-logout-item {
+            display: none;
+        }
+
+        .user-info-sidebar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logout-btn-sidebar {
+            padding: 8px 15px;
+            background: #00b3ff;
+            color: white;
+            border: 1px solid #1f79ae;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout-btn-sidebar:hover {
+            background: #0a95d0;
         }
 
         .main-content {
@@ -136,6 +177,12 @@
             gap: 15px;
         }
 
+        .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
         .top-bar h5 {
             margin: 0;
             color: #333;
@@ -152,27 +199,25 @@
             padding: 5px;
         }
 
-        .user-info-sidebar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .logout-btn-sidebar {
-            padding: 8px 15px;
-            background: #00b3ff;
-            color: white;
-            border: 1px solid #1f79ae;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s;
+        .notification-icon {
+            position: relative;
             cursor: pointer;
-            display: flex;
-            align-items: center;
+            font-size: 1.3rem;
+            color: var(--primary-purple);
+            padding: 5px 10px;
+            text-decoration: none;
         }
 
-        .logout-btn-sidebar:hover {
-            background: #0a95d0;
+        .notification-icon .badge {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            background: #ff3b3b;
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 5px;
+            border-radius: 10px;
+            min-width: 16px;
         }
 
         .logout-header {
@@ -188,6 +233,11 @@
         .user-name {
             font-weight: 600;
             font-size: 0.9rem;
+        }
+
+        .user-role {
+            font-size: 0.8rem;
+            color: #666;
         }
 
         .user-avatar {
@@ -218,10 +268,6 @@
             box-shadow: 0 5px 15px #b7a3cb;
         }
 
-        .user-logout-item {
-            display: none;
-        }
-
         .content-area {
             padding: 30px;
         }
@@ -235,11 +281,22 @@
 
         .stat-card {
             background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
             transition: all 0.3s;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
         }
 
         .stat-card:hover {
@@ -247,31 +304,31 @@
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
         }
 
-        .stat-card.total {
-            border-left: 4px solid #3498db;
+        .stat-card.total::before {
+            background: #3498db;
         }
 
-        .stat-card.pending {
-            border-left: 4px solid #f39c12;
+        .stat-card.pending::before {
+            background: #f39c12;
         }
 
-        .stat-card.completed {
-            border-left: 4px solid #2ecc71;
+        .stat-card.completed::before {
+            background: #2ecc71;
         }
 
-        .stat-card.today {
-            border-left: 4px solid #9b59b6;
+        .stat-card.today::before {
+            background: #9b59b6;
         }
 
         .stat-icon {
-            width: 50px;
-            height: 50px;
-            margin: 0 auto 10px;
-            border-radius: 10px;
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(0, 174, 239, 0.1));
             color: var(--primary-purple);
         }
@@ -279,13 +336,14 @@
         .stat-number {
             font-size: 2rem;
             font-weight: 700;
-            color: #667eea;
+            color: #333;
         }
 
         .stat-label {
             color: #666;
             font-weight: 500;
             margin-top: 5px;
+            font-size: 0.95rem;
         }
 
         .section-card {
@@ -298,9 +356,11 @@
         }
 
         .card-header h5 {
-            color: #667eea;
+            color: #333;
             font-weight: 700;
-            margin: 0;
+            margin: 0 0 20px 0;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -371,6 +431,7 @@
         .custom-table {
             width: 100%;
             margin: 0;
+            border-collapse: collapse;
         }
 
         .custom-table thead {
@@ -471,16 +532,6 @@
             transform: translateY(-2px);
         }
 
-        .btn-complete {
-            background: #2ecc71;
-            color: white;
-        }
-
-        .btn-complete:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
-        }
-
         .btn-delete {
             background: #e74c3c;
             color: white;
@@ -546,18 +597,19 @@
             transform: scale(1.1);
         }
 
+        #scrollTopBtn span {
+            transform: translateY(-2px);
+        }
+
         .modal-content {
             border-radius: 15px;
+            border: none;
         }
 
         .modal-header {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border-radius: 15px 15px 0 0;
-        }
-
-        .modal-header .btn-close {
-            filter: brightness(0) invert(1);
         }
 
         .info-group {
@@ -608,6 +660,12 @@
             .user-details,
             .logout-btn-desktop {
                 display: none;
+            }
+
+            .user-avatar {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
             }
 
             .content-area {
@@ -664,6 +722,14 @@
                 gap: 15px;
                 align-items: center;
             }
+
+            #scrollTopBtn {
+                width: 45px;
+                height: 45px;
+                font-size: 22px;
+                bottom: 20px;
+                right: 20px;
+            }
         }
     </style>
 </head>
@@ -671,19 +737,22 @@
     <div class="mobile-overlay" id="mobileOverlay"></div>
 
     <div class="sidebar" id="sidebar">
-        <div class="sidebar-header" onclick="window.location.href='dashboard.html'">
+        <div class="sidebar-header" onclick="window.location.href='../patient/homepage.html'">
             <h4><i class="fas fa-user-md"></i> Eden Doctor</h4>
             <p>Hệ thống bác sĩ</p>
         </div>
         <ul class="sidebar-menu">
-            <li><a href="dashboard.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-            <li><a href="lichkham.html"><i class="fas fa-calendar-check"></i> Lịch khám</a></li>
-            <li><a href="benhnhan.html"><i class="fas fa-user-injured"></i> Bệnh nhân</a></li>
-            <li><a href="hosobenhan.html" class="active"><i class="fas fa-file-medical"></i> Hồ sơ bệnh án</a></li>
-            <li><a href="thongbao.html"><i class="fas fa-bell"></i> Thông báo <span class="badge bg-danger ms-2">5</span></a></li>
+            <li><a href="dashboard.html"><i class="fas fa-chart-line"></i><span>Dashboard</span></a></li>
+            <li><a href="lichkham.html"><i class="fas fa-calendar-check"></i><span>Lịch khám</span></a></li>
+            <li><a href="benhnhan.html"><i class="fas fa-user-injured"></i><span>Bệnh nhân</span></a></li>
+            <li><a href="hosobenhan.html" class="active"><i class="fas fa-file-medical"></i><span>Hồ sơ bệnh án</span></a></li>
+            <li><a href="thongbao.html"><i class="fas fa-bell"></i><span>Thông báo</span><span class="notification-badge" id="sidebarNotifBadge" style="display:none;">0</span></a></li>
             <li class="user-logout-item">
                 <div class="user-info-sidebar">
                     <div class="user-avatar">BS</div>
+                    <div class="user-details">
+                        <div class="user-name" id="sidebarDoctorName">Bác sĩ</div>
+                    </div>
                 </div>
                 <button class="logout-btn-sidebar" onclick="logout()">
                     <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
@@ -698,10 +767,17 @@
                 <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
                 <h5><i class="fas fa-file-medical me-2"></i>Hồ Sơ Bệnh Án</h5>
             </div>
+            <div class="top-bar-right">
+                <a href="thongbao.html" class="notification-icon">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge" id="topNotifBadge" style="display:none;">0</span>
+                </a>
+            </div>
             <div class="logout-header">
                 <div class="user-avatar">BS</div>
                 <div class="user-details">
                     <div class="user-name" id="doctorName">Đang tải...</div>
+                    <div class="user-role">Bác sĩ</div>
                 </div>
                 <button class="logout-btn-desktop" onclick="logout()">
                     <i class="fas fa-sign-out-alt me-2"></i>Đăng xuất
@@ -850,11 +926,11 @@
     </div>
 
     <div class="modal fade" id="recordModal" tabindex="-1">
-        <div class="modal-dialog modal-xl">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="modalTitle">Chi tiết hồ sơ bệnh án</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="modalBody"></div>
             </div>
@@ -862,11 +938,11 @@
     </div>
 
     <div class="modal fade" id="createModal" tabindex="-1">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tạo hồ sơ bệnh án mới</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <form id="createForm">
@@ -902,7 +978,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         const API_BASE = 'http://localhost/DO_AN_1/code_doan1/src/backend/api/doctor';
-        
+
         let pendingPage = 1, completedPage = 1;
         const itemsPerPage = 10;
         let allPending = [], allCompleted = [];
@@ -913,6 +989,7 @@
             loadStatistics();
             loadPendingRecords();
             loadCompletedRecords();
+            loadUnreadNotificationsCount();
             
             const menuToggle = document.getElementById('menuToggle');
             const sidebar = document.getElementById('sidebar');
@@ -928,10 +1005,21 @@
                 mobileOverlay.classList.remove('active');
             });
 
+            sidebar.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 768) {
+                        sidebar.classList.remove('active');
+                        mobileOverlay.classList.remove('active');
+                    }
+                });
+            });
+
             window.onscroll = () => {
                 const btn = document.getElementById('scrollTopBtn');
                 btn.style.display = (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) ? 'flex' : 'none';
             };
+
+            setInterval(loadUnreadNotificationsCount, 30000);
         });
 
         async function loadDoctorInfo() {
@@ -939,10 +1027,41 @@
                 const response = await fetch(`${API_BASE}/get-doctor-info.php`, {credentials: 'include'});
                 const data = await response.json();
                 if (data.success) {
-                    document.getElementById('doctorName').textContent = data.data.tenBacSi;
+                    const doctorName = data.data.tenBacSi || 'Bác sĩ';
+                    document.getElementById('doctorName').textContent = doctorName;
+                    document.getElementById('sidebarDoctorName').textContent = doctorName;
+                    
+                    const firstLetters = doctorName.split(' ').slice(-2).map(w => w[0]).join('').toUpperCase();
+                    document.querySelectorAll('.user-avatar').forEach(el => {
+                        el.textContent = firstLetters;
+                    });
+                } else {
+                    handleSessionExpired(data.message);
                 }
             } catch (error) {
                 console.error('Error:', error);
+                handleSessionExpired("fetch_failed");
+            }
+        }
+
+        async function loadUnreadNotificationsCount() {
+            try {
+                const response = await fetch(`${API_BASE}/get-unread-notifications-count.php`, {
+                    credentials: 'include'
+                });
+                const data = await response.json();
+                
+                if (data.success && data.count > 0) {
+                    document.getElementById('topNotifBadge').textContent = data.count;
+                    document.getElementById('topNotifBadge').style.display = 'inline-block';
+                    document.getElementById('sidebarNotifBadge').textContent = data.count;
+                    document.getElementById('sidebarNotifBadge').style.display = 'inline-block';
+                } else {
+                    document.getElementById('topNotifBadge').style.display = 'none';
+                    document.getElementById('sidebarNotifBadge').style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error loading notification count:', error);
             }
         }
 
@@ -955,9 +1074,12 @@
                     animateNumber('pendingRecords', data.data.pendingRecords);
                     animateNumber('completedRecords', data.data.completedRecords);
                     animateNumber('todayRecords', data.data.todayRecords);
+                } else {
+                    handleSessionExpired(data.message);
                 }
             } catch (error) {
                 console.error('Error:', error);
+                handleSessionExpired("fetch_failed");
             }
         }
 
@@ -972,10 +1094,12 @@
                     displayPendingRecords();
                 } else {
                     showError('pendingList', data.message, 6);
+                    handleSessionExpired(data.message);
                 }
             } catch (error) {
                 console.error('Error:', error);
                 showError('pendingList', 'Lỗi kết nối server', 6);
+                handleSessionExpired("fetch_failed");
             } finally {
                 showLoading('loadingPending', false);
             }
@@ -992,10 +1116,12 @@
                     displayCompletedRecords();
                 } else {
                     showError('completedList', data.message, 5);
+                    handleSessionExpired(data.message);
                 }
             } catch (error) {
                 console.error('Error:', error);
                 showError('completedList', 'Lỗi kết nối server', 5);
+                handleSessionExpired("fetch_failed");
             } finally {
                 showLoading('loadingCompleted', false);
             }
@@ -1011,6 +1137,7 @@
             
             if (pageData.length === 0) {
                 container.innerHTML = '<tr><td colspan="6" class="text-center py-5">Không có hồ sơ chưa hoàn thành</td></tr>';
+                updatePagination('pending');
                 return;
             }
             
@@ -1024,9 +1151,9 @@
                     <td>${formatDate(record.ngayTao)}</td>
                     <td>
                         <div>${record.tenCa}</div>
-                        <div class="patient-info">${record.ngayKham}</div>
+                        <div class="patient-info">${formatDate(record.ngayKham)}</div>
                     </td>
-                    <td><span class="status-badge status-pending">Chưa hoàn thành</span></td>
+                    <td><span class="status-badge status-pending"><i class="fas fa-clock me-1"></i>Chưa hoàn thành</span></td>
                     <td>
                         <button class="btn-action btn-edit" onclick="editRecord('${record.maHoSo}')" title="Hoàn thành">
                             <i class="fas fa-edit"></i>
@@ -1049,6 +1176,7 @@
             
             if (pageData.length === 0) {
                 container.innerHTML = '<tr><td colspan="5" class="text-center py-5">Không có hồ sơ đã hoàn thành</td></tr>';
+                updatePagination('completed');
                 return;
             }
             
@@ -1178,49 +1306,58 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <label>Bệnh nhân</label>
+                                    <label><i class="fas fa-user me-2"></i>Bệnh nhân</label>
                                     <p>${r.tenBenhNhan}</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="info-group">
-                                    <label>Giới tính</label>
+                                    <label><i class="fas fa-venus-mars me-2"></i>Giới tính</label>
                                     <p>${r.gioiTinh}</p>
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="info-group">
-                                    <label>Tuổi</label>
+                                    <label><i class="fas fa-birthday-cake me-2"></i>Tuổi</label>
                                     <p>${calculateAge(r.ngaySinh)} tuổi</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <label>Lịch khám</label>
-                                    <p>${r.ngayKham} - ${r.tenCa}</p>
+                                    <label><i class="fas fa-calendar-check me-2"></i>Lịch khám</label>
+                                    <p>${formatDate(r.ngayKham)} - ${r.tenCa}</p>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="info-group">
-                                    <label>Ngày tạo</label>
-                                    <p>${formatDate(r.ngayTao)}</p>
+                                    <label><i class="fas fa-clock me-2"></i>Ngày tạo</label>
+                                    <p>${formatDateTime(r.ngayTao)}</p>
                                 </div>
                             </div>
+                            ${r.ngayHoanThanh ? `
+                            <div class="col-md-6">
+                                <div class="info-group">
+                                    <label><i class="fas fa-check-circle me-2"></i>Ngày hoàn thành</label>
+                                    <p>${formatDateTime(r.ngayHoanThanh)}</p>
+                                </div>
+                            </div>` : ''}
                             <div class="col-12">
                                 <div class="info-group">
-                                    <label>Chẩn đoán</label>
+                                    <label><i class="fas fa-stethoscope me-2"></i>Chẩn đoán</label>
                                     <p>${r.chanDoan || 'Chưa có'}</p>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="info-group">
-                                    <label>Điều trị</label>
+                                    <label><i class="fas fa-pills me-2"></i>Điều trị</label>
                                     <p>${r.dieuTri || 'Chưa có'}</p>
                                 </div>
                             </div>
                         </div>
                     `;
                     new bootstrap.Modal(document.getElementById('recordModal')).show();
+                } else {
+                    showAlert('error', data.message);
                 }
             } catch (error) {
                 showAlert('error', 'Lỗi khi tải thông tin hồ sơ');
@@ -1236,6 +1373,11 @@
             
             const treatment = prompt('Điều trị:', record.dieuTri || '');
             if (treatment === null) return;
+            
+            if (!diagnosis.trim() || !treatment.trim()) {
+                showAlert('error', 'Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
             
             try {
                 const response = await fetch(`${API_BASE}/update-record.php`, {
@@ -1291,18 +1433,18 @@
                 if (data.success && data.data.length > 0) {
                     const select = document.getElementById('appointmentSelect');
                     select.innerHTML = '<option value="">-- Chọn lịch khám --</option>' + 
-                        data.data.map(apt => `<option value="${apt.maLichKham}">${apt.tenBenhNhan} - ${apt.ngayKham} - ${apt.tenCa}</option>`).join('');
+                        data.data.map(apt => `<option value="${apt.maLichKham}">${apt.tenBenhNhan} - ${formatDate(apt.ngayKham)} - ${apt.tenCa}</option>`).join('');
                     
-                    select.onchange = async function() {
+                    select.onchange = function() {
                         if (this.value) {
                             const apt = data.data.find(a => a.maLichKham == this.value);
                             if (apt) {
                                 document.getElementById('patientInfo').style.display = 'block';
                                 document.getElementById('patientInfo').innerHTML = `
-                                    <strong>Thông tin bệnh nhân:</strong><br>
-                                    Tên: ${apt.tenBenhNhan}<br>
-                                    Giới tính: ${apt.gioiTinh} - Tuổi: ${calculateAge(apt.ngaySinh)}<br>
-                                    Lịch khám: ${apt.ngayKham} - ${apt.tenCa}
+                                    <strong><i class="fas fa-info-circle me-2"></i>Thông tin bệnh nhân:</strong><br>
+                                    <strong>Tên:</strong> ${apt.tenBenhNhan}<br>
+                                    <strong>Giới tính:</strong> ${apt.gioiTinh} - <strong>Tuổi:</strong> ${calculateAge(apt.ngaySinh)}<br>
+                                    <strong>Lịch khám:</strong> ${formatDate(apt.ngayKham)} - ${apt.tenCa}
                                 `;
                             }
                         } else {
@@ -1363,11 +1505,19 @@
         }
 
         function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
             const date = new Date(dateStr);
             return date.toLocaleDateString('vi-VN');
         }
 
+        function formatDateTime(dateStr) {
+            if (!dateStr) return 'N/A';
+            const date = new Date(dateStr);
+            return date.toLocaleString('vi-VN');
+        }
+
         function truncate(str, length) {
+            if (!str) return 'N/A';
             return str.length > length ? str.substring(0, length) + '...' : str;
         }
 
@@ -1400,16 +1550,46 @@
 
         function showAlert(type, message) {
             const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show position-fixed`;
+            const alertType = type === 'success' ? 'success' : type === 'info' ? 'info' : 'danger';
+            alertDiv.className = `alert alert-${alertType} alert-dismissible fade show position-fixed`;
             alertDiv.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
             alertDiv.innerHTML = `${message}<button type="button" class="btn-close" data-bs-dismiss="alert"></button>`;
             document.body.appendChild(alertDiv);
             setTimeout(() => alertDiv.remove(), 5000);
         }
 
-        function logout() {
-            if (confirm('Bạn có chắc muốn đăng xuất?')) {
-                window.location.href = '../auth/login.html';
+        async function logout() {
+            if (!confirm('Bạn có chắc muốn đăng xuất?')) return;
+
+            try {
+                const response = await fetch('http://localhost/DO_AN_1/code_doan1/src/backend/api/auth/logout.php', {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    window.location.href = '../auth/login.html';
+                } else {
+                    showAlert('error', 'Không thể đăng xuất. Vui lòng thử lại.');
+                }
+            } catch (error) {
+                console.error('Logout error:', error);
+                showAlert('error', 'Lỗi khi đăng xuất');
+            }
+        }
+
+        function handleSessionExpired(msg) {
+            if (
+                !msg ||
+                msg === "fetch_failed" ||
+                msg.includes('Phiên đăng nhập') ||
+                msg.includes('Không có quyền') ||
+                msg.includes('Chưa đăng nhập')
+            ) {
+                showAlert('error', 'Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
+                setTimeout(() => window.location.href = '../auth/login.html', 500);
             }
         }
     </script>
