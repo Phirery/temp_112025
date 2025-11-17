@@ -30,7 +30,8 @@ CREATE TABLE `benhnhan` (
 INSERT INTO `benhnhan` (`nguoiDungId`, `maBenhNhan`, `tenBenhNhan`, `ngaySinh`, `gioiTinh`, `soTheBHYT`) VALUES
 (1, 'bn1', 'Nguyễn Văn A', '2000-01-01', 'nam', NULL),
 (8, 'BN202511082304701', 'ABCs', '2005-10-09', 'nam', ''),
-(11, 'BN202511101515250', 'AAAAAAAA', '2025-11-09', 'khac', 'BH189318214111');
+(11, 'BN202511101515250', 'AAAAAAAA', '2025-11-09', 'khac', 'BH189318214111'),
+(15, 'BN2025111712142915', 'Trần Văn H', '2000-12-31', 'nam', NULL);
 DELIMITER $$
 CREATE TRIGGER `validate_birthdate_before_insert` BEFORE INSERT ON `benhnhan` FOR EACH ROW BEGIN
     IF NEW.ngaySinh > CURDATE() THEN
@@ -158,13 +159,11 @@ CREATE TABLE `lichkham` (
 INSERT INTO `lichkham` (`maLichKham`, `maBacSi`, `maBenhNhan`, `ngayKham`, `maCa`, `maSuat`, `maGoi`, `trangThai`, `ghiChu`) VALUES
 (1, 'BS202511090112882', 'BN202511082304701', '2025-11-09', 1, 1, 1, 'Hoàn thành', 'Sức khỏe bình thường'),
 (3, 'BS202511090112882', 'BN202511082304701', '2025-11-10', 1, 1, 2, 'Hoàn thành', NULL),
-(6, 'bs1', 'bn1', '2025-11-11', 1, 1, 2, 'Hoàn thành', NULL),
-(7, 'BS202511102320635', 'BN202511101515250', '2025-11-12', 2, 12, 1, 'Chờ', NULL),
 (8, 'bs1', 'bn1', '2025-11-12', 1, 1, 1, 'Hủy', NULL),
 (9, 'BS202511090112882', 'BN202511082304701', '2025-11-12', 2, 8, 1, 'Đã đặt', NULL),
 (10, 'BS202511090112882', 'BN202511101515250', '2025-11-13', 1, 1, 2, 'Hoàn thành', NULL),
 (11, 'BS202511090112882', 'BN202511082304701', '2025-11-15', 1, 2, 1, 'Hoàn thành', NULL),
-(12, 'BS202511090112882', 'bn1', '2025-11-13', 1, 3, 1, 'Chờ', NULL);
+(26, 'bs1', 'BN2025111712142915', '2025-11-18', 1, 2, 2, 'Hoàn thành', NULL);
 DELIMITER $$
 CREATE TRIGGER `after_lichkham_insert` AFTER INSERT ON `lichkham` FOR EACH ROW BEGIN
     DECLARE patientName VARCHAR(100);
@@ -181,7 +180,7 @@ CREATE TRIGGER `after_lichkham_insert` AFTER INSERT ON `lichkham` FOR EACH ROW B
     
     SET appointmentDate = DATE_FORMAT(NEW.ngayKham, '%d/%m/%Y');
     
-    INSERT INTO thongbao (maBacSi, maLichKham, loai, tieuDe, noiDung, thoiGian, daXem)
+    INSERT INTO thongbaolichkham (maBacSi, maLichKham, loai, tieuDe, noiDung, thoiGian, daXem)
     VALUES (
         NEW.maBacSi,
         NEW.maLichKham,
@@ -211,7 +210,7 @@ CREATE TRIGGER `after_lichkham_update` AFTER UPDATE ON `lichkham` FOR EACH ROW B
         
         SET appointmentDate = DATE_FORMAT(NEW.ngayKham, '%d/%m/%Y');
         
-        INSERT INTO thongbao (maBacSi, maLichKham, loai, tieuDe, noiDung, thoiGian, daXem)
+        INSERT INTO thongbaolichkham (maBacSi, maLichKham, loai, tieuDe, noiDung, thoiGian, daXem)
         VALUES (
             NEW.maBacSi,
             NEW.maLichKham,
@@ -245,6 +244,7 @@ CREATE TRIGGER `after_ngaynghi_delete` AFTER DELETE ON `ngaynghi` FOR EACH ROW B
     DECLARE leaveDate VARCHAR(20);
     DECLARE shiftName VARCHAR(50);
     DECLARE caInfo VARCHAR(100);
+    DECLARE otherShiftExists INT DEFAULT 0;
     
     SELECT tenBacSi INTO doctorName 
     FROM bacsi 
@@ -252,13 +252,23 @@ CREATE TRIGGER `after_ngaynghi_delete` AFTER DELETE ON `ngaynghi` FOR EACH ROW B
     
     SET leaveDate = DATE_FORMAT(OLD.ngayNghi, '%d/%m/%Y');
     
-    IF OLD.maCa IS NOT NULL THEN
-        SELECT tenCa INTO shiftName 
-        FROM calamviec 
-        WHERE maCa = OLD.maCa;
-        SET caInfo = CONCAT(' - ', shiftName);
+    SELECT COUNT(*) INTO otherShiftExists
+    FROM ngaynghi
+    WHERE maBacSi = OLD.maBacSi 
+    AND ngayNghi = OLD.ngayNghi
+    AND maCa != OLD.maCa;
+    
+    IF otherShiftExists > 0 THEN
+        SET caInfo = ' Một ca';
     ELSE
-        SET caInfo = ' - Cả ngày';
+        IF OLD.maCa IS NOT NULL THEN
+            SELECT tenCa INTO shiftName 
+            FROM calamviec 
+            WHERE maCa = OLD.maCa;
+            SET caInfo = CONCAT(' - ', shiftName);
+        ELSE
+            SET caInfo = ' Cả ngày';
+        END IF;
     END IF;
     
     INSERT INTO thongbaoadmin (maNghi, maBacSi, loai, tieuDe, noiDung, thoiGian, daXem)
@@ -275,11 +285,13 @@ END
 $$
 DELIMITER ;
 DELIMITER $$
-CREATE TRIGGER `after_ngaynghi_insert` AFTER INSERT ON `ngaynghi` FOR EACH ROW BEGIN
+CREATE TRIGGER `after_ngaynghi_insert` AFTER INSERT ON `ngaynghi` FOR EACH ROW trigger_body: BEGIN
     DECLARE doctorName VARCHAR(100);
     DECLARE leaveDate VARCHAR(20);
     DECLARE shiftName VARCHAR(50);
     DECLARE caInfo VARCHAR(100);
+    DECLARE isFullDay BOOLEAN DEFAULT FALSE;
+    DECLARE otherShiftExists INT DEFAULT 0;
     
     SELECT tenBacSi INTO doctorName 
     FROM bacsi 
@@ -287,15 +299,24 @@ CREATE TRIGGER `after_ngaynghi_insert` AFTER INSERT ON `ngaynghi` FOR EACH ROW B
     
     SET leaveDate = DATE_FORMAT(NEW.ngayNghi, '%d/%m/%Y');
     
-    IF NEW.maCa IS NOT NULL THEN
+    SELECT COUNT(*) INTO otherShiftExists
+    FROM ngaynghi
+    WHERE maBacSi = NEW.maBacSi 
+    AND ngayNghi = NEW.ngayNghi
+    AND maCa != NEW.maCa
+    AND lyDo = NEW.lyDo;
+    
+    IF otherShiftExists > 0 AND NEW.maCa = 2 THEN
+        SET isFullDay = TRUE;
+        SET caInfo = ' Cả ngày';
+    ELSEIF otherShiftExists > 0 AND NEW.maCa = 1 THEN
+        LEAVE trigger_body;
+    ELSE
         SELECT tenCa INTO shiftName 
         FROM calamviec 
         WHERE maCa = NEW.maCa;
         SET caInfo = CONCAT(' - ', shiftName);
-    ELSE
-        SET caInfo = ' - Cả ngày';
     END IF;
-    
     INSERT INTO thongbaoadmin (maNghi, maBacSi, loai, tieuDe, noiDung, thoiGian, daXem)
     VALUES (
         NEW.maNghi,
@@ -322,14 +343,15 @@ CREATE TABLE `nguoidung` (
 
 INSERT INTO `nguoidung` (`id`, `tenDangNhap`, `matKhau`, `soDienThoai`, `vaiTro`, `trangThai`) VALUES
 (1, 'nguoidung1', 'passwork', '0987654322', 'benhnhan', 'Hoạt Động'),
-(2, 'nguoidung2', 'passwork', '0987654323', 'bacsi', 'Hoạt Động'),
-(3, 'nguoidung3', '12345678', '0987654321', 'quantri', 'Hoạt Động'),
+(2, 'nguoidung2', '$2y$10$tZhyKngwYBQH5p79alUosOHUidqkfFI5f3onmYFtTp87uLD9JdiwO', '0987654323', 'bacsi', 'Hoạt Động'),
+(3, 'nguoidung3', '$2y$10$55XC.J1xbMe0tIWNJb9UneupzHgh1x1fioWqKiF/y8eAbcGpERYHC', '0987654321', 'quantri', 'Hoạt Động'),
 (5, 'nguyenthanhccur1025', '$2y$10$j/IqnU9fT0QPeHyZNU1uuum/5IktMdkELYMVs.Uvu9KOgu1PzjXoq', '0917382642', 'bacsi', 'Hoạt Động'),
 (7, 'levand', '$2y$10$0w2wLh5q8dn.05WVbEYjc.Epw.C4BLmppiM5Hwj4QO7fbSDvqfOkK', '0361846731', 'bacsi', 'Hoạt Động'),
 (8, 'ABCD', '$2y$10$Gucpt7iX418XWZkSgIf8EeSwEj3qDkaepUfrFLc6hiDm.CbmFDqsS', '0936846244', 'benhnhan', 'Hoạt Động'),
 (11, '0000000000', '$2y$10$dPxrzHJVA454.TgEO/rLXeta9uL32XKD3jHgx4x6F7VWRX0MSnCW2', '0000000000', 'benhnhan', 'Hoạt Động'),
 (13, 'ndagidyawbda', '$2y$10$CyYX/o4kjkEJwQY7d2EOqOvlDdwBPAhKKZWnILRQJj3oq3wTKYXKq', '0388888888', 'bacsi', 'Hoạt Động'),
-(14, '1234', '$2y$10$9fgoU9a7DmIzfT9lBeEIeOyck4vHWoGcUB4jWO3zG7iADAbjX1YBS', '0123456789', 'quantri', 'Hoạt Động');
+(14, '1234', '$2y$10$9fgoU9a7DmIzfT9lBeEIeOyck4vHWoGcUB4jWO3zG7iADAbjX1YBS', '0123456789', 'quantri', 'Hoạt Động'),
+(15, 'tranvanh2000', '$2y$10$b6vPWLbfLDSGTIy1FLdeau.aEyVNEA47aYMKQ7VttOy8umBOyQKBi', '0345678921', 'benhnhan', 'Hoạt Động');
 
 CREATE TABLE `quantrivien` (
   `nguoiDungId` int(11) NOT NULL,
@@ -385,6 +407,9 @@ CREATE TABLE `thongbaolichkham` (
   `thoiGian` datetime DEFAULT current_timestamp(),
   `daXem` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+INSERT INTO `thongbaolichkham` (`maThongBao`, `maBacSi`, `maLichKham`, `loai`, `tieuDe`, `noiDung`, `thoiGian`, `daXem`) VALUES
+(1, 'bs1', 26, 'Đặt lịch', 'Lịch khám mới', 'Bệnh nhân Trần Văn H đã đặt lịch khám vào ngày 18/11/2025 - Ca sáng', '2025-11-18 03:44:15', 1);
 
 
 ALTER TABLE `bacsi`
@@ -463,13 +488,13 @@ ALTER TABLE `goikham`
   MODIFY `maGoi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `lichkham`
-  MODIFY `maLichKham` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `maLichKham` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 ALTER TABLE `ngaynghi`
   MODIFY `maNghi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 ALTER TABLE `nguoidung`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 ALTER TABLE `suatkham`
   MODIFY `maSuat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
@@ -478,7 +503,7 @@ ALTER TABLE `thongbaoadmin`
   MODIFY `maThongBao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 ALTER TABLE `thongbaolichkham`
-  MODIFY `maThongBao` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `maThongBao` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 
 ALTER TABLE `bacsi`
